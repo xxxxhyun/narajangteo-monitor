@@ -1,11 +1,10 @@
 {
   "version": 2,
   "keywords": [
-    "카카오톡",
-    "상담톡",
     "상담",
     "채팅",
-    "고객센터"
+    "고객센터",
+    "카카오"
   ],
   "exclude_keywords": [],
   "filters": {
