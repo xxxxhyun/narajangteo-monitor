@@ -161,12 +161,19 @@ def award_key(it):
                      s(it.get("bidClsfcNo")) or "0", s(it.get("rbidNo")) or "000"])
 
 
-def month_windows(start, end, days=30):
+def month_windows(start, end):
+    """달력 기준 월 단위 구간 (API 조회기간 제한이 '1개월'이라 2월이 낀 30일 구간은 거절됨)"""
     cur = start
     while cur <= end:
-        nxt = min(cur + timedelta(days=days - 1), end)
-        yield cur, nxt
-        cur = nxt + timedelta(days=1)
+        nxt_month = (cur.replace(day=1) + timedelta(days=32)).replace(day=1)
+        last = min(nxt_month - timedelta(days=1), end)
+        yield cur, last
+        cur = last + timedelta(days=1)
+
+
+def split_window(ws, we):
+    mid = ws + (we - ws) // 2
+    return [(ws, mid), (mid + timedelta(days=1), we)] if mid < we else [(ws, we)]
 
 
 # ---------------------------------------------------------------------------
@@ -296,15 +303,25 @@ def sweep_awards(api, cache, cfg, today):
                 if swept.get(wid):
                     continue
                 todo.append((typ, kw, ws, we, wid))
-    log(f"1) 낙찰 목록: 조회할 구간 {len(todo)}개 (종류 {cfg['types']} × 키워드 {len(cfg['keywords'])}개 × 30일)")
+    log(f"1) 낙찰 목록: 조회할 구간 {len(todo)}개 (종류 {cfg['types']} × 키워드 {len(cfg['keywords'])}개 × 월 단위)")
     done = failed = new = 0
     for typ, kw, ws, we, wid in todo:
         if not api.can_call(AWARD_OPS[typ]):
             break
-        params = {"inqryDiv": "1", "inqryBgnDt": f"{ws:%Y%m%d}0000", "inqryEndDt": f"{we:%Y%m%d}2359",
-                  "bidNtceNm": kw}
+        def fetch(a, b, depth=0):
+            params = {"inqryDiv": "1", "inqryBgnDt": f"{a:%Y%m%d}0000", "inqryEndDt": f"{b:%Y%m%d}2359",
+                      "bidNtceNm": kw}
+            try:
+                return api.paged(AWARD_OPS[typ], params)
+            except DailyLimit:
+                raise
+            except ApiError as e:
+                # 기간 초과 오류면 구간을 반으로 나눠 다시 시도
+                if ("입력범위" in str(e) or str(e).startswith("07")) and depth < 3 and a < b:
+                    return [it for x, y in split_window(a, b) for it in fetch(x, y, depth + 1)]
+                raise
         try:
-            items = api.paged(AWARD_OPS[typ], params)
+            items = fetch(ws, we)
         except DailyLimit as e:
             log(f"  {e}")
             break
@@ -327,6 +344,8 @@ def sweep_awards(api, cache, cfg, today):
         if we < resweep_from:
             swept[wid] = 1
         done += 1
+        if done % 20 == 0:  # 중간에 멈춰도 받은 만큼은 남도록
+            save_json(CACHE_PATH, cache, compact=True)
     remaining = len(todo) - done - failed
     log(f"  완료 {done} · 실패 {failed} · 남음 {remaining} · 새 낙찰 {new}건 (누적 {len(awards)}건)")
     return remaining + failed
@@ -674,6 +693,8 @@ def post_slack(webhook, text):
 # 메인
 # ---------------------------------------------------------------------------
 def main():
+    import signal
+    signal.signal(signal.SIGTERM, lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))  # 취소 시에도 받은 데이터 저장
     key = os.environ.get("G2B_SERVICE_KEY", "").strip()
     if "%" in key:
         key = urllib.parse.unquote(key)
