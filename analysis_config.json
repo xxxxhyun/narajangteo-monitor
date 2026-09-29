@@ -1,8 +1,20 @@
 {
-  "keywords": ["상담", "채팅", "콜센터", "고객센터", "민원", "AICC"],
-  "exclude_keywords": [],
+  "keywords": [
+    "상담",
+    "채팅",
+    "콜센터",
+    "고객센터",
+    "민원",
+    "AICC"
+  ],
+  "exclude_keywords": [
+    "공사"
+  ],
   "years": 3,
   "min_amount": 100000000,
-  "types": ["용역", "물품"],
+  "types": [
+    "용역",
+    "물품"
+  ],
   "slack_top_n": 10
 }
