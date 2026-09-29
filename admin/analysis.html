@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>경쟁·파트너 분석</title>
+<style>
+  :root {
+    --bg: #f5f6f8; --card: #fff; --ink: #1d2433; --sub: #5d6778; --line: #e3e6ec;
+    --accent: #1f5fbf; --accent-soft: #e8f0fc; --ok: #1b7f4b; --ok-soft: #e5f5ec;
+    --warn: #a15c00; --warn-soft: #fdf1df; --bad: #b3261e; --bad-soft: #fbe9e7; --win: #fff6d6;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+    font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI", sans-serif; }
+  header { background: var(--card); border-bottom: 1px solid var(--line); padding: 14px 24px;
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap; position: sticky; top: 0; z-index: 5; }
+  header h1 { font-size: 18px; margin: 0; }
+  header .sp { flex: 1; }
+  main { max-width: 1280px; margin: 0 auto; padding: 20px 24px 60px; display: grid; gap: 16px;
+    grid-template-columns: 380px 1fr; align-items: start; }
+  @media (max-width: 980px) { main { grid-template-columns: 1fr; padding: 16px; } }
+  .col { display: grid; gap: 16px; min-width: 0; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; min-width: 0; }
+  .card h2 { font-size: 15px; margin: 0 0 12px; display: flex; align-items: center; gap: 8px; }
+  .card h2 .sp { flex: 1; }
+  label.f { display: block; font-weight: 600; font-size: 13px; margin: 14px 0 6px; }
+  label.f small { font-weight: 400; color: var(--sub); }
+  input[type=text], input[type=password], input[type=number], select {
+    width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; font: inherit; background: #fff; }
+  input:focus, select:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+  button { font: inherit; border: 1px solid var(--line); background: #fff; color: var(--ink); padding: 7px 14px;
+    border-radius: 8px; cursor: pointer; white-space: nowrap; }
+  button:hover:not(:disabled) { border-color: var(--accent); }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+  button.primary:hover:not(:disabled) { filter: brightness(1.08); }
+  button:disabled { opacity: .5; cursor: default; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .muted { color: var(--sub); font-size: 13px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 6px; border: 1px solid var(--line);
+    border-radius: 8px; min-height: 40px; align-items: center; background: #fff; }
+  .chips input { border: 0; flex: 1; min-width: 100px; padding: 4px; outline: none; }
+  .chip { background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 2px 6px 2px 10px;
+    font-size: 13px; display: inline-flex; align-items: center; gap: 2px; }
+  .chip.ex { background: var(--bad-soft); color: var(--bad); }
+  .chip button { border: 0; background: none; padding: 0 4px; color: inherit; font-size: 15px; line-height: 1; }
+  .badge { white-space: nowrap; display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; }
+  .b-ok { background: var(--ok-soft); color: var(--ok); } .b-warn { background: var(--warn-soft); color: var(--warn); }
+  .b-bad { background: var(--bad-soft); color: var(--bad); } .b-run { background: var(--accent-soft); color: var(--accent); }
+  .b-gray { background: #eef0f3; color: var(--sub); }
+  .bar { height: 8px; background: #eef0f3; border-radius: 99px; overflow: hidden; margin: 4px 0 10px; }
+  .bar > i { display: block; height: 100%; background: var(--accent); border-radius: 99px; transition: width .4s; }
+  .kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 13px; }
+  .kv dt { color: var(--sub); } .kv dd { margin: 0; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+  @media (max-width: 640px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+  .stat { background: var(--bg); border-radius: 10px; padding: 10px 12px; }
+  .stat b { display: block; font-size: 20px; } .stat span { font-size: 12px; color: var(--sub); }
+  .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 12px; }
+  .tabs button { border: 0; border-bottom: 2px solid transparent; border-radius: 0; padding: 8px 12px; color: var(--sub); }
+  .tabs button.on { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+  .tbl-wrap { overflow: auto; max-height: 70vh; border: 1px solid var(--line); border-radius: 8px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+  th { background: #f0f2f5; position: sticky; top: 0; cursor: pointer; white-space: nowrap; user-select: none; z-index: 1; }
+  th.num, td.num { text-align: right; white-space: nowrap; }
+  tbody tr:hover { background: #f7f9fc; }
+  tr.clickable { cursor: pointer; }
+  tr.detail > td { background: #fafbfd; padding: 10px 14px 14px; }
+  tr.win td { background: var(--win); }
+  .runs { display: grid; gap: 6px; }
+  .run { display: flex; gap: 8px; align-items: center; font-size: 13px; }
+  .run a { color: var(--accent); text-decoration: none; } .run a:hover { text-decoration: underline; }
+  .steps { font-size: 12px; color: var(--sub); margin: 4px 0 0 4px; }
+  pre.log { background: #151a24; color: #d7dde8; font-size: 12px; padding: 12px; border-radius: 8px;
+    max-height: 320px; overflow: auto; white-space: pre-wrap; margin: 0; }
+  .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff;
+    padding: 10px 18px; border-radius: 10px; font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 20; max-width: 90vw; }
+  .toast.show { opacity: 1; } .toast.err { background: var(--bad); }
+  .hint { background: var(--accent-soft); border-radius: 8px; padding: 10px 12px; font-size: 13px; margin-top: 10px; }
+  .empty { padding: 30px; text-align: center; color: var(--sub); }
+  .dirty { color: var(--warn); font-size: 12px; font-weight: 600; }
+  details summary { cursor: pointer; font-weight: 600; font-size: 14px; }
+  a.ext { color: var(--accent); }
+  td.nw { white-space: nowrap; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<header>
+  <h1>나라장터 경쟁·파트너 분석</h1>
+  <span id="connState" class="badge b-gray">연결 안 됨</span>
+  <span class="sp"></span>
+  <span class="muted" id="repoLabel"></span>
+  <button id="btnConnOpen">GitHub 연결 설정</button>
+</header>
+
+<main>
+  <!-- 연결 -->
+  <section class="card" id="connCard" style="grid-column: 1 / -1">
+    <h2>GitHub 연결</h2>
+    <p class="muted" style="margin:0">기존 모니터링 설정 페이지에서 쓰는 토큰을 그대로 붙여넣으면 됩니다. 토큰은 이 브라우저에만 저장됩니다.</p>
+    <div class="row" style="margin-top:10px; align-items:end">
+      <div style="flex:2; min-width:260px"><label class="f">GitHub 토큰</label>
+        <input type="password" id="token" placeholder="github_pat_..." autocomplete="off"></div>
+      <div style="flex:1; min-width:180px"><label class="f">저장소 <small>(비우면 자동)</small></label>
+        <input type="text" id="repo" placeholder="내아이디/narajangteo-monitor"></div>
+      <button class="primary" id="btnConnect">연결</button>
+    </div>
+  </section>
+
+  <div class="col" id="leftCol">
+    <!-- 상태 -->
+    <section class="card">
+      <h2>수집 상태 <span class="sp"></span><button id="btnRefresh" title="새로고침">새로고침</button></h2>
+      <div id="statusBox"><div class="muted">연결하면 표시됩니다.</div></div>
+      <div class="row" style="margin-top:14px">
+        <button class="primary" id="btnRun" disabled>지금 실행</button>
+        <button id="btnXlsx" disabled>엑셀 다운로드</button>
+        <label class="muted row" style="gap:4px"><input type="checkbox" id="slackOnRun" checked> 끝나면 슬랙 요약</label>
+      </div>
+      <h2 style="margin-top:18px">최근 실행</h2>
+      <div class="runs" id="runs"><div class="muted">-</div></div>
+    </section>
+
+    <!-- 설정 -->
+    <section class="card">
+      <h2>분석 조건 <span class="sp"></span><span class="dirty hidden" id="dirty">저장 안 됨</span></h2>
+      <label class="f">키워드 <small>공고명에 포함 · Enter로 추가</small></label>
+      <div class="chips" id="kwChips"><input id="kwInput" placeholder="예: 챗봇"></div>
+      <label class="f">제외어 <small>공고명에 있으면 제외</small></label>
+      <div class="chips" id="exChips"><input id="exInput" placeholder="예: 심리상담"></div>
+      <div class="row" style="align-items:end">
+        <div style="flex:1"><label class="f">조회 기간</label>
+          <select id="years"><option value="1">최근 1년</option><option value="2">최근 2년</option>
+            <option value="3">최근 3년</option><option value="5">최근 5년</option></select></div>
+        <div style="flex:1"><label class="f">최소 낙찰금액 <small>(억원)</small></label>
+          <input type="number" id="minAmt" min="0" step="0.5"></div>
+      </div>
+      <label class="f">종류</label>
+      <div class="row">
+        <label class="row" style="gap:4px"><input type="checkbox" id="tServc"> 용역</label>
+        <label class="row" style="gap:4px"><input type="checkbox" id="tThng"> 물품</label>
+      </div>
+      <label class="f">슬랙 요약에 보여줄 상위 업체 수</label>
+      <input type="number" id="topN" min="3" max="30">
+      <div class="row" style="margin-top:16px">
+        <button class="primary" id="btnSave" disabled>저장</button>
+        <button id="btnSaveRun" disabled>저장 후 실행</button>
+      </div>
+      <div class="hint">키워드를 <b>추가</b>하면 그 키워드분만 새로 수집합니다(며칠 걸릴 수 있음).
+        키워드를 빼거나 제외어·금액·기간을 바꾸는 건 추가 조회 없이 다음 실행 결과에 바로 반영됩니다.</div>
+    </section>
+  </div>
+
+  <div class="col" id="rightCol">
+    <section class="card">
+      <h2>분석 결과 <span class="sp"></span><span class="muted" id="resultTime"></span></h2>
+      <div class="stats" id="stats"></div>
+      <div class="tabs">
+        <button class="on" data-tab="companies">업체별</button>
+        <button data-tab="bids">공고별</button>
+      </div>
+      <div class="row" style="margin-bottom:10px">
+        <input type="text" id="search" placeholder="업체명·공고명·발주기관 검색" style="flex:1; min-width:200px">
+        <label class="muted row hidden" style="gap:4px" id="onlyWinWrap"><input type="checkbox" id="onlyWin"> 낙찰 이력 있는 업체만</label>
+        <label class="muted row hidden" style="gap:4px" id="onlyLiveWrap"><input type="checkbox" id="onlyLive"> 진행중 계약만</label>
+      </div>
+      <div class="tbl-wrap" id="tableWrap"><div class="empty">아직 결과가 없습니다. 첫 실행이 끝나면 여기에 표시됩니다.</div></div>
+      <div class="muted" style="margin-top:8px" id="tableNote"></div>
+    </section>
+
+    <section class="card">
+      <details id="logBox"><summary>마지막 실행 로그</summary>
+        <pre class="log" id="log" style="margin-top:10px">-</pre></details>
+    </section>
+  </div>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const CONFIG_PATH = "analysis_config.json";
+const RESULT_PATH = "analysis/result.json";
+const XLSX_PATH = "analysis/result.xlsx";
+const WORKFLOW = "analysis.yml";
+const LS = { token: "g2bAnalysis.token", repo: "g2bAnalysis.repo" };
+
+const st = {
+  token: "", repo: "", branch: "main",
+  config: null, configSha: null, saved: "",
+  result: null, tab: "companies", sort: { companies: ["낙찰금액합계", -1], bids: ["개찰일", -1] },
+  openRow: null, pollTimer: null,
+};
+
+// ---------- 공통 ----------
+function lsGet(k) { try { return localStorage.getItem(k) || ""; } catch { return ""; } }
+function lsSet(k, v) { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch {} }
+function toast(msg, err) {
+  const t = $("toast"); t.textContent = msg; t.className = "toast show" + (err ? " err" : "");
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.className = "toast", err ? 6000 : 2600);
+}
+function esc(s) { return String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+function eok(n) { n = Number(n) || 0; if (!n) return "-"; return n >= 1e8 ? (n / 1e8).toLocaleString("ko-KR", { maximumFractionDigits: 1 }) + "억" : Math.round(n / 1e4).toLocaleString("ko-KR") + "만"; }
+function ago(iso) {
+  if (!iso) return ""; const d = (Date.now() - new Date(iso)) / 1000;
+  if (d < 60) return "방금"; if (d < 3600) return Math.floor(d / 60) + "분 전";
+  if (d < 86400) return Math.floor(d / 3600) + "시간 전"; return Math.floor(d / 86400) + "일 전";
+}
+function kst(iso) { if (!iso) return ""; return new Date(iso).toLocaleString("ko-KR", { timeZone: "Asia/Seoul", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" }); }
+function b64decode(b64) { const bin = atob(b64.replace(/\n/g, "")); return new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0))); }
+function b64encode(str) { const bytes = new TextEncoder().encode(str); let bin = ""; bytes.forEach(b => bin += String.fromCharCode(b)); return btoa(bin); }
+
+async function gh(path, opts = {}) {
+  const res = await fetch("https://api.github.com" + path, {
+    ...opts,
+    headers: { Authorization: "Bearer " + st.token, Accept: opts.accept || "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28", ...(opts.body ? { "Content-Type": "application/json" } : {}) },
+  });
+  if (res.status === 401) throw new Error("토큰이 올바르지 않거나 만료됐습니다. 새 토큰을 연결해 주세요.");
+  if (res.status === 403) throw new Error("권한이 없습니다. 토큰의 저장소 선택과 권한(Contents·Actions 읽기/쓰기)을 확인해 주세요.");
+  if (res.status === 404 && !opts.allow404) throw new Error("찾을 수 없음: " + path.replace(/^\/repos\/[^/]+\/[^/]+/, ""));
+  if (res.status === 409) throw new Error("다른 곳에서 파일이 바뀌었습니다. 새로고침 후 다시 저장해 주세요.");
+  if (res.status === 422 && path.includes("dispatches")) throw new Error("실행 파일(.github/workflows/analysis.yml)을 찾지 못했습니다. 올려져 있는지 확인해 주세요.");
+  if (!res.ok && res.status !== 404) throw new Error(`GitHub 오류 ${res.status}`);
+  return res;
+}
+const repoPath = (p) => `/repos/${st.repo}${p}`;
+
+// ---------- 연결 ----------
+async function connect() {
+  st.token = $("token").value.trim();
+  let repo = $("repo").value.trim().replace(/^https?:\/\/github\.com\//, "").replace(/\/$/, "");
+  if (!st.token) return toast("토큰을 입력해 주세요", true);
+  $("btnConnect").disabled = true;
+  try {
+    if (!repo.includes("/")) {
+      const me = await (await gh("/user")).json();
+      repo = `${me.login}/${repo || "narajangteo-monitor"}`;
+    }
+    st.repo = repo;
+    const info = await (await gh(repoPath(""))).json();
+    st.branch = info.default_branch || "main";
+    lsSet(LS.token, st.token); lsSet(LS.repo, st.repo);
+    $("repo").value = st.repo;
+    setConnected(true);
+    await Promise.all([loadConfig(), loadResult(), loadRuns()]);
+  } catch (e) {
+    setConnected(false); toast(e.message, true);
+  } finally { $("btnConnect").disabled = false; }
+}
+function setConnected(on) {
+  $("connState").textContent = on ? "연결됨" : "연결 안 됨";
+  $("connState").className = "badge " + (on ? "b-ok" : "b-gray");
+  $("repoLabel").textContent = on ? st.repo : "";
+  $("connCard").classList.toggle("hidden", on);
+  ["btnRun", "btnSave", "btnSaveRun"].forEach(id => $(id).disabled = !on);
+}
+
+// ---------- 설정 ----------
+async function loadConfig() {
+  const res = await gh(repoPath(`/contents/${CONFIG_PATH}?ref=${st.branch}&t=${Date.now()}`), { allow404: true });
+  if (res.status === 404) { st.configSha = null; st.config = defaultConfig(); toast("analysis_config.json이 없어 기본값을 표시합니다"); }
+  else { const j = await res.json(); st.configSha = j.sha; st.config = { ...defaultConfig(), ...JSON.parse(b64decode(j.content)) }; }
+  renderConfig(); st.saved = JSON.stringify(readConfig()); markDirty();
+}
+function defaultConfig() {
+  return { keywords: ["상담", "채팅", "콜센터", "고객센터", "민원", "AICC"], exclude_keywords: [], years: 3,
+    min_amount: 100000000, types: ["용역", "물품"], slack_top_n: 10 };
+}
+function renderChips(box, list, cls) {
+  const input = box.querySelector("input");
+  box.querySelectorAll(".chip").forEach(c => c.remove());
+  list.forEach((k, i) => {
+    const c = document.createElement("span"); c.className = "chip " + (cls || "");
+    c.innerHTML = `${esc(k)}<button title="삭제" data-i="${i}">×</button>`;
+    c.querySelector("button").onclick = () => { list.splice(i, 1); renderChips(box, list, cls); markDirty(); };
+    box.insertBefore(c, input);
+  });
+}
+function renderConfig() {
+  const c = st.config;
+  renderChips($("kwChips"), c.keywords); renderChips($("exChips"), c.exclude_keywords, "ex");
+  const y = String(c.years); if (![...$("years").options].some(o => o.value === y)) $("years").add(new Option(`최근 ${y}년`, y));
+  $("years").value = y;
+  $("minAmt").value = (Number(c.min_amount) || 0) / 1e8;
+  $("tServc").checked = c.types.includes("용역"); $("tThng").checked = c.types.includes("물품");
+  $("topN").value = c.slack_top_n ?? 10;
+}
+function readConfig() {
+  const c = st.config;
+  return { ...c, keywords: [...c.keywords], exclude_keywords: [...c.exclude_keywords],
+    years: Number($("years").value), min_amount: Math.round((Number($("minAmt").value) || 0) * 1e8),
+    types: [$("tServc").checked && "용역", $("tThng").checked && "물품"].filter(Boolean),
+    slack_top_n: Number($("topN").value) || 10 };
+}
+function markDirty() { $("dirty").classList.toggle("hidden", JSON.stringify(readConfig()) === st.saved); }
+function chipInput(inputId, key, cls) {
+  const inp = $(inputId);
+  const add = () => {
+    const vals = inp.value.split(",").map(v => v.trim()).filter(Boolean);
+    vals.forEach(v => { if (!st.config[key].includes(v)) st.config[key].push(v); });
+    inp.value = ""; renderChips(inp.parentElement, st.config[key], cls); markDirty();
+  };
+  inp.addEventListener("keydown", e => {
+    if (e.isComposing) return;
+    if (e.key === "Enter" || e.key === ",") { e.preventDefault(); add(); }
+    if (e.key === "Backspace" && !inp.value && st.config[key].length) { st.config[key].pop(); renderChips(inp.parentElement, st.config[key], cls); markDirty(); }
+  });
+  inp.addEventListener("blur", add);
+}
+async function saveConfig() {
+  const cfg = readConfig();
+  if (!cfg.keywords.length) throw new Error("키워드를 하나 이상 넣어 주세요");
+  if (!cfg.types.length) throw new Error("용역·물품 중 하나 이상 선택해 주세요");
+  if (JSON.stringify(cfg) === st.saved && st.configSha) return false;
+  const body = { message: "분석 조건 변경 (설정 페이지)", branch: st.branch,
+    content: b64encode(JSON.stringify(cfg, null, 2) + "\n"), ...(st.configSha ? { sha: st.configSha } : {}) };
+  const j = await (await gh(repoPath(`/contents/${CONFIG_PATH}`), { method: "PUT", body: JSON.stringify(body) })).json();
+  st.configSha = j.content.sha; st.config = cfg; st.saved = JSON.stringify(cfg); markDirty();
+  return true;
+}
+
+// ---------- 실행 ----------
+async function runNow() {
+  $("btnRun").disabled = true; $("btnSaveRun").disabled = true;
+  try {
+    await gh(repoPath(`/actions/workflows/${WORKFLOW}/dispatches`), { method: "POST",
+      body: JSON.stringify({ ref: st.branch, inputs: { keywords: "", years: "", min_amount: "", slack: String($("slackOnRun").checked) } }) });
+    st.expectRunUntil = Date.now() + 90000;
+    toast("실행을 요청했습니다. 10초쯤 뒤 목록에 나타납니다.");
+    setTimeout(loadRuns, 6000); startPoll();
+  } finally { setTimeout(() => { $("btnRun").disabled = false; $("btnSaveRun").disabled = false; }, 4000); }
+}
+async function loadRuns() {
+  const res = await gh(repoPath(`/actions/workflows/${WORKFLOW}/runs?per_page=6&t=${Date.now()}`), { allow404: true });
+  if (res.status === 404) { $("runs").innerHTML = `<div class="muted">실행 파일(analysis.yml)이 저장소에 없습니다.</div>`; return; }
+  const runs = (await res.json()).workflow_runs || [];
+  if (!runs.length) { $("runs").innerHTML = `<div class="muted">아직 실행 기록이 없습니다. <b>지금 실행</b>을 눌러 시작하세요.</div>`; if (Date.now() >= (st.expectRunUntil || 0)) stopPoll(); return; }
+  const active = runs.find(r => r.status !== "completed");
+  const waiting = !active && Date.now() < (st.expectRunUntil || 0);
+  let steps = "";
+  if (active) {
+    try {
+      const jobs = (await (await gh(repoPath(`/actions/runs/${active.id}/jobs`))).json()).jobs || [];
+      const s = (jobs[0]?.steps || []).filter(x => ["분석 실행", "결과 저장"].includes(x.name));
+      steps = s.map(x => `${x.name} ${x.status === "completed" ? "✓" : x.status === "in_progress" ? "진행 중…" : "대기"}`).join(" → ");
+    } catch {}
+  }
+  $("runs").innerHTML = runs.map(r => {
+    const [cls, label] = r.status !== "completed" ? ["b-run", r.status === "queued" ? "대기" : "실행 중"]
+      : r.conclusion === "success" ? ["b-ok", "성공"] : r.conclusion === "cancelled" ? ["b-gray", "취소"] : ["b-bad", "실패"];
+    const kind = r.event === "schedule" ? "자동" : "수동";
+    return `<div><div class="run"><span class="badge ${cls}">${label}</span><span>${kind} · ${kst(r.created_at)}</span>
+      <span class="muted">${r.status === "completed" ? dur(r) : ago(r.run_started_at || r.created_at) + " 시작"}</span>
+      <span class="sp" style="flex:1"></span><a href="${r.html_url}" target="_blank" rel="noopener">로그</a></div>
+      ${r === active && steps ? `<div class="steps">${esc(steps)}</div>` : ""}</div>`;
+  }).join("");
+  if (active) { st.expectRunUntil = 0; startPoll(); } else if (waiting) startPoll(); else if (st.pollTimer) { stopPoll(); await loadResult(); toast("실행이 끝나 결과를 새로 불러왔습니다"); }
+}
+function dur(r) { const s = (new Date(r.updated_at) - new Date(r.run_started_at || r.created_at)) / 1000; return s > 0 ? `${Math.round(s / 60)}분` : ""; }
+function startPoll() { if (!st.pollTimer) st.pollTimer = setInterval(() => loadRuns().catch(() => {}), 15000); }
+function stopPoll() { clearInterval(st.pollTimer); st.pollTimer = null; }
+
+// ---------- 결과 ----------
+async function loadResult() {
+  const res = await gh(repoPath(`/contents/${RESULT_PATH}?ref=${st.branch}&t=${Date.now()}`), { allow404: true, accept: "application/vnd.github.raw+json" });
+  if (res.status === 404) { st.result = null; $("btnXlsx").disabled = true; renderStatus(); renderResult(); return; }
+  st.result = JSON.parse(await res.text());
+  $("btnXlsx").disabled = false;
+  renderStatus(); renderResult();
+}
+function renderStatus() {
+  const r = st.result;
+  if (!r) { $("statusBox").innerHTML = `<div class="muted">아직 결과가 없습니다. 첫 실행 후 표시됩니다.</div>`; $("log").textContent = "-"; return; }
+  const i = r.info, p = i.progress || {}, total = p["공고"] || 0;
+  const done = i.status.startsWith("수집 완료");
+  const pct = (n) => total ? Math.round((n / total) * 100) : 0;
+  const blocked = Object.values(i.blocked || {});
+  $("statusBox").innerHTML = `
+    <div class="row" style="margin-bottom:10px"><span class="badge ${done ? "b-ok" : "b-warn"}">${done ? "수집 완료" : "수집 중"}</span>
+      <span class="muted">마지막 갱신 ${kst(i.created_at)} (${ago(i.created_at)})</span></div>
+    ${!done ? `<div class="muted" style="margin-bottom:10px">남은 건은 매일 새벽 5시 자동 실행이 이어서 모읍니다.</div>` : ""}
+    <div class="muted">낙찰 목록 ${p["낙찰 목록 남은 구간"] ? `— 남은 구간 ${p["낙찰 목록 남은 구간"]}개` : "✓"}</div>
+    <div class="bar"><i style="width:${p["낙찰 목록 남은 구간"] ? 50 : 100}%"></i></div>
+    <div class="muted">참여업체 ${p["참여업체 수집"] ?? 0} / ${total}건</div>
+    <div class="bar"><i style="width:${pct(p["참여업체 수집"])}%"></i></div>
+    <div class="muted">계약정보 ${p["계약 수집"] ?? 0} / ${total}건</div>
+    <div class="bar"><i style="width:${pct(p["계약 수집"])}%"></i></div>
+    <dl class="kv"><dt>지난 실행 호출</dt><dd>낙찰정보 ${i.calls?.as ?? 0}회 · 계약정보 ${i.calls?.ao ?? 0}회</dd>
+      ${blocked.length ? `<dt>멈춘 이유</dt><dd>${esc(blocked.join(", "))}</dd>` : ""}</dl>`;
+  $("log").textContent = (r.log || []).join("\n") || "-";
+}
+
+const COLS = {
+  companies: [
+    ["업체명", "업체명"], ["참여건수", "참여", "num"], ["낙찰건수", "낙찰", "num"], ["수주율(%)", "수주율", "num"],
+    ["낙찰금액합계", "낙찰금액", "money"], ["진행중계약", "진행중", "num"], ["최근낙찰일", "최근 낙찰"], ["주요발주기관", "주요 발주기관"],
+  ],
+  bids: [
+    ["개찰일", "개찰일"], ["공고명", "공고명"], ["발주기관", "발주기관"], ["낙찰업체", "낙찰업체"], ["낙찰금액", "낙찰금액", "money"],
+    ["참가업체수", "참가", "num"], ["계약업체(공동수급)", "계약업체(공동수급)"], ["계약완료일", "계약완료일"], ["상태", "상태"],
+  ],
+};
+function renderResult() {
+  const r = st.result;
+  if (!r) { $("stats").innerHTML = ""; $("tableWrap").innerHTML = `<div class="empty">아직 결과가 없습니다. 첫 실행이 끝나면 여기에 표시됩니다.</div>`; $("resultTime").textContent = ""; return; }
+  const comps = r.companies || [], bids = r.bids || [];
+  const wins = comps.filter(c => c.낙찰건수 > 0).length;
+  const live = bids.filter(b => b.상태 === "진행중").length;
+  const sum = bids.reduce((a, b) => a + (Number(b.낙찰금액) || 0), 0);
+  $("stats").innerHTML = [["공고", bids.length.toLocaleString() + "건"], ["참여 업체", comps.length.toLocaleString() + "곳"],
+    ["수주 업체", wins.toLocaleString() + "곳"], ["진행중 계약", live.toLocaleString() + "건"]]
+    .map(([k, v]) => `<div class="stat"><b>${v}</b><span>${k}</span></div>`).join("");
+  $("resultTime").textContent = `낙찰 총액 ${eok(sum)} · ${(r.config?.keywords || []).join(", ")}`;
+  $("onlyWinWrap").classList.toggle("hidden", st.tab !== "companies");
+  $("onlyLiveWrap").classList.toggle("hidden", st.tab !== "bids");
+  renderTable();
+}
+function renderTable() {
+  const r = st.result; if (!r) return;
+  const tab = st.tab, cols = COLS[tab];
+  const q = $("search").value.trim().toLowerCase();
+  let rows = (tab === "companies" ? r.companies : r.bids) || [];
+  if (q) rows = rows.filter(x => Object.values(x).some(v => String(v ?? "").toLowerCase().includes(q)));
+  if (tab === "companies" && $("onlyWin").checked) rows = rows.filter(x => x.낙찰건수 > 0);
+  if (tab === "bids" && $("onlyLive").checked) rows = rows.filter(x => x.상태 === "진행중");
+  const [sk, sd] = st.sort[tab];
+  rows = [...rows].sort((a, b) => {
+    const x = a[sk], y = b[sk];
+    if (typeof x === "number" || typeof y === "number") return ((Number(x) || 0) - (Number(y) || 0)) * sd;
+    return String(x ?? "").localeCompare(String(y ?? ""), "ko") * sd;
+  });
+  const shown = rows.slice(0, 500);
+  const head = cols.map(([k, label, t]) => `<th class="${t ? "num" : ""}" data-k="${k}">${label}${sk === k ? (sd > 0 ? " ▲" : " ▼") : ""}</th>`).join("");
+  const cell = (row, [k, , t]) => {
+    let v = row[k];
+    if (t === "money") v = eok(v);
+    if (k === "공고명" && row.링크) v = `<a class="ext" href="${esc(row.링크)}" target="_blank" rel="noopener">${esc(v)}</a>`;
+    else if (k === "상태") v = v ? `<span class="badge ${v === "진행중" ? "b-ok" : v === "종료" ? "b-gray" : "b-warn"}">${esc(v)}</span>` : "";
+    else v = esc(v ?? "");
+    return `<td class="${t ? "num" : (/일$|상태/.test(k) ? "nw" : "")}">${v}</td>`;
+  };
+  const body = shown.map((row, i) => {
+    const id = tab === "companies" ? (row.사업자번호 || row.업체명) : row.공고번호;
+    const open = st.openRow === tab + id;
+    return `<tr class="clickable" data-id="${esc(id)}">${cols.map(c => cell(row, c)).join("")}</tr>` +
+      (open ? `<tr class="detail"><td colspan="${cols.length}">${detail(tab, row)}</td></tr>` : "");
+  }).join("");
+  $("tableWrap").innerHTML = rows.length ? `<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`
+    : `<div class="empty">조건에 맞는 항목이 없습니다.</div>`;
+  $("tableNote").textContent = rows.length > 500 ? `${rows.length.toLocaleString()}건 중 500건 표시 · 전체는 엑셀에서 확인하세요` : `${rows.length.toLocaleString()}건 · 행을 누르면 상세가 열립니다`;
+  $("tableWrap").querySelectorAll("th").forEach(th => th.onclick = () => {
+    const k = th.dataset.k; const [ck, cd] = st.sort[tab];
+    st.sort[tab] = [k, ck === k ? -cd : (["업체명", "공고명", "발주기관", "낙찰업체"].includes(k) ? 1 : -1)]; renderTable();
+  });
+  $("tableWrap").querySelectorAll("tr.clickable").forEach(tr => tr.onclick = (e) => {
+    if (e.target.closest("a")) return;
+    const key = tab + tr.dataset.id; st.openRow = st.openRow === key ? null : key; renderTable();
+  });
+}
+function detail(tab, row) {
+  const parts = st.result.participants || [];
+  if (tab === "companies") {
+    const mine = parts.filter(p => (row.사업자번호 && p.사업자번호 === row.사업자번호) || (!row.사업자번호 && p.업체명 === row.업체명));
+    const extra = `<div class="muted" style="margin-bottom:8px">사업자번호 ${esc(row.사업자번호 || "-")} · 관련 키워드 ${esc(row.관련키워드 || "-")}
+      ${row["공동수급 파트너"] ? ` · 공동수급 파트너 <b>${esc(row["공동수급 파트너"])}</b>` : ""}</div>`;
+    const wonOnly = (st.result.bids || []).filter(b => b.낙찰업체 === row.업체명 && !mine.some(m => b.공고번호.startsWith(m.공고번호)));
+    if (!mine.length && !wonOnly.length) return extra + `<div class="muted">참여 상세가 아직 수집되지 않았습니다.</div>`;
+    return extra + `<table><thead><tr><th>개찰일</th><th>공고명</th><th>발주기관</th><th class="num">순위</th><th class="num">투찰금액</th><th class="num">기술점수</th><th class="num">종합점수</th></tr></thead><tbody>` +
+      mine.sort((a, b) => String(b.개찰일).localeCompare(String(a.개찰일))).map(p => `<tr class="${p.낙찰 ? "win" : ""}"><td>${esc(p.개찰일)}</td><td>${esc(p.공고명)}</td>
+        <td>${esc(p.발주기관)}</td><td class="num">${esc(p.순위)}${p.낙찰 ? " 낙찰" : ""}</td><td class="num">${eok(p.투찰금액)}</td>
+        <td class="num">${esc(p.기술점수)}</td><td class="num">${esc(p.종합점수)}</td></tr>`).join("") +
+      wonOnly.map(b => `<tr class="win"><td>${esc(b.개찰일)}</td><td>${esc(b.공고명)}</td><td>${esc(b.발주기관)}</td><td class="num">낙찰</td><td class="num">${eok(b.낙찰금액)}</td><td></td><td></td></tr>`).join("") +
+      `</tbody></table>`;
+  }
+  const no = row.공고번호.split("-")[0];
+  const list = parts.filter(p => p.공고번호 === no).sort((a, b) => (Number(a.순위) || 999) - (Number(b.순위) || 999));
+  const extra = `<div class="muted" style="margin-bottom:8px">공고번호 ${esc(row.공고번호)} · ${esc(row.구분)} · 키워드 ${esc(row.키워드)}
+    · 낙찰률 ${esc(row.낙찰률)}% · 계약일 ${esc(row.계약일 || "-")} · 계약금액 ${eok(row.계약금액)}</div>`;
+  if (!list.length) return extra + `<div class="muted">${row["참여업체 수집"] === "완료" ? "참여업체 정보가 없습니다(수의계약 등)." : "참여업체가 아직 수집되지 않았습니다."}</div>`;
+  return extra + `<table><thead><tr><th class="num">순위</th><th>업체명</th><th>사업자번호</th><th class="num">투찰금액</th><th class="num">투찰률</th><th class="num">기술</th><th class="num">가격</th><th class="num">종합</th></tr></thead><tbody>` +
+    list.map(p => `<tr class="${p.낙찰 ? "win" : ""}"><td class="num">${esc(p.순위)}</td><td>${esc(p.업체명)}${p.낙찰 ? " <b>(낙찰)</b>" : ""}</td>
+      <td>${esc(p.사업자번호)}</td><td class="num">${eok(p.투찰금액)}</td><td class="num">${esc(p.투찰률)}</td><td class="num">${esc(p.기술점수)}</td>
+      <td class="num">${esc(p.가격점수)}</td><td class="num">${esc(p.종합점수)}</td></tr>`).join("") + `</tbody></table>`;
+}
+async function downloadXlsx() {
+  $("btnXlsx").disabled = true;
+  try {
+    const res = await gh(repoPath(`/contents/${XLSX_PATH}?ref=${st.branch}&t=${Date.now()}`), { accept: "application/vnd.github.raw+json" });
+    const blob = await res.blob();
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `나라장터_경쟁파트너분석_${new Date().toISOString().slice(0, 10)}.xlsx`;
+    a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  } catch (e) { toast(e.message, true); } finally { $("btnXlsx").disabled = false; }
+}
+
+// ---------- 이벤트 ----------
+$("btnConnect").onclick = connect;
+$("token").addEventListener("keydown", e => e.key === "Enter" && connect());
+$("btnConnOpen").onclick = () => { $("connCard").classList.toggle("hidden"); $("token").focus(); };
+$("btnRefresh").onclick = async () => { try { await Promise.all([loadResult(), loadRuns()]); toast("새로고침 완료"); } catch (e) { toast(e.message, true); } };
+$("btnRun").onclick = async () => {
+  if (JSON.stringify(readConfig()) !== st.saved && !confirm("저장하지 않은 조건 변경이 있습니다. 저장된 조건으로 실행할까요?")) return;
+  try { await runNow(); } catch (e) { toast(e.message, true); }
+};
+$("btnSave").onclick = async () => { try { toast(await saveConfig() ? "저장했습니다. 다음 실행부터 적용됩니다." : "바뀐 내용이 없습니다"); } catch (e) { toast(e.message, true); } };
+$("btnSaveRun").onclick = async () => { try { await saveConfig(); await runNow(); } catch (e) { toast(e.message, true); } };
+$("btnXlsx").onclick = downloadXlsx;
+["years", "minAmt", "tServc", "tThng", "topN"].forEach(id => $(id).addEventListener("input", markDirty));
+chipInput("kwInput", "keywords"); chipInput("exInput", "exclude_keywords", "ex");
+document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => {
+  document.querySelectorAll(".tabs button").forEach(x => x.classList.toggle("on", x === b));
+  st.tab = b.dataset.tab; st.openRow = null; renderResult();
+});
+$("search").addEventListener("input", () => renderTable());
+$("onlyWin").onchange = renderTable; $("onlyLive").onchange = renderTable;
+window.addEventListener("beforeunload", e => { if (st.config && JSON.stringify(readConfig()) !== st.saved) { e.preventDefault(); e.returnValue = ""; } });
+
+// 시작
+st.config = defaultConfig(); renderConfig(); st.saved = JSON.stringify(readConfig());
+$("token").value = lsGet(LS.token); $("repo").value = lsGet(LS.repo);
+if ($("token").value) connect();
+</script>
+</body>
+</html>
