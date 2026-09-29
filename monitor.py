@@ -21,6 +21,7 @@ import sys
 import time
 import urllib.parse
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
 
 KST = timezone(timedelta(hours=9))
@@ -152,7 +153,12 @@ class ApiError(Exception):
     pass
 
 
-def http_get(url, timeout=40):
+REQUEST_TIMEOUT = 30      # 요청 1건 대기 시간(초)
+TIME_BUDGET = 9 * 60      # 전체 조회 제한 시간(초). 넘으면 남은 조회는 실패 처리 후 결과 보고
+_deadline = [None]
+
+
+def http_get(url, timeout=REQUEST_TIMEOUT):
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 g2b-monitor"})
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return r.read().decode("utf-8", errors="replace")
@@ -188,37 +194,74 @@ def parse_response(text):
     return items, to_int(body.get("totalCount"))
 
 
-def call_api(path, params, retries=3):
+def call_api(path, params, attempts=3):
+    """1회 30초 대기, 최대 3회(https→http→https) 시도."""
     query = urllib.parse.urlencode(params)
     last_err = None
-    for attempt in range(1, retries + 1):
-        for scheme in ("https", "http"):
-            try:
-                return parse_response(http_get(f"{scheme}://{API_ROOT}/{path}?{query}"))
-            except ApiError:
-                raise  # 인증키/파라미터 오류는 재시도해도 동일
-            except Exception as e:  # 타임아웃, 연결 오류 등
-                last_err = e
-        wait = 10 * attempt
-        log(f"  연결 실패({last_err}), {wait}초 후 재시도 {attempt}/{retries}")
-        time.sleep(wait)
-    raise ApiError(f"연결 실패: {last_err}")
+    for i in range(attempts):
+        if _deadline[0] and time.monotonic() > _deadline[0]:
+            raise ApiError("전체 제한 시간 초과 - 조회 기간을 줄여 다시 시도하세요")
+        scheme = "http" if i % 2 else "https"
+        try:
+            return parse_response(http_get(f"{scheme}://{API_ROOT}/{path}?{query}"))
+        except ApiError:
+            raise  # 인증키/파라미터 오류는 재시도해도 동일
+        except Exception as e:  # 타임아웃, 연결 오류 등
+            last_err = e
+            if i < attempts - 1:
+                time.sleep(5 * (i + 1))
+    raise ApiError(f"연결 실패({attempts}회): {last_err}")
 
 
-def fetch_source(key, service_key, start, end):
+def day_chunks(start, end, hours=24):
+    """긴 조회기간을 하루 단위로 쪼갬 (한 번에 긴 기간을 요청하면 서버 응답이 매우 느림)"""
+    cur = start
+    while cur < end:
+        nxt = min(cur + timedelta(hours=hours), end)
+        yield cur, nxt
+        cur = nxt
+
+
+def fetch_pages(path, base_params, label):
     items, page, rows = [], 1, 100
     while True:
-        params = {
-            "serviceKey": service_key, "pageNo": page, "numOfRows": rows, "type": "json",
-            "inqryDiv": 1,
-            "inqryBgnDt": start.strftime("%Y%m%d%H%M"),
-            "inqryEndDt": end.strftime("%Y%m%d%H%M"),
-        }
-        chunk, total = call_api(SOURCES[key]["path"], params)
+        chunk, total = call_api(path, {**base_params, "pageNo": page, "numOfRows": rows})
         items.extend(chunk)
         if not chunk or page * rows >= total or page >= 100:
             return items
         page += 1
+
+
+def search_keywords(keywords):
+    """서버 검색용 키워드: 다른 키워드를 포함하는 키워드는 생략 (예: '상담'이 있으면 '상담톡' 생략)"""
+    ks = sorted({k for k in keywords if k}, key=len)
+    return [k for i, k in enumerate(ks) if not any(o in k for o in ks[:i])]
+
+
+def fetch_source(key, service_key, start, end, keywords):
+    src = SOURCES[key]
+    label = src["label"]
+    base = {"serviceKey": service_key, "type": "json", "inqryDiv": 1}
+    rng = lambda s, e: {"inqryBgnDt": s.strftime("%Y%m%d%H%M"), "inqryEndDt": e.strftime("%Y%m%d%H%M")}
+
+    # 입찰공고: 조달청 서버에서 사업명 키워드로 검색 (받는 데이터가 훨씬 적어 빠름)
+    if src["kind"] == "bid" and keywords:
+        try:
+            found = {}
+            for kw in search_keywords(keywords):
+                for s, e in day_chunks(start, end, hours=24 * 7):
+                    for it in fetch_pages(src["path"] + "PPSSrch", {**base, **rng(s, e), "bidNtceNm": kw}, label):
+                        found[(it.get("bidNtceNo"), it.get("bidNtceOrd"))] = it
+            return list(found.values())
+        except ApiError as e:
+            if "연결 실패" in str(e) or "제한 시간" in str(e):
+                raise
+            log(f"  {label}: 키워드 검색 미지원({e}) → 전체 목록 조회로 전환")
+
+    items = []
+    for s, e in day_chunks(start, end):
+        items.extend(fetch_pages(src["path"], {**base, **rng(s, e)}, label))
+    return items
 
 
 # ---------------------------------------------------------------------------
@@ -256,30 +299,67 @@ def item_id(key, item):
 #   - {변수} 를 값으로 치환
 #   - " · " 로 구분된 항목 중 빈 값은 자동 제거, 빈 줄도 제거
 # ---------------------------------------------------------------------------
+SEPARATORS = (" · ", " | ", " / ")
+
+
+def esc(v):
+    """슬랙 제어문자(& < >) 이스케이프 - 공고명·기관명 등 값에만 적용"""
+    return str(v).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+def to_mrkdwn(t):
+    """일반 마크다운으로 쓴 서식을 슬랙 서식(mrkdwn)으로 변환"""
+    t = re.sub(r"\*\*(.+?)\*\*", r"*\1*", t)                       # **굵게** → *굵게*
+    t = re.sub(r"__(.+?)__", r"_\1_", t)                             # __기울임__ → _기울임_
+    t = re.sub(r"~~(.+?)~~", r"~\1~", t)                             # ~~취소~~ → ~취소~
+    t = re.sub(r"\[([^\]\n]+)\]\((https?://[^)\s]+)\)", r"<\2|\1>", t)  # [글자](주소) → <주소|글자>
+    t = re.sub(r"(?m)^(\s*)#{1,6}\s+(.+)$", r"\1*\2*", t)           # # 제목 → *제목*
+    t = re.sub(r"(?m)^(\s*)[-*]\s+", r"\1• ", t)                    # - 항목 → • 항목
+    return t
+
+
+def escape_template(t):
+    """템플릿에 직접 쓴 & < > 를 슬랙용으로 이스케이프 (링크 <주소|글자> 와 줄 앞 인용 > 는 유지)"""
+    keep = []
+    t = re.sub(r"<(?:https?:|mailto:|[@#!])[^<>\n]*>", lambda m: keep.append(m.group(0)) or f"\x00{len(keep) - 1}\x00", t)
+    lines = []
+    for line in t.split("\n"):
+        q = re.match(r"^>{1,3}", line)
+        head, body = (q.group(0), line[q.end():]) if q else ("", line)
+        body = re.sub(r"&(?!amp;|lt;|gt;)", "&amp;", body).replace("<", "&lt;").replace(">", "&gt;")
+        lines.append(head + body)
+    return re.sub(r"\x00(\d+)\x00", lambda m: keep[int(m.group(1))], "\n".join(lines))
+
+
 def render(template, values):
-    text = re.sub(r"\{([^{}\n]+)\}", lambda m: str(values.get(m.group(1), m.group(0))), template)
+    """템플릿 → 슬랙 메시지 (admin/index.html 의 render 와 동일한 규칙)
+    1) 마크다운 → 슬랙 서식 변환  2) {변수} 치환
+    3) 구분자( · , | , / )로 나뉜 빈 항목 제거  4) 줄 앞 공백은 슬랙에서 사라지지 않게 고정폭 공백으로"""
+    text = re.sub(r"\{([^{}\n]+)\}", lambda m: str(values.get(m.group(1), m.group(0))), escape_template(to_mrkdwn(template)))
     out = []
     for line in text.split("\n"):
-        if " · " in line:
-            indent = line[: len(line) - len(line.lstrip())]
-            parts = [p.strip() for p in line.split(" · ")]
-            line = indent + " · ".join(p for p in parts if p)
+        sep = next((x for x in SEPARATORS if x in line), None)
+        if sep:
+            prefix = re.match(r"^\s*(?:>\s*|[•\-]\s+)?", line).group(0)
+            parts = [p.strip() for p in line[len(prefix):].split(sep)]
+            line = prefix + sep.join(p for p in parts if p)
         line = line.rstrip()
-        if line.strip():
-            out.append(line)
+        if not line.strip() or line.strip() in (">", "•", "-"):
+            continue
+        out.append(re.sub(r"^ +", lambda m: "\u00a0" * len(m.group(0)), line))
     return "\n".join(out)
 
 
 def item_values(key, item, hits):
     kind = SOURCES[key]["kind"]
-    name = first(item, NAME_FIELDS) or "(사업명 없음)"
-    url = first(item, URL_FIELDS)
+    name = esc(first(item, NAME_FIELDS) or "(사업명 없음)")
+    url = esc(first(item, URL_FIELDS))
     v = {
         "구분": SOURCES[key]["label"],
         "사업명": name,
         "링크": url,
         "제목": f"<{url}|{name}>" if url.startswith("http") else f"*{name}*",
-        "기관": first(item, ORG_FIELDS),
+        "기관": esc(first(item, ORG_FIELDS)),
         "금액": fmt_amount(to_int(first(item, AMOUNT_FIELDS))),
         "키워드": " ".join(f"`{h}`" for h in hits),
         "번호": "", "마감": "", "발주시기": "",
@@ -322,11 +402,11 @@ def build_messages(cfg, results, errors, start, end, prefix=""):
         lines += [render(tpl["item"], v) for v in items]
         blocks.append(lines)
     if total == 0 and tpl.get("empty"):
-        blocks.append([tpl["empty"]])
+        blocks.append([render(tpl["empty"], {})])
     if errors:
-        blocks.append([":warning: 조회 실패"] + [f"• {SOURCES[k]['label']}: {e}" for k, e in errors.items()])
+        blocks.append([":warning: 조회 실패"] + [f"• {SOURCES[k]['label']}: {esc(e)}" for k, e in errors.items()])
     if tpl.get("footer"):
-        blocks.append([tpl["footer"]])
+        blocks.append([render(tpl["footer"], {})])
 
     chunks, cur = [], prefix + head
     for lines in blocks:
@@ -415,14 +495,28 @@ def main():
 
     seen = state["seen"]
     results, errors, counts = {}, {}, {}
+    _deadline[0] = time.monotonic() + TIME_BUDGET
+    t0 = time.monotonic()
+
+    def run(key):
+        return key, fetch_source(key, service_key, window_start(key), end, cfg["keywords"])
+
+    fetched = {}
+    with ThreadPoolExecutor(max_workers=len(enabled) or 1) as pool:  # 6개 대상을 동시에 조회
+        futures = [pool.submit(run, k) for k in enabled]
+        for fut in as_completed(futures):
+            try:
+                key, items = fut.result()
+                fetched[key] = items
+            except Exception as e:
+                key = enabled[futures.index(fut)]
+                errors[key] = str(e)[:200]
+                log(f"{SOURCES[key]['label']}: 실패 - {e}")
+
     for key in enabled:
-        label = SOURCES[key]["label"]
-        try:
-            items = fetch_source(key, service_key, window_start(key), end)
-        except Exception as e:
-            log(f"{label}: 실패 - {e}")
-            errors[key] = str(e)[:200]
+        if key not in fetched:
             continue
+        items = fetched[key]
         matched = []
         for it in items:
             hits = match(it, cfg)
@@ -438,7 +532,8 @@ def main():
         counts[key] = {"total": len(items), "matched": len(matched)}
         if not test:
             ends[key] = end.isoformat()
-        log(f"{label}: 전체 {len(items)}건 중 매칭 {len(matched)}건")
+        log(f"{SOURCES[key]['label']}: 조회 {len(items)}건 중 매칭 {len(matched)}건")
+    log(f"조회 소요 {time.monotonic() - t0:.0f}초")
 
     prefix = "[테스트] " if test else ""
     messages = build_messages(cfg, results, errors, start, end, prefix)
