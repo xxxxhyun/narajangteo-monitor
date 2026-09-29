@@ -1,0 +1,13 @@
+{
+  "keywords": ["카카오톡", "상담톡", "상담", "채팅"],
+  "exclude_keywords": [],
+  "sources": {
+    "bid_servc": true,
+    "bid_thng": true,
+    "orderplan_servc": true,
+    "orderplan_thng": true,
+    "prespec_servc": true,
+    "prespec_thng": true
+  },
+  "send_empty_report": true
+}
