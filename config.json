@@ -1,6 +1,13 @@
 {
+  "version": 2,
   "keywords": ["카카오톡", "상담톡", "상담", "채팅"],
   "exclude_keywords": [],
+  "filters": {
+    "min_amount": 0,
+    "max_amount": 0,
+    "include_orgs": [],
+    "exclude_orgs": []
+  },
   "sources": {
     "bid_servc": true,
     "bid_thng": true,
@@ -9,5 +16,16 @@
     "prespec_servc": true,
     "prespec_thng": true
   },
-  "send_empty_report": true
+  "schedule": {
+    "days": [0, 1, 2, 3, 4, 5, 6],
+    "hours": [20]
+  },
+  "send_empty_report": true,
+  "message": {
+    "header": ":mag: *나라장터 키워드 모니터링* ({날짜})\n조회기간 {기간} · 신규 {총건수}건",
+    "section": "*[{구분}] {건수}건*",
+    "item": "• {제목} {키워드}\n    {기관} · {금액} · {번호} · {마감} · {발주시기}",
+    "empty": "오늘은 키워드에 맞는 신규 건이 없습니다.",
+    "footer": "_나라장터 바로가기: https://www.g2b.go.kr_"
+  }
 }
