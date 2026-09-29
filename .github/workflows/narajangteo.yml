@@ -1,0 +1,55 @@
+name: 나라장터 키워드 모니터링
+
+on:
+  schedule:
+    # GitHub 시간은 UTC 기준입니다 (한국시간 = UTC + 9시간)
+    - cron: "17 11 * * *"   # 매일 20:17 (한국시간) 본 실행
+    - cron: "17 12 * * *"   # 매일 21:17 (한국시간) 백업 실행 - 본 실행이 성공했으면 자동으로 건너뜀
+  workflow_dispatch:         # Actions 화면의 "Run workflow" 버튼으로 수동 실행
+    inputs:
+      dry_run:
+        description: "미리보기만 (슬랙으로 보내지 않음)"
+        type: boolean
+        default: false
+      lookback_hours:
+        description: "조회 기간(시간). 비워두면 지난 조회 이후분만"
+        required: false
+        default: ""
+      force_run:
+        description: "오늘 이미 보고했어도 다시 실행"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write   # 이미 보낸 공고 기록(state.json) 저장용
+
+concurrency:
+  group: narajangteo
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 나라장터 조회 및 슬랙 전송
+        env:
+          G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          DRY_RUN: ${{ inputs.dry_run && '1' || '0' }}
+          FORCE_RUN: ${{ inputs.force_run && '1' || '0' }}
+          LOOKBACK_HOURS: ${{ inputs.lookback_hours }}
+        run: python3 monitor.py
+
+      - name: 보낸 공고 기록 저장
+        if: always()
+        run: |
+          if [ -f state.json ] && [ -n "$(git status --porcelain state.json)" ]; then
+            git config user.name "g2b-monitor-bot"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add state.json
+            git commit -m "기록 갱신 $(TZ=Asia/Seoul date +%F)"
+            git push
+          fi
