@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>경쟁·파트너 분석</title>
+<meta name="description" content="유사 사업의 참여업체·낙찰업체·계약업체를 모아 업체별로 정리">
+<meta name="g2b-workflow" content="analysis.yml">
+<meta name="g2b-icon" content="📊">
 <style>
   :root {
     --bg: #f5f6f8; --card: #fff; --ink: #1d2433; --sub: #5d6778; --line: #e3e6ec;
@@ -13,13 +16,23 @@
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--ink);
     font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI", sans-serif; }
-  header { background: var(--card); border-bottom: 1px solid var(--line); padding: 14px 24px;
-    display: flex; align-items: center; gap: 16px; flex-wrap: wrap; position: sticky; top: 0; z-index: 5; }
+  /* 공통 상단 메뉴 (모든 나라장터 페이지 동일) */
+  .g2b-nav { background: #14213d; color: #fff; display: flex; align-items: center; gap: 4px; padding: 0 20px;
+    height: 48px; position: sticky; top: 0; z-index: 50; overflow-x: auto; }
+  .g2b-nav .brand { color: #fff; font-weight: 700; margin-right: 14px; white-space: nowrap; text-decoration: none; }
+  .g2b-nav a.item { color: #c9d3e6; text-decoration: none; padding: 6px 12px; border-radius: 8px; white-space: nowrap; font-size: 14px; }
+  .g2b-nav a.item:hover { background: rgba(255,255,255,.08); color: #fff; }
+  .g2b-nav a.item.on { background: rgba(255,255,255,.14); color: #fff; font-weight: 600; }
+  .g2b-nav .sp { flex: 1; }
+  .g2b-nav .repo { color: #9fb0cc; font-size: 12px; white-space: nowrap; }
+
+  header { background: var(--card); border-bottom: 1px solid var(--line); padding: 12px 24px;
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
   header h1 { font-size: 18px; margin: 0; }
   header .sp { flex: 1; }
-  main { max-width: 1280px; margin: 0 auto; padding: 20px 24px 60px; display: grid; gap: 16px;
-    grid-template-columns: 380px 1fr; align-items: start; }
-  @media (max-width: 980px) { main { grid-template-columns: 1fr; padding: 16px; } }
+  main { padding: 16px 24px 60px; display: grid; gap: 16px;
+    grid-template-columns: 400px minmax(0, 1fr); align-items: start; }
+  @media (max-width: 1100px) { main { grid-template-columns: 1fr; padding: 16px; } }
   .col { display: grid; gap: 16px; min-width: 0; }
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; min-width: 0; }
   .card h2 { font-size: 15px; margin: 0 0 12px; display: flex; align-items: center; gap: 8px; }
@@ -59,7 +72,7 @@
   .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 12px; }
   .tabs button { border: 0; border-bottom: 2px solid transparent; border-radius: 0; padding: 8px 12px; color: var(--sub); }
   .tabs button.on { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
-  .tbl-wrap { overflow: auto; max-height: 70vh; border: 1px solid var(--line); border-radius: 8px; }
+  .tbl-wrap { overflow: auto; max-height: calc(100vh - 330px); min-height: 300px; border: 1px solid var(--line); border-radius: 8px; }
   table { border-collapse: collapse; width: 100%; font-size: 13px; }
   th, td { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
   th { background: #f0f2f5; position: sticky; top: 0; cursor: pointer; white-space: nowrap; user-select: none; z-index: 1; }
@@ -87,6 +100,7 @@
 </style>
 </head>
 <body>
+<nav class="g2b-nav" id="g2bNav"></nav>
 <header>
   <h1>나라장터 경쟁·파트너 분석</h1>
   <span id="connState" class="badge b-gray">연결 안 됨</span>
@@ -179,12 +193,76 @@
 <div class="toast" id="toast"></div>
 
 <script>
+/* ================= 공통: 토큰·페이지 목록·상단 메뉴 (모든 나라장터 페이지 동일) ================= */
+const G2B = {
+  KEYS: { token: "g2b.token", repo: "g2b.repo", pages: "g2b.pages" },
+  // 이미 알고 있는 페이지 (저장소 목록을 못 불러와도 메뉴에 표시)
+  KNOWN: [
+    { file: "index.html", title: "홈", icon: "🏠", order: 0, desc: "나라장터 관련 페이지 모음" },
+    { file: "monitoring.html", title: "키워드 모니터링", icon: "🔔", order: 1, workflow: "narajangteo.yml",
+      desc: "입찰공고·발주계획·사전규격에서 키워드에 맞는 신규 건을 슬랙으로 보고. 키워드·제외 조건·발송 시각·메시지 형식 설정" },
+    { file: "analysis.html", title: "경쟁·파트너 분석", icon: "📊", order: 2, workflow: "analysis.yml",
+      desc: "유사 사업의 참여업체·낙찰업체·계약업체를 모아 업체별로 정리. 조건 설정, 실행, 진행 상황, 결과 표·엑셀" },
+  ],
+  get(k) { try { return localStorage.getItem(k) || ""; } catch { return ""; } },
+  set(k, v) { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch {} },
+  // 토큰: 공통 키 → 없으면 다른 페이지가 저장한 github_pat_ 값을 찾아 사용
+  token() {
+    let t = this.get(this.KEYS.token);
+    if (!t) { try { const o = JSON.parse(this.get("g2b_admin") || "{}"); t = o.token || ""; if (o.repo && !this.get(this.KEYS.repo)) this.set(this.KEYS.repo, o.repo); } catch {} }
+    if (!t) { try { for (let i = 0; i < localStorage.length; i++) { const v = localStorage.getItem(localStorage.key(i)) || "";
+      if (/^(github_pat_|ghp_)\w+$/.test(v.trim())) { t = v.trim(); break; } } } catch {} }
+    return t;
+  },
+  pages() {
+    let saved = []; try { saved = JSON.parse(this.get(this.KEYS.pages) || "[]"); } catch {}
+    const map = new Map(this.KNOWN.map(p => [p.file, { ...p }]));
+    saved.forEach(p => { const k = map.get(p.file); map.set(p.file, k ? { ...p, ...k } : p); });  // 알려진 페이지는 이름·설명 고정
+    return [...map.values()].filter(p => !p.gone).sort((a, b) => (a.order ?? 99) - (b.order ?? 99) || a.title.localeCompare(b.title, "ko"));
+  },
+  current() { const f = decodeURIComponent(location.pathname.split("/").pop() || "index.html"); return f || "index.html"; },
+  renderNav(el) {
+    const cur = this.current(), repo = this.get(this.KEYS.repo);
+    el.innerHTML = `<a class="brand" href="index.html">나라장터</a>` +
+      this.pages().map(p => `<a class="item ${p.file === cur ? "on" : ""}" href="${encodeURI(p.file)}">${p.icon ? p.icon + " " : ""}${p.title.replace(/[<>&]/g, "")}</a>`).join("") +
+      `<span class="sp"></span><span class="repo">${repo.replace(/[<>&]/g, "")}</span>`;
+  },
+  // 저장소 admin 폴더의 .html 목록을 불러와 메뉴에 반영
+  async discover(token, repo, branch) {
+    const h = { Authorization: "Bearer " + token, Accept: "application/vnd.github+json" };
+    const res = await fetch(`https://api.github.com/repos/${repo}/contents/admin?ref=${branch}&t=${Date.now()}`, { headers: h });
+    if (!res.ok) throw new Error("admin 폴더를 읽지 못했습니다 (" + res.status + ")");
+    const files = (await res.json()).filter(f => f.type === "file" && /\.html?$/i.test(f.name));
+    let old = []; try { old = JSON.parse(this.get(this.KEYS.pages) || "[]"); } catch {}
+    const known = new Map(this.KNOWN.map(p => [p.file, p]));
+    const out = await Promise.all(files.map(async f => {
+      const prev = old.find(o => o.file === f.name);
+      const base = { file: f.name, sha: f.sha, size: f.size };
+      if (prev && prev.sha === f.sha) return { ...prev, ...base, gone: false };
+      try {   // 새 파일·바뀐 파일은 <title>, <meta description>, <meta g2b-workflow> 읽기
+        const raw = await (await fetch(`https://api.github.com/repos/${repo}/contents/admin/${encodeURIComponent(f.name)}?ref=${branch}`,
+          { headers: { ...h, Accept: "application/vnd.github.raw+json" } })).text();
+        const doc = new DOMParser().parseFromString(raw, "text/html");
+        const meta = (n) => doc.querySelector(`meta[name="${n}"]`)?.content || "";
+        return { ...base, title: known.get(f.name)?.title || doc.title || f.name.replace(/\.html?$/i, ""),
+          desc: known.get(f.name)?.desc || meta("description"), workflow: known.get(f.name)?.workflow || meta("g2b-workflow"),
+          icon: known.get(f.name)?.icon || meta("g2b-icon") || "📄", isNew: !!old.length && !prev };
+      } catch { return { ...base, title: f.name, icon: "📄" }; }
+    }));
+    // 저장소에 없는 알려진 페이지는 '없음' 표시 (홈은 항상 유지)
+    this.KNOWN.forEach(k => { if (k.file !== "index.html" && !out.some(o => o.file === k.file)) out.push({ ...k, missing: true }); });
+    this.set(this.KEYS.pages, JSON.stringify(out));
+    return out;
+  },
+};
+/* ================================================================================================ */
+
 const $ = (id) => document.getElementById(id);
 const CONFIG_PATH = "analysis_config.json";
 const RESULT_PATH = "analysis/result.json";
 const XLSX_PATH = "analysis/result.xlsx";
 const WORKFLOW = "analysis.yml";
-const LS = { token: "g2bAnalysis.token", repo: "g2bAnalysis.repo" };
+const LS = { token: G2B.KEYS.token, repo: G2B.KEYS.repo };
 
 const st = {
   token: "", repo: "", branch: "main",
@@ -242,6 +320,8 @@ async function connect() {
     const info = await (await gh(repoPath(""))).json();
     st.branch = info.default_branch || "main";
     lsSet(LS.token, st.token); lsSet(LS.repo, st.repo);
+    G2B.renderNav($("g2bNav"));
+    G2B.discover(st.token, st.repo, st.branch).then(() => G2B.renderNav($("g2bNav"))).catch(() => {});
     $("repo").value = st.repo;
     setConnected(true);
     await Promise.all([loadConfig(), loadResult(), loadRuns()]);
@@ -520,7 +600,8 @@ window.addEventListener("beforeunload", e => { if (st.config && JSON.stringify(r
 
 // 시작
 st.config = defaultConfig(); renderConfig(); st.saved = JSON.stringify(readConfig());
-$("token").value = lsGet(LS.token); $("repo").value = lsGet(LS.repo);
+G2B.renderNav($("g2bNav"));
+$("token").value = G2B.token() || lsGet("g2bAnalysis.token"); $("repo").value = lsGet(LS.repo) || lsGet("g2bAnalysis.repo");
 if ($("token").value) connect();
 </script>
 </body>

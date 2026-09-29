@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>나라장터 모니터링 설정</title>
+<meta name="description" content="입찰공고·발주계획·사전규격 키워드 모니터링 슬랙 알림 설정">
+<meta name="g2b-workflow" content="narajangteo.yml">
+<meta name="g2b-icon" content="🔔">
+<style>
+:root{
+  --bg:#f6f7f9; --card:#fff; --ink:#1d2129; --sub:#5b6472; --line:#e3e6eb;
+  --accent:#2f5bea; --accent-ink:#fff; --accent-soft:#eaf0ff;
+  --ok:#1f8a4c; --warn:#b26a00; --err:#c62828; --chip:#eef1f5;
+  --slack-bg:#fff; --slack-code:#f4f4f4; --slack-code-ink:#c7254e; --slack-link:#1264a3;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121417; --card:#1b1e23; --ink:#e7e9ee; --sub:#9aa3b2; --line:#2c3139;
+    --accent:#6b8cff; --accent-ink:#0d1017; --accent-soft:#232b45;
+    --ok:#4cc27f; --warn:#e0a13a; --err:#ff6b6b; --chip:#262a31;
+    --slack-bg:#1a1d21; --slack-code:#2a2d31; --slack-code-ink:#e8912d; --slack-link:#4aa3ff;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+header{position:sticky;top:48px;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+.bar{padding:12px 24px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.bar h1{font-size:17px;margin:0;flex:1;min-width:200px}
+.pill{font-size:12px;padding:3px 9px;border-radius:99px;background:var(--chip);color:var(--sub)}
+.pill.ok{color:var(--ok)} .pill.warn{color:var(--warn)} .pill.err{color:var(--err)}
+main{padding:16px 24px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,560px);gap:16px;align-items:start}
+@media (max-width:1000px){main{grid-template-columns:1fr;padding:16px}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+.card h2{font-size:15px;margin:0 0 4px}
+.card .desc{color:var(--sub);font-size:13px;margin:0 0 12px}
+label.f{display:block;font-size:13px;font-weight:600;margin:12px 0 6px}
+input[type=text],input[type=password],input[type=number],textarea,select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+textarea{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;min-height:44px;resize:vertical;overflow:hidden}
+button{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:8px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.sm{padding:4px 10px;font-size:12px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row > *{flex:1}
+.grid3{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.tog{display:flex;gap:8px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:8px;cursor:pointer;user-select:none}
+.tog input{accent-color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:6px;border:1px solid var(--line);border-radius:8px;background:var(--bg);min-height:42px}
+.chip{display:inline-flex;align-items:center;gap:4px;background:var(--accent-soft);color:var(--ink);padding:3px 8px;border-radius:99px;font-size:13px}
+.chip button{border:0;background:none;padding:0 2px;color:var(--sub);cursor:pointer;font-size:14px;line-height:1}
+.chips input{border:0;background:transparent;flex:1;min-width:120px;padding:4px;outline:none}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{padding:6px 0;width:44px;font-size:13px}
+.seg button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.hint{font-size:12px;color:var(--sub);margin-top:6px}
+.vars{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0 2px}
+.vars button{padding:2px 8px;font-size:12px;background:var(--chip);border-color:transparent}
+aside{position:sticky;top:124px}
+.tabs{display:flex;gap:4px;margin-bottom:10px}
+.tabs button{flex:1}
+.tabs button.on{background:var(--accent-soft);border-color:var(--accent);font-weight:600}
+.slack{background:var(--slack-bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;max-height:62vh;overflow:auto}
+.slack .who{display:flex;gap:8px;align-items:center;margin-bottom:4px}
+.slack .av{width:28px;height:28px;border-radius:6px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:13px;font-weight:700}
+.slack .nm{font-weight:700;font-size:14px} .slack .tm{color:var(--sub);font-size:12px}
+.slack .msg{white-space:pre-wrap;word-break:break-word;margin:0 0 12px 36px}
+.slack code{background:var(--slack-code);color:var(--slack-code-ink);border:1px solid var(--line);border-radius:3px;padding:0 3px;font-size:12px}
+.slack a{color:var(--slack-link);text-decoration:none}
+.slack .q{display:inline-block;width:100%;border-left:4px solid #dddddd;padding-left:10px;white-space:pre-wrap}
+@media (prefers-color-scheme: dark){.slack .q{border-left-color:#555}}
+.slack pre{background:var(--slack-code);border:1px solid var(--line);border-radius:4px;padding:8px;margin:4px 0;font-size:12px;white-space:pre-wrap}
+.status{font-size:13px;margin-top:10px;color:var(--sub);min-height:20px}
+.status.err{color:var(--err)} .status.ok{color:var(--ok)}
+.runs{list-style:none;padding:0;margin:0;font-size:13px}
+.runs li{display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--line)}
+.runs li:last-child{border:0}
+.runs .t{color:var(--sub);width:92px;flex:none}
+.runs a{color:var(--ink);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+details summary{cursor:pointer;color:var(--sub);font-size:13px}
+.log{font:12px/1.5 ui-monospace,Menlo,monospace;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px;max-height:200px;overflow:auto;white-space:pre-wrap}
+.hide{display:none!important}
+.banner{background:var(--accent-soft);border:1px solid var(--accent);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px}
+ol.guide{padding-left:20px;margin:6px 0;font-size:13px;color:var(--sub)}
+ol.guide b{color:var(--ink)}
+table.fmt{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+table.fmt th,table.fmt td{border-bottom:1px solid var(--line);padding:5px 6px;text-align:left}
+table.fmt th{color:var(--sub);font-weight:600}
+details.fmt{margin-bottom:6px}
+/* 공통 상단 메뉴 */
+  .g2b-nav { background: #14213d; color: #fff; display: flex; align-items: center; gap: 4px; padding: 0 20px;
+    height: 48px; position: sticky; top: 0; z-index: 50; overflow-x: auto; }
+  .g2b-nav .brand { color: #fff; font-weight: 700; margin-right: 14px; white-space: nowrap; text-decoration: none; }
+  .g2b-nav a.item { color: #c9d3e6; text-decoration: none; padding: 6px 12px; border-radius: 8px; white-space: nowrap; font-size: 14px; }
+  .g2b-nav a.item:hover { background: rgba(255,255,255,.08); color: #fff; }
+  .g2b-nav a.item.on { background: rgba(255,255,255,.14); color: #fff; font-weight: 600; }
+  .g2b-nav .sp { flex: 1; }
+  .g2b-nav .repo { color: #9fb0cc; font-size: 12px; white-space: nowrap; }
+
+</style>
+</head>
+<body>
+<nav class="g2b-nav" id="g2bNav"></nav>
+<header>
+  <div class="bar">
+    <h1>나라장터 모니터링 설정</h1>
+    <span id="connPill" class="pill">연결 안 됨</span>
+    <span id="dirtyPill" class="pill hide warn">저장 안 된 변경</span>
+    <button id="btnReset" class="sm" disabled>되돌리기</button>
+    <button id="btnSave" class="primary" disabled>저장</button>
+  </div>
+</header>
+
+<main>
+<section>
+  <!-- 연결 -->
+  <div class="card" id="cardConn">
+    <h2>GitHub 연결</h2>
+    <p class="desc">처음 한 번만 하면 이 브라우저가 기억합니다. 설정은 GitHub 저장소의 <code>config.json</code>에 저장되고, 다음 발송부터 바로 적용됩니다.</p>
+    <div class="row">
+      <div><label class="f" for="repo">저장소</label><input id="repo" type="text" value="xxxxhyun/narajangteo-monitor"></div>
+      <div><label class="f" for="token">GitHub 토큰</label><input id="token" type="password" placeholder="github_pat_..." autocomplete="off"></div>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <label class="tog" style="flex:none"><input id="remember" type="checkbox" checked> 이 브라우저에 기억</label>
+      <span style="flex:1"></span>
+      <button id="btnForget" class="sm" style="flex:none">저장된 토큰 지우기</button>
+      <button id="btnConnect" class="primary" style="flex:none">연결</button>
+    </div>
+    <details style="margin-top:12px">
+      <summary>토큰 만드는 방법 (처음 한 번)</summary>
+      <ol class="guide">
+        <li>GitHub → 오른쪽 위 프로필 → <b>Settings</b> → 맨 아래 <b>Developer settings</b></li>
+        <li><b>Personal access tokens → Fine-grained tokens → Generate new token</b></li>
+        <li>Token name: <b>나라장터 설정</b>, Expiration: <b>1년</b></li>
+        <li>Repository access: <b>Only select repositories</b> → <b>narajangteo-monitor</b></li>
+        <li>Permissions → Repository permissions: <b>Contents: Read and write</b>, <b>Actions: Read and write</b></li>
+        <li>Generate token → 표시된 값을 복사해 위 칸에 붙여넣기 (다시 볼 수 없으니 바로 붙여넣으세요)</li>
+      </ol>
+      <p class="hint">토큰은 이 브라우저에만 저장되고 GitHub 외에는 전송되지 않습니다. 공용 PC에서는 "기억"을 끄세요.</p>
+    </details>
+    <div id="connStatus" class="status"></div>
+  </div>
+
+  <div id="editor" class="hide">
+  <!-- 조회 대상 -->
+  <div class="card">
+    <h2>조회 대상</h2>
+    <p class="desc">어떤 종류의 공고를 볼지 고릅니다.</p>
+    <div class="grid3" id="sources"></div>
+  </div>
+
+  <!-- 조회 조건 -->
+  <div class="card">
+    <h2>조회 조건</h2>
+    <p class="desc">사업명에 아래 키워드 중 하나라도 들어가면 알림 대상입니다. 입력 후 Enter.</p>
+    <label class="f">키워드</label>
+    <div class="chips" data-list="keywords"></div>
+  </div>
+
+  <!-- 제외 조건 -->
+  <div class="card">
+    <h2>제외 조건</h2>
+    <p class="desc">키워드에 맞아도 아래 조건에 걸리면 빼고 보냅니다.</p>
+    <label class="f">제외 키워드 (사업명에 포함되면 제외)</label>
+    <div class="chips" data-list="exclude_keywords"></div>
+    <div class="row">
+      <div><label class="f" for="minAmt">최소 금액 (만원, 0 = 제한 없음)</label><input id="minAmt" type="number" min="0" step="100"></div>
+      <div><label class="f" for="maxAmt">최대 금액 (만원, 0 = 제한 없음)</label><input id="maxAmt" type="number" min="0" step="100"></div>
+    </div>
+    <p class="hint">금액 정보가 없는 공고는 금액 조건과 상관없이 포함됩니다.</p>
+    <label class="f">이 기관만 보기 (비워두면 전체)</label>
+    <div class="chips" data-list="filters.include_orgs"></div>
+    <label class="f">제외 기관</label>
+    <div class="chips" data-list="filters.exclude_orgs"></div>
+  </div>
+
+  <!-- 발송 -->
+  <div class="card">
+    <h2>발송 시간 · 주기</h2>
+    <p class="desc">선택한 요일의 선택한 시각마다 그 사이 새로 올라온 건을 보냅니다. 여러 시각을 고르면 하루 여러 번 받습니다.</p>
+    <label class="f">요일</label>
+    <div class="seg" id="days"></div>
+    <label class="f">시각</label>
+    <div class="seg" id="hours"></div>
+    <p class="hint">GitHub 서버 사정으로 실제 도착은 선택 시각 기준 17분~1시간 정도 늦을 수 있습니다. 실패하면 3시간 안에 자동 재시도합니다.</p>
+    <label class="tog" style="margin-top:12px"><input id="sendEmpty" type="checkbox"> 신규 건이 없어도 "없음" 메시지 보내기</label>
+  </div>
+
+  <!-- 메시지 형식 -->
+  <div class="card">
+    <h2>메시지 형식</h2>
+    <p class="desc">변수 버튼을 누르면 커서 위치에 들어갑니다. <code> · </code> <code> | </code> <code> / </code>로 구분한 항목은 값이 없으면 자동으로 빠집니다.</p>
+    <details class="fmt"><summary>슬랙 서식 도움말</summary>
+      <table class="fmt">
+        <tr><th>쓰는 법</th><th>슬랙에서</th></tr>
+        <tr><td><code>*굵게*</code> 또는 <code>**굵게**</code></td><td><b>굵게</b></td></tr>
+        <tr><td><code>_기울임_</code></td><td><i>기울임</i></td></tr>
+        <tr><td><code>~취소선~</code></td><td><s>취소선</s></td></tr>
+        <tr><td><code>`코드`</code></td><td>코드 표시</td></tr>
+        <tr><td><code>&gt; 인용</code> (줄 맨 앞)</td><td>왼쪽에 회색 막대가 있는 인용 줄</td></tr>
+        <tr><td><code>&gt;&gt;&gt; </code> (줄 맨 앞)</td><td>그 줄부터 끝까지 전부 인용</td></tr>
+        <tr><td>줄 앞 공백</td><td>들여쓰기 그대로 유지</td></tr>
+        <tr><td><code>- 항목</code></td><td>• 항목</td></tr>
+        <tr><td><code>[글자](https://주소)</code></td><td>글자에 링크</td></tr>
+        <tr><td><code>:mag:</code> <code>:bell:</code> <code>:pushpin:</code></td><td>🔍 🔔 📌 (슬랙 이모지 이름)</td></tr>
+        <tr><td><code># 제목</code></td><td>슬랙엔 제목 크기가 없어 <b>굵게</b>로 바뀜</td></tr>
+      </table>
+      <p class="hint">일반 마크다운(**, #, [글자](주소))으로 써도 보낼 때 슬랙 서식으로 자동 변환됩니다. 미리보기는 슬랙 앱과 같은 규칙으로 그립니다.</p>
+    </details>
+    <div id="tpls"></div>
+    <div class="row" style="margin-top:10px"><span></span><button id="btnTplDefault" class="sm" style="flex:none">기본 형식으로 되돌리기</button></div>
+  </div>
+  </div>
+</section>
+
+<aside>
+  <div class="card">
+    <div class="tabs">
+      <button id="tabSample" class="on">예시 미리보기</button>
+      <button id="tabLive">실제 데이터 테스트</button>
+    </div>
+
+    <div id="paneSample">
+      <p class="desc" id="sampleNote">예시 데이터로 지금 설정을 적용한 모습입니다. 수정하면 바로 바뀝니다.</p>
+      <div class="slack" id="sampleOut"></div>
+    </div>
+
+    <div id="paneLive" class="hide">
+      <p class="desc">저장된 설정으로 실제 나라장터를 조회합니다. 24시간 기준 1~3분, 기간이 길수록 오래 걸립니다.</p>
+      <div class="row">
+        <select id="lookback">
+          <option value="24">최근 24시간</option>
+          <option value="72">최근 3일</option>
+          <option value="168">최근 7일</option>
+        </select>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <button id="btnPreview" class="primary">미리보기 실행</button>
+        <button id="btnSend">슬랙으로 테스트 전송</button>
+      </div>
+      <div id="liveStatus" class="status"></div>
+      <div class="slack hide" id="liveOut"></div>
+      <details id="liveLogBox" class="hide" style="margin-top:8px"><summary>실행 로그</summary><div class="log" id="liveLog"></div></details>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row"><h2 style="flex:1">최근 실행</h2><button id="btnRuns" class="sm" style="flex:none">새로고침</button></div>
+    <ul class="runs" id="runs"><li><span class="t">-</span><span>연결하면 표시됩니다</span></li></ul>
+  </div>
+</aside>
+</main>
+
+<script>
+/* ================= 공통: 토큰·페이지 목록·상단 메뉴 (모든 나라장터 페이지 동일) ================= */
+const G2B = {
+  KEYS: { token: "g2b.token", repo: "g2b.repo", pages: "g2b.pages" },
+  // 이미 알고 있는 페이지 (저장소 목록을 못 불러와도 메뉴에 표시)
+  KNOWN: [
+    { file: "index.html", title: "홈", icon: "🏠", order: 0, desc: "나라장터 관련 페이지 모음" },
+    { file: "monitoring.html", title: "키워드 모니터링", icon: "🔔", order: 1, workflow: "narajangteo.yml",
+      desc: "입찰공고·발주계획·사전규격에서 키워드에 맞는 신규 건을 슬랙으로 보고. 키워드·제외 조건·발송 시각·메시지 형식 설정" },
+    { file: "analysis.html", title: "경쟁·파트너 분석", icon: "📊", order: 2, workflow: "analysis.yml",
+      desc: "유사 사업의 참여업체·낙찰업체·계약업체를 모아 업체별로 정리. 조건 설정, 실행, 진행 상황, 결과 표·엑셀" },
+  ],
+  get(k) { try { return localStorage.getItem(k) || ""; } catch { return ""; } },
+  set(k, v) { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch {} },
+  // 토큰: 공통 키 → 없으면 다른 페이지가 저장한 github_pat_ 값을 찾아 사용
+  token() {
+    let t = this.get(this.KEYS.token);
+    if (!t) { try { const o = JSON.parse(this.get("g2b_admin") || "{}"); t = o.token || ""; if (o.repo && !this.get(this.KEYS.repo)) this.set(this.KEYS.repo, o.repo); } catch {} }
+    if (!t) { try { for (let i = 0; i < localStorage.length; i++) { const v = localStorage.getItem(localStorage.key(i)) || "";
+      if (/^(github_pat_|ghp_)\w+$/.test(v.trim())) { t = v.trim(); break; } } } catch {} }
+    return t;
+  },
+  pages() {
+    let saved = []; try { saved = JSON.parse(this.get(this.KEYS.pages) || "[]"); } catch {}
+    const map = new Map(this.KNOWN.map(p => [p.file, { ...p }]));
+    saved.forEach(p => { const k = map.get(p.file); map.set(p.file, k ? { ...p, ...k } : p); });  // 알려진 페이지는 이름·설명 고정
+    return [...map.values()].filter(p => !p.gone).sort((a, b) => (a.order ?? 99) - (b.order ?? 99) || a.title.localeCompare(b.title, "ko"));
+  },
+  current() { const f = decodeURIComponent(location.pathname.split("/").pop() || "index.html"); return f || "index.html"; },
+  renderNav(el) {
+    const cur = this.current(), repo = this.get(this.KEYS.repo);
+    el.innerHTML = `<a class="brand" href="index.html">나라장터</a>` +
+      this.pages().map(p => `<a class="item ${p.file === cur ? "on" : ""}" href="${encodeURI(p.file)}">${p.icon ? p.icon + " " : ""}${p.title.replace(/[<>&]/g, "")}</a>`).join("") +
+      `<span class="sp"></span><span class="repo">${repo.replace(/[<>&]/g, "")}</span>`;
+  },
+  // 저장소 admin 폴더의 .html 목록을 불러와 메뉴에 반영
+  async discover(token, repo, branch) {
+    const h = { Authorization: "Bearer " + token, Accept: "application/vnd.github+json" };
+    const res = await fetch(`https://api.github.com/repos/${repo}/contents/admin?ref=${branch}&t=${Date.now()}`, { headers: h });
+    if (!res.ok) throw new Error("admin 폴더를 읽지 못했습니다 (" + res.status + ")");
+    const files = (await res.json()).filter(f => f.type === "file" && /\.html?$/i.test(f.name));
+    let old = []; try { old = JSON.parse(this.get(this.KEYS.pages) || "[]"); } catch {}
+    const known = new Map(this.KNOWN.map(p => [p.file, p]));
+    const out = await Promise.all(files.map(async f => {
+      const prev = old.find(o => o.file === f.name);
+      const base = { file: f.name, sha: f.sha, size: f.size };
+      if (prev && prev.sha === f.sha) return { ...prev, ...base, gone: false };
+      try {   // 새 파일·바뀐 파일은 <title>, <meta description>, <meta g2b-workflow> 읽기
+        const raw = await (await fetch(`https://api.github.com/repos/${repo}/contents/admin/${encodeURIComponent(f.name)}?ref=${branch}`,
+          { headers: { ...h, Accept: "application/vnd.github.raw+json" } })).text();
+        const doc = new DOMParser().parseFromString(raw, "text/html");
+        const meta = (n) => doc.querySelector(`meta[name="${n}"]`)?.content || "";
+        return { ...base, title: known.get(f.name)?.title || doc.title || f.name.replace(/\.html?$/i, ""),
+          desc: known.get(f.name)?.desc || meta("description"), workflow: known.get(f.name)?.workflow || meta("g2b-workflow"),
+          icon: known.get(f.name)?.icon || meta("g2b-icon") || "📄", isNew: !!old.length && !prev };
+      } catch { return { ...base, title: f.name, icon: "📄" }; }
+    }));
+    // 저장소에 없는 알려진 페이지는 '없음' 표시 (홈은 항상 유지)
+    this.KNOWN.forEach(k => { if (k.file !== "index.html" && !out.some(o => o.file === k.file)) out.push({ ...k, missing: true }); });
+    this.set(this.KEYS.pages, JSON.stringify(out));
+    return out;
+  },
+};
+/* ================================================================================================ */
+
+/* =========================================================================
+ * 상수 · 기본값  (monitor.py 와 동일하게 유지)
+ * ========================================================================= */
+const WORKFLOW = 'narajangteo.yml';
+const SOURCES = [
+  ['bid_servc','입찰공고 · 용역','bid'], ['bid_thng','입찰공고 · 물품','bid'],
+  ['orderplan_servc','발주계획 · 용역','orderplan'], ['orderplan_thng','발주계획 · 물품','orderplan'],
+  ['prespec_servc','사전규격 · 용역','prespec'], ['prespec_thng','사전규격 · 물품','prespec'],
+];
+const SRC_LABEL = Object.fromEntries(SOURCES.map(s => [s[0], s[1]]));
+const DEFAULT_MESSAGE = {
+  header: ':mag: *나라장터 키워드 모니터링* ({날짜})\n조회기간 {기간} · 신규 {총건수}건',
+  section: '*[{구분}] {건수}건*',
+  item: '• {제목} {키워드}\n    {기관} · {금액} · {번호} · {마감} · {발주시기}',
+  empty: '오늘은 키워드에 맞는 신규 건이 없습니다.',
+  footer: '_나라장터 바로가기: https://www.g2b.go.kr_',
+};
+const DEFAULT_CONFIG = {
+  version: 2, keywords: [], exclude_keywords: [],
+  filters: {min_amount: 0, max_amount: 0, include_orgs: [], exclude_orgs: []},
+  sources: Object.fromEntries(SOURCES.map(s => [s[0], true])),
+  schedule: {days: [0,1,2,3,4,5,6], hours: [20]},
+  send_empty_report: true,
+  message: {...DEFAULT_MESSAGE},
+};
+const TPL_FIELDS = [
+  ['header','머리말', ['날짜','기간','총건수']],
+  ['section','구분 제목', ['구분','건수']],
+  ['item','공고 한 건', ['제목','사업명','링크','기관','금액','번호','마감','발주시기','키워드','구분']],
+  ['empty','신규 없음 문구', []],
+  ['footer','맺음말', []],
+];
+const DAYS = ['월','화','수','목','금','토','일'];
+const HOURS = Array.from({length:18}, (_, i) => i + 6); // 06~23시 (워크플로 실행 시간대)
+
+/* 예시 데이터: 실제 API 응답 필드 이름 그대로 */
+const SAMPLE = [
+  ['bid_servc', {bidNtceNo:'R26BK01725670', bidNtceOrd:'000', bidNtceNm:'2027년 민원 채팅상담 시스템 구축 용역', ntceInsttNm:'서울특별시', asignBdgtAmt:'350000000', bidClseDt:'2026-10-14 10:00:00', bidNtceDtlUrl:'https://www.g2b.go.kr'}],
+  ['bid_servc', {bidNtceNo:'R26BK01747108', bidNtceOrd:'001', bidNtceNm:'고객센터 상담 품질관리 위탁운영', ntceInsttNm:'한국전력공사', asignBdgtAmt:'1280000000', bidClseDt:'2026-10-20 14:00:00', bidNtceDtlUrl:'https://www.g2b.go.kr'}],
+  ['bid_servc', {bidNtceNo:'R26BK01750001', bidNtceOrd:'000', bidNtceNm:'청소년 심리상담 프로그램 운영', ntceInsttNm:'○○교육청', asignBdgtAmt:'45000000', bidClseDt:'2026-10-11 11:00:00'}],
+  ['bid_thng', {bidNtceNo:'R26BK01760022', bidNtceOrd:'000', bidNtceNm:'상담톡 솔루션 라이선스 구매', ntceInsttNm:'국민건강보험공단', asignBdgtAmt:'62000000', bidClseDt:'2026-10-09 17:00:00', bidNtceDtlUrl:'https://www.g2b.go.kr'}],
+  ['orderplan_servc', {orderPlanUntyNo:'P2026-0412', bizNm:'카카오톡 채널 기반 민원 상담 서비스 도입', orderInsttNm:'국민연금공단', sumOrderAmt:'800000000', orderYm:'202612'}],
+  ['prespec_servc', {bfSpecRgstNo:'R26BD00278510', prdctClsfcNoNm:'AI 챗봇 및 채팅 상담 고도화 사업', rlDminsttNm:'한국수자원공사', asignBdgtAmt:'1500000000', opninRgstClseDt:'2026-10-05 18:00:00'}],
+];
+
+/* =========================================================================
+ * 메시지 로직  (monitor.py 의 match / item_values / render / build_messages 와 동일)
+ * ========================================================================= */
+const NAME_FIELDS = ['bidNtceNm','bizNm','prdctClsfcNoNm','bsnsNm','orderPlanNm','cntrctNm'];
+const ORG_FIELDS = ['ntceInsttNm','orderInsttNm','dminsttNm','rlDminsttNm'];
+const AMOUNT_FIELDS = ['asignBdgtAmt','presmptPrce','sumOrderAmt','orderAmt','bdgtAmt'];
+const URL_FIELDS = ['bidNtceDtlUrl','bidNtceUrl'];
+const first = (it, fs) => { for (const f of fs) { const v = it[f]; if (v != null && v !== '' && v !== 'null') return String(v).trim(); } return ''; };
+const toInt = v => { const n = parseInt(parseFloat(String(v ?? '').replace(/,/g,''))); return isNaN(n) ? 0 : n; };
+const fmtAmount = n => n <= 0 ? '' : n >= 1e8 ? (n/1e8).toLocaleString('ko-KR',{minimumFractionDigits:1,maximumFractionDigits:1}) + '억원' : Math.round(n/1e4).toLocaleString('ko-KR') + '만원';
+
+function match(it, cfg) {
+  const name = first(it, NAME_FIELDS);
+  if (cfg.exclude_keywords.some(x => x && name.includes(x))) return [];
+  const hits = cfg.keywords.filter(k => k && name.includes(k));
+  if (!hits.length) return [];
+  const f = cfg.filters, amt = toInt(first(it, AMOUNT_FIELDS));
+  if (amt && f.min_amount && amt < toInt(f.min_amount)) return [];
+  if (amt && f.max_amount && amt > toInt(f.max_amount)) return [];
+  const orgs = ORG_FIELDS.map(k => it[k] || '').join(' ');
+  if (f.include_orgs.length && !f.include_orgs.some(o => o && orgs.includes(o))) return [];
+  if (f.exclude_orgs.some(o => o && orgs.includes(o))) return [];
+  return hits;
+}
+const SEPARATORS = [' · ', ' | ', ' / '];
+const esc = v => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+function toMrkdwn(t) {
+  return t.replace(/\*\*(.+?)\*\*/g, '*$1*')
+    .replace(/__(.+?)__/g, '_$1_')
+    .replace(/~~(.+?)~~/g, '~$1~')
+    .replace(/\[([^\]\n]+)\]\((https?:\/\/[^)\s]+)\)/g, '<$2|$1>')
+    .replace(/^([ \t]*)#{1,6}[ \t]+(.+)$/gm, '$1*$2*')
+    .replace(/^([ \t]*)[-*][ \t]+/gm, '$1• ');
+}
+function escapeTemplate(t) {
+  const keep = [];
+  t = t.replace(/<(?:https?:|mailto:|[@#!])[^<>\n]*>/g, m => { keep.push(m); return `\u0000${keep.length - 1}\u0000`; });
+  t = t.split('\n').map(line => {
+    const q = line.match(/^>{1,3}/), head = q ? q[0] : '', body = line.slice(head.length);
+    return head + body.replace(/&(?!amp;|lt;|gt;)/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }).join('\n');
+  return t.replace(/\u0000(\d+)\u0000/g, (m, i) => keep[i]);
+}
+function render(tpl, vals) {
+  const text = escapeTemplate(toMrkdwn(tpl)).replace(/\{([^{}\n]+)\}/g, (m, k) => (k in vals ? String(vals[k]) : m));
+  const out = [];
+  for (let line of text.split('\n')) {
+    const sep = SEPARATORS.find(x => line.includes(x));
+    if (sep) {
+      const prefix = line.match(/^\s*(?:>\s*|[•\-]\s+)?/)[0];
+      line = prefix + line.slice(prefix.length).split(sep).map(p => p.trim()).filter(Boolean).join(sep);
+    }
+    line = line.trimEnd();
+    if (!line.trim() || ['>', '•', '-'].includes(line.trim())) continue;
+    out.push(line.replace(/^ +/, m => ' '.repeat(m.length)));
+  }
+  return out.join('\n');
+}
+function itemValues(key, it, hits) {
+  const kind = SOURCES.find(s => s[0] === key)[2];
+  const name = esc(first(it, NAME_FIELDS) || '(사업명 없음)'), url = esc(first(it, URL_FIELDS));
+  const v = {구분: SRC_LABEL[key], 사업명: name, 링크: url, 제목: url.startsWith('http') ? `<${url}|${name}>` : `*${name}*`,
+    기관: esc(first(it, ORG_FIELDS)), 금액: fmtAmount(toInt(first(it, AMOUNT_FIELDS))), 키워드: hits.map(h => '`' + h + '`').join(' '),
+    번호: '', 마감: '', 발주시기: ''};
+  if (kind === 'bid') {
+    const no = first(it, ['bidNtceNo']), o = first(it, ['bidNtceOrd']);
+    if (no) v.번호 = `공고번호 ${no}` + (o ? `-${o}` : '');
+    const c = first(it, ['bidClseDt']); if (c) v.마감 = `마감 ${c.slice(0,16)}`;
+  } else if (kind === 'orderplan') {
+    const ym = first(it, ['orderYm','orderPlanYm']);
+    if (ym) v.발주시기 = ym.length >= 6 ? `발주시기 ${ym.slice(0,4)}.${ym.slice(4,6)}` : `발주시기 ${ym}`;
+  } else {
+    const no = first(it, ['bfSpecRgstNo']); if (no) v.번호 = `사전규격번호 ${no}`;
+    const c = first(it, ['opninRgstClseDt']); if (c) v.마감 = `의견마감 ${c.slice(0,16)}`;
+  }
+  return v;
+}
+function buildMessages(cfg, results, start, end) {
+  const t = cfg.message, total = Object.values(results).reduce((a, b) => a + b.length, 0);
+  const p2 = n => String(n).padStart(2,'0');
+  const md = d => `${p2(d.getMonth()+1)}/${p2(d.getDate())} ${p2(d.getHours())}:${p2(d.getMinutes())}`;
+  const head = render(t.header, {날짜: `${end.getFullYear()}-${p2(end.getMonth()+1)}-${p2(end.getDate())}`, 기간: `${md(start)} ~ ${md(end)}`, 총건수: total});
+  const blocks = [];
+  for (const [key, items] of Object.entries(results)) {
+    if (!items.length) continue;
+    blocks.push([render(t.section, {구분: SRC_LABEL[key], 건수: items.length}), ...items.map(v => render(t.item, v))]);
+  }
+  if (!total && t.empty) blocks.push([render(t.empty, {})]);
+  if (t.footer) blocks.push([render(t.footer, {})]);
+  return [head + blocks.map(b => '\n\n' + b.join('\n')).join('')];
+}
+
+/* 슬랙 mrkdwn → HTML */
+const EMOJI = {mag:'🔍',warning:'⚠️',bell:'🔔',pushpin:'📌',loudspeaker:'📢',memo:'📝',rotating_light:'🚨',star:'⭐',fire:'🔥',white_check_mark:'✅',calendar:'📅',moneybag:'💰',office:'🏢',point_right:'👉',tada:'🎉',eyes:'👀'};
+/* 슬랙 서식(mrkdwn) 미리보기: 슬랙 앱과 같은 규칙으로 그림
+   - *굵게* _기울임_ ~취소선~ `코드` ```코드블록``` > 인용  >>> 이후 전체 인용  <주소|글자> 링크  :이모지:
+   - 마크다운 **, #, [글자](주소) 는 render 단계에서 이미 슬랙 서식으로 바뀜 */
+function slackInline(s) {
+  const tokens = [];
+  const keep = html => { tokens.push(html); return `\u0001${tokens.length - 1}\u0001`; };
+  const toHtml = t => t.replace(/&(?!amp;|lt;|gt;|quot;|#\d+;)/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  // 링크 먼저 떼어내기 (<주소|글자>, <주소>)
+  s = s.replace(/<((?:https?|mailto):[^|>\s]+)(?:\|([^>]+))?>/g, (m, u, t) =>
+    keep(`<a href="${u.replace(/"/g, '&quot;')}" target="_blank" rel="noopener">${fmt(toHtml(t || u))}</a>`));
+  s = s.replace(/`([^`\n]+)`/g, (m, c) => keep(`<code>${toHtml(c)}</code>`));
+  let h = toHtml(s);
+  h = fmt(h).replace(/(^|[\s(])(https?:\/\/[^\s<]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
+  return h.replace(/\u0001(\d+)\u0001/g, (m, i) => tokens[i]);
+  function fmt(x) {
+    return x.replace(/(^|[^\w*])\*(?!\s)([^*\n]+?)\*(?!\w)/g, '$1<b>$2</b>')
+      .replace(/(^|[^\w_])_(?!\s)([^_\n]+?)_(?!\w)/g, '$1<i>$2</i>')
+      .replace(/(^|[^\w~])~(?!\s)([^~\n]+?)~(?!\w)/g, '$1<s>$2</s>')
+      .replace(/:([a-z0-9_+-]+):/g, (m, k) => EMOJI[k] || m);
+  }
+}
+function slackHtml(s) {
+  const out = [];
+  let quoteRest = false;
+  const parts = s.split(/```/);
+  parts.forEach((part, idx) => {
+    if (idx % 2 === 1) { out.push(`<pre>${part.replace(/^\n/, '').replace(/&(?!amp;|lt;|gt;)/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`); return; }
+    const lines = part.split('\n');
+    lines.forEach((line, i) => {
+      let q = quoteRest;
+      if (!q && line.startsWith('>>>')) { quoteRest = q = true; line = line.slice(3).replace(/^ /, ''); }
+      else if (!q && line.startsWith('>')) { q = true; line = line.slice(1).replace(/^ /, ''); }
+      const html = slackInline(line) || '&nbsp;';
+      out.push(q ? `<span class="q">${html}</span>` : html);
+      if (i < lines.length - 1) out.push('\n');
+    });
+  });
+  return out.join('').replace(/<\/span>\n<span class="q">/g, '\n');
+}
+function slackBlock(msgs) {
+  const now = new Date(), tm = `${now.getHours() < 12 ? '오전' : '오후'} ${(now.getHours() % 12) || 12}:${String(now.getMinutes()).padStart(2,'0')}`;
+  return `<div class="who"><div class="av">나</div><span class="nm">나라장터 알림</span><span class="tm">앱 · ${tm}</span></div>` +
+    msgs.map(m => `<div class="msg">${slackHtml(m)}</div>`).join('');
+}
+
+/* =========================================================================
+ * 상태
+ * ========================================================================= */
+const $ = id => document.getElementById(id);
+let cfg = null, original = '', sha = null, gh = null, defaultBranch = 'main';
+const store = {
+  get() { try { return JSON.parse(localStorage.getItem('g2b_admin') || '{}'); } catch { return {}; } },
+  set(v) { try { localStorage.setItem('g2b_admin', JSON.stringify(v)); } catch {} },
+  clear() { try { localStorage.removeItem('g2b_admin'); } catch {} },
+};
+
+function normalize(c) {
+  const out = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+  for (const [k, v] of Object.entries(c || {})) {
+    if (v && typeof v === 'object' && !Array.isArray(v) && typeof out[k] === 'object' && !Array.isArray(out[k])) Object.assign(out[k], v);
+    else out[k] = v;
+  }
+  out.version = 2;
+  return out;
+}
+const serialize = c => JSON.stringify(c, null, 2) + '\n';
+function getPath(o, p) { return p.split('.').reduce((a, k) => a[k], o); }
+function setPath(o, p, v) { const ks = p.split('.'); const last = ks.pop(); ks.reduce((a, k) => a[k], o)[last] = v; }
+
+function changed() {
+  const dirty = cfg && serialize(cfg) !== original;
+  $('dirtyPill').classList.toggle('hide', !dirty);
+  $('btnSave').disabled = !dirty;
+  $('btnReset').disabled = !dirty;
+  renderSample();
+}
+
+/* =========================================================================
+ * 화면 그리기
+ * ========================================================================= */
+function drawAll() {
+  // 조회 대상
+  $('sources').innerHTML = SOURCES.map(([k, l]) =>
+    `<label class="tog"><input type="checkbox" data-src="${k}" ${cfg.sources[k] ? 'checked' : ''}> ${l}</label>`).join('');
+  $('sources').querySelectorAll('input').forEach(i => i.onchange = () => { cfg.sources[i.dataset.src] = i.checked; changed(); });
+  // 칩 목록
+  document.querySelectorAll('.chips').forEach(drawChips);
+  // 금액
+  $('minAmt').value = Math.round(toInt(cfg.filters.min_amount) / 1e4);
+  $('maxAmt').value = Math.round(toInt(cfg.filters.max_amount) / 1e4);
+  // 요일 · 시각
+  $('days').innerHTML = DAYS.map((d, i) => `<button data-d="${i}" class="${cfg.schedule.days.includes(i) ? 'on' : ''}">${d}</button>`).join('');
+  $('days').querySelectorAll('button').forEach(b => b.onclick = () => toggleIn(cfg.schedule.days, +b.dataset.d, b));
+  $('hours').innerHTML = HOURS.map(h => `<button data-h="${h}" class="${cfg.schedule.hours.includes(h) ? 'on' : ''}">${h}시</button>`).join('');
+  $('hours').querySelectorAll('button').forEach(b => b.onclick = () => toggleIn(cfg.schedule.hours, +b.dataset.h, b));
+  $('sendEmpty').checked = !!cfg.send_empty_report;
+  // 템플릿
+  $('tpls').innerHTML = TPL_FIELDS.map(([k, label, vars]) => `
+    <label class="f" for="tpl_${k}">${label}</label>
+    ${vars.length ? `<div class="vars">${vars.map(v => `<button data-t="${k}" data-v="${v}">{${v}}</button>`).join('')}</div>` : ''}
+    <textarea id="tpl_${k}" data-t="${k}" rows="${k === 'item' || k === 'header' ? 2 : 1}"></textarea>`).join('');
+  TPL_FIELDS.forEach(([k]) => { const ta = $('tpl_' + k); ta.value = cfg.message[k] ?? ''; ta.oninput = () => { cfg.message[k] = ta.value; grow(ta); changed(); }; requestAnimationFrame(() => grow(ta)); });
+  $('tpls').querySelectorAll('.vars button').forEach(b => b.onclick = () => {
+    const ta = $('tpl_' + b.dataset.t), ins = `{${b.dataset.v}}`, s = ta.selectionStart ?? ta.value.length;
+    ta.value = ta.value.slice(0, s) + ins + ta.value.slice(ta.selectionEnd ?? s);
+    ta.focus(); ta.selectionStart = ta.selectionEnd = s + ins.length; ta.oninput();
+  });
+  changed();
+}
+function grow(ta) { ta.style.height = 'auto'; ta.style.height = (ta.scrollHeight + 2) + 'px'; }
+function toggleIn(arr, v, btn) {
+  const i = arr.indexOf(v);
+  if (i >= 0) arr.splice(i, 1); else { arr.push(v); arr.sort((a, b) => a - b); }
+  btn.classList.toggle('on', i < 0);
+  changed();
+}
+function drawChips(box) {
+  const path = box.dataset.list, list = getPath(cfg, path);
+  box.innerHTML = list.map((w, i) => `<span class="chip">${w.replace(/</g,'&lt;')}<button title="삭제" data-i="${i}">×</button></span>`).join('') +
+    `<input type="text" placeholder="${list.length ? '' : '입력 후 Enter'}">`;
+  box.querySelectorAll('.chip button').forEach(b => b.onclick = () => { list.splice(+b.dataset.i, 1); drawChips(box); changed(); });
+  const inp = box.querySelector('input');
+  const add = () => {
+    const vals = inp.value.split(',').map(s => s.trim()).filter(s => s && !list.includes(s));
+    if (vals.length) { list.push(...vals); drawChips(box); changed(); box.querySelector('input').focus(); }
+    else inp.value = '';
+  };
+  inp.onkeydown = e => {
+    if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); add(); }
+    else if (e.key === 'Backspace' && !inp.value && list.length) { list.pop(); drawChips(box); changed(); box.querySelector('input').focus(); }
+  };
+  inp.onblur = () => { if (inp.value.trim()) add(); };
+  box.onclick = e => { if (e.target === box) inp.focus(); };
+}
+$('minAmt').oninput = () => { cfg.filters.min_amount = Math.max(0, toInt($('minAmt').value)) * 1e4; changed(); };
+$('maxAmt').oninput = () => { cfg.filters.max_amount = Math.max(0, toInt($('maxAmt').value)) * 1e4; changed(); };
+$('sendEmpty').onchange = () => { cfg.send_empty_report = $('sendEmpty').checked; changed(); };
+$('btnTplDefault').onclick = () => { cfg.message = {...DEFAULT_MESSAGE}; TPL_FIELDS.forEach(([k]) => { $('tpl_' + k).value = cfg.message[k]; grow($('tpl_' + k)); }); changed(); };
+
+function renderSample() {
+  if (!cfg) return;
+  const results = {};
+  let shown = 0;
+  for (const [key, it] of SAMPLE) {
+    if (!cfg.sources[key]) continue;
+    const hits = match(it, cfg);
+    if (!hits.length) continue;
+    (results[key] ||= []).push(itemValues(key, it, hits)); shown++;
+  }
+  const end = new Date(); end.setMinutes(17, 0, 0);
+  const start = new Date(end - 24 * 3600e3);
+  $('sampleOut').innerHTML = slackBlock(buildMessages(cfg, results, start, end));
+  const warn = [];
+  if (!cfg.keywords.length) warn.push('키워드가 비어 있습니다');
+  if (!cfg.schedule.days.length || !cfg.schedule.hours.length) warn.push('발송 요일·시각을 하나 이상 고르세요');
+  if (!Object.values(cfg.sources).some(Boolean)) warn.push('조회 대상을 하나 이상 고르세요');
+  const sch = cfg.schedule.days.length && cfg.schedule.hours.length
+    ? `발송: ${cfg.schedule.days.length === 7 ? '매일' : cfg.schedule.days.map(d => DAYS[d]).join('·')} ${cfg.schedule.hours.map(h => h + '시').join(', ')}` : '';
+  $('sampleNote').innerHTML = `예시 공고 ${SAMPLE.length}건 중 <b>${shown}건</b>이 지금 조건에 맞습니다. ${sch}` +
+    (warn.length ? `<br><span style="color:var(--err)">⚠ ${warn.join(' · ')}</span>` : '');
+}
+
+/* =========================================================================
+ * GitHub API
+ * ========================================================================= */
+async function api(path, opts = {}) {
+  const r = await fetch(`https://api.github.com/repos/${gh.repo}${path}`, {
+    ...opts,
+    headers: {Authorization: `Bearer ${gh.token}`, Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', ...(opts.headers || {})},
+    cache: 'no-store',
+  });
+  if (!r.ok) {
+    let msg = r.status + ''; try { msg += ' ' + (await r.json()).message; } catch {}
+    if (r.status === 401) msg = '토큰이 올바르지 않거나 만료되었습니다 (401)';
+    if (r.status === 403 || r.status === 404) msg += ' — 토큰의 저장소 선택과 권한(Contents, Actions: Read and write)을 확인하세요';
+    throw new Error(msg);
+  }
+  return r.status === 204 ? null : r.json();
+}
+const b64decode = s => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\n/g, '')), c => c.charCodeAt(0)));
+const b64encode = s => { const b = new TextEncoder().encode(s); let bin = ''; b.forEach(x => bin += String.fromCharCode(x)); return btoa(bin); };
+
+async function loadConfig() {
+  const f = await api(`/contents/config.json?ref=${defaultBranch}&t=${Date.now()}`);
+  sha = f.sha;
+  cfg = normalize(JSON.parse(b64decode(f.content)));
+  original = serialize(cfg);
+  drawAll();
+}
+
+$('btnConnect').onclick = async () => {
+  const repo = $('repo').value.trim().replace(/^https?:\/\/github.com\//, '').replace(/\/$/, '');
+  const token = $('token').value.trim();
+  if (!repo || !token) { setStatus('connStatus', '저장소와 토큰을 입력하세요', 'err'); return; }
+  gh = {repo, token};
+  setStatus('connStatus', '연결 중…');
+  try {
+    const info = await api('');
+    defaultBranch = info.default_branch || 'main';
+    await loadConfig();
+    if ($('remember').checked) { store.set({repo, token}); G2B.set(G2B.KEYS.token, token); G2B.set(G2B.KEYS.repo, repo); } else store.clear();
+    G2B.renderNav($('g2bNav'));
+    G2B.discover(token, repo, defaultBranch).then(() => G2B.renderNav($('g2bNav'))).catch(() => {});
+    $('connPill').textContent = '연결됨 · ' + repo; $('connPill').className = 'pill ok';
+    setStatus('connStatus', '연결되었습니다. 설정을 불러왔습니다.', 'ok');
+    $('editor').classList.remove('hide');
+    $('editor').after($('cardConn'));  // 연결 후에는 맨 아래로
+    $('cardConn').querySelector('details').open = false;
+    loadRuns();
+  } catch (e) {
+    gh = null;
+    $('connPill').textContent = '연결 실패'; $('connPill').className = 'pill err';
+    setStatus('connStatus', '연결 실패: ' + e.message, 'err');
+  }
+};
+$('btnForget').onclick = () => { store.clear(); G2B.set(G2B.KEYS.token, ''); G2B.set('g2b_admin', ''); $('token').value = ''; setStatus('connStatus', '저장된 토큰을 지웠습니다.'); };
+
+$('btnReset').onclick = () => { cfg = normalize(JSON.parse(original)); drawAll(); };
+
+$('btnSave').onclick = async () => {
+  const before = JSON.parse(original), what = [];
+  const diff = (a, b) => JSON.stringify(a) !== JSON.stringify(b);
+  if (diff(before.sources, cfg.sources)) what.push('조회 대상');
+  if (diff(before.keywords, cfg.keywords)) what.push('키워드');
+  if (diff(before.exclude_keywords, cfg.exclude_keywords) || diff(before.filters, cfg.filters)) what.push('제외 조건');
+  if (diff(before.schedule, cfg.schedule) || before.send_empty_report !== cfg.send_empty_report) what.push('발송 시간');
+  if (diff(before.message, cfg.message)) what.push('메시지 형식');
+  if (!confirm(`다음 항목을 저장할까요?\n\n· ${what.join('\n· ') || '형식 정리'}\n\n다음 발송부터 적용됩니다.`)) return;
+  $('btnSave').disabled = true;
+  try {
+    const content = serialize(cfg);
+    const r = await api('/contents/config.json', {method: 'PUT', body: JSON.stringify({
+      message: `설정 변경: ${what.join(', ') || '형식 정리'}`, content: b64encode(content), sha, branch: defaultBranch})});
+    sha = r.content.sha; original = content; changed();
+    flash('저장했습니다. 다음 발송부터 적용됩니다.');
+  } catch (e) {
+    if (String(e.message).startsWith('409')) alert('그 사이 다른 곳에서 설정이 바뀌었습니다. 페이지를 새로고침한 뒤 다시 수정해 주세요.');
+    else alert('저장 실패: ' + e.message);
+    changed();
+  }
+};
+
+/* ---- 실제 데이터 테스트 ---- */
+async function dispatch(mode) {
+  if (cfg && serialize(cfg) !== original) {
+    if (!confirm('저장하지 않은 변경이 있습니다. 테스트는 "저장된 설정"으로 실행됩니다.\n그래도 진행할까요? (먼저 저장하려면 취소)')) return;
+  }
+  const rid = Math.random().toString(36).slice(2, 10);
+  const btns = [$('btnPreview'), $('btnSend')]; btns.forEach(b => b.disabled = true);
+  $('liveOut').classList.add('hide'); $('liveLogBox').classList.add('hide');
+  try {
+    await api(`/actions/workflows/${WORKFLOW}/dispatches`, {method: 'POST', body: JSON.stringify({
+      ref: defaultBranch, inputs: {mode, lookback_hours: $('lookback').value, request_id: rid}})});
+    setStatus('liveStatus', '실행 요청을 보냈습니다. GitHub 서버가 시작하기를 기다리는 중…');
+    const run = await waitRun(rid);
+    if (run.conclusion !== 'success') {
+      setStatus('liveStatus', `실행 실패 (${run.conclusion}). <a href="${run.html_url}" target="_blank">GitHub에서 로그 보기</a>`, 'err', true);
+      return;
+    }
+    if (mode === 'send') {
+      setStatus('liveStatus', `슬랙으로 [테스트] 메시지를 보냈습니다. 채널을 확인하세요. <a href="${run.html_url}" target="_blank">실행 기록</a>`, 'ok', true);
+    } else {
+      const p = await fetchPreview(rid);
+      const errs = Object.entries(p.errors || {});
+      const total = Object.values(p.counts || {}).reduce((a, c) => a + c.total, 0);
+      const matched = Object.values(p.counts || {}).reduce((a, c) => a + c.matched, 0);
+      setStatus('liveStatus', `조회기간 ${p.period} · 조회 ${total.toLocaleString()}건 중 <b>${matched}건</b> 매칭` +
+        (errs.length ? ` · <span style="color:var(--err)">실패 ${errs.length}곳</span>` : '') + ` · 슬랙에는 보내지 않았습니다.`, errs.length ? 'err' : 'ok', true);
+      $('liveOut').innerHTML = slackBlock(p.messages || []);
+      $('liveOut').classList.remove('hide');
+      $('liveLog').textContent = (p.log || []).join('\n');
+      $('liveLogBox').classList.remove('hide');
+    }
+  } catch (e) {
+    setStatus('liveStatus', '오류: ' + e.message, 'err');
+  } finally {
+    btns.forEach(b => b.disabled = false);
+    loadRuns();
+  }
+}
+async function waitRun(rid) {
+  const t0 = Date.now();
+  while (Date.now() - t0 < 10 * 60e3) {
+    await sleep(5000);
+    const r = await api(`/actions/workflows/${WORKFLOW}/runs?event=workflow_dispatch&per_page=15`);
+    const run = (r.workflow_runs || []).find(x => (x.display_title || '').includes(rid));
+    if (run) {
+      const sec = Math.round((Date.now() - t0) / 1000);
+      setStatus('liveStatus', `${run.status === 'completed' ? '완료' : run.status === 'in_progress' ? '나라장터 조회 중' : '대기 중'}… (${sec}초) <a href="${run.html_url}" target="_blank">진행 상황</a>`, '', true);
+      if (run.status === 'completed') return run;
+    }
+  }
+  throw new Error('10분이 지나도 끝나지 않았습니다. 최근 실행 목록에서 확인하세요.');
+}
+async function fetchPreview(rid) {
+  for (let i = 0; i < 6; i++) {
+    try {
+      const f = await api(`/contents/previews/latest.json?ref=${defaultBranch}&t=${Date.now()}`);
+      const p = JSON.parse(b64decode(f.content));
+      if (p.request_id === rid) return p;
+    } catch {}
+    await sleep(3000);
+  }
+  throw new Error('미리보기 결과 파일을 찾지 못했습니다. 최근 실행 로그를 확인하세요.');
+}
+$('btnPreview').onclick = () => dispatch('preview');
+$('btnSend').onclick = () => { if (confirm('저장된 설정으로 실제 조회해서 슬랙 채널에 [테스트] 메시지를 보냅니다. 진행할까요?')) dispatch('send'); };
+
+async function loadRuns() {
+  if (!gh) return;
+  try {
+    const r = await api(`/actions/workflows/${WORKFLOW}/runs?per_page=8`);
+    const icon = x => x.status !== 'completed' ? '⏳' : x.conclusion === 'success' ? '✅' : x.conclusion === 'cancelled' || x.conclusion === 'skipped' ? '⏹' : '❌';
+    const title = x => x.event === 'schedule' ? '예약 확인' : (x.display_title || '').startsWith('preview') ? '미리보기' : (x.display_title || '').startsWith('send') ? '테스트 전송' : (x.display_title || '수동 실행');
+    const fmt = d => { const t = new Date(d); return `${t.getMonth()+1}/${t.getDate()} ${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}`; };
+    $('runs').innerHTML = (r.workflow_runs || []).map(x =>
+      `<li><span class="t">${fmt(x.created_at)}</span><span>${icon(x)}</span><a href="${x.html_url}" target="_blank">${title(x)}</a></li>`).join('') || '<li>실행 기록이 없습니다</li>';
+  } catch (e) { $('runs').innerHTML = `<li style="color:var(--err)">${e.message}</li>`; }
+}
+$('btnRuns').onclick = loadRuns;
+$('connPill').style.cursor = 'pointer';
+$('connPill').title = 'GitHub 연결 설정으로 이동';
+$('connPill').onclick = () => $('cardConn').scrollIntoView({behavior: 'smooth'});
+
+/* ---- 공통 ---- */
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+function setStatus(id, msg, cls = '', html = false) { const el = $(id); el.className = 'status ' + cls; el[html ? 'innerHTML' : 'textContent'] = msg; }
+function flash(msg) { $('connPill').textContent = msg; $('connPill').className = 'pill ok'; setTimeout(() => { $('connPill').textContent = '연결됨 · ' + gh.repo; }, 4000); }
+
+$('tabSample').onclick = () => { $('tabSample').classList.add('on'); $('tabLive').classList.remove('on'); $('paneSample').classList.remove('hide'); $('paneLive').classList.add('hide'); };
+$('tabLive').onclick = () => { $('tabLive').classList.add('on'); $('tabSample').classList.remove('on'); $('paneLive').classList.remove('hide'); $('paneSample').classList.add('hide'); };
+window.addEventListener('beforeunload', e => { if (cfg && serialize(cfg) !== original) { e.preventDefault(); e.returnValue = ''; } });
+
+/* 시작: 기억된 연결이 있으면 자동 연결, 없으면 예시 설정으로 미리보기만 */
+(function init() {
+  G2B.renderNav($('g2bNav'));
+  const s = store.get();
+  if (!s.token && G2B.token()) { s.token = G2B.token(); s.repo = s.repo || G2B.get(G2B.KEYS.repo); }  // 다른 나라장터 페이지에서 연결한 토큰 사용
+  if (s.repo) $('repo').value = s.repo;
+  if (s.token) { $('token').value = s.token; $('btnConnect').click(); }
+  else { $('cardConn').querySelector('details').open = true; cfg = normalize({keywords: ['카카오톡','상담톡','상담','채팅']}); original = serialize(cfg); renderSample(); }
+})();
+</script>
+</body>
+</html>
