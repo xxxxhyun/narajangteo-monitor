@@ -35,7 +35,8 @@
   .muted { color: var(--sub); font-size: 13px; }
   .pages { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; margin-top: 16px; }
   .page { border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px;
-    background: #fff; transition: border-color .15s, box-shadow .15s; }
+    background: #fff; transition: border-color .15s, box-shadow .15s; text-decoration: none; color: inherit; }
+  .page .open { color: var(--accent); font-weight: 600; font-size: 13px; }
   .page:hover { border-color: var(--accent); box-shadow: 0 2px 10px rgba(31,95,191,.08); }
   .page .top { display: flex; align-items: center; gap: 10px; }
   .page .ico { width: 36px; height: 36px; border-radius: 10px; background: var(--accent-soft); color: var(--accent);
@@ -77,15 +78,14 @@
     <div class="muted">나라장터 모니터링·분석 관련 페이지 모음입니다. 저장소의 <code>admin</code> 폴더에 새 페이지(.html)를 올리면 여기와 상단 메뉴에 자동으로 추가됩니다.</div>
     <div class="pages" id="pages"></div>
     <div class="hint" style="margin-top:16px">
-      페이지는 <b>이 파일(index.html)과 같은 폴더</b>에 있어야 서로 이동할 수 있어요.
-      “열기”가 안 되면 <b>페이지 파일 받기</b>로 최신 파일을 이 폴더에 받아 주세요.
+      카드를 누르면 해당 페이지로 이동합니다. 페이지 파일은 <b>이 파일(index.html)과 같은 폴더</b>에 있어야 열립니다.
     </div>
   </section>
 
   <div class="side">
     <section class="card" id="connCard">
       <h2>GitHub 연결 <span class="sp"></span><span class="badge b-gray" id="connState">연결 안 됨</span></h2>
-      <div class="muted">모든 나라장터 페이지가 같은 토큰을 함께 씁니다. 한 번 연결하면 다른 페이지에서도 자동으로 연결돼요.</div>
+      <div class="muted">여기서 처음 한 번만 연결하면 모든 나라장터 페이지가 이 연결을 함께 씁니다. 토큰은 이 브라우저에만 저장됩니다.</div>
       <div id="connForm">
         <label class="f">GitHub 토큰</label>
         <input type="password" id="token" placeholder="github_pat_..." autocomplete="off">
@@ -93,18 +93,10 @@
         <input type="text" id="repo" placeholder="내아이디/narajangteo-monitor">
         <div class="row" style="margin-top:12px"><button class="primary" id="btnConnect">연결</button></div>
       </div>
-      <div class="row hidden" id="connDone" style="margin-top:10px">
-        <span class="muted" id="repoLabel"></span><span style="flex:1"></span>
-        <button id="btnChange">변경</button>
+      <div class="hidden" id="connDone" style="margin-top:10px">
+        <div class="muted">저장소 <b id="repoLabel"></b></div>
+        <div class="row" style="margin-top:8px"><button id="btnChange">토큰 변경</button><button id="btnLogout">연결 해제</button></div>
       </div>
-    </section>
-
-    <section class="card">
-      <h2>페이지 파일 받기</h2>
-      <div class="muted" style="margin-bottom:10px">저장소 <code>admin</code> 폴더의 페이지를 최신 버전으로 받습니다.
-        <b>폴더 선택</b>에서 지금 이 파일이 있는 폴더를 고르면 한 번에 덮어씁니다.</div>
-      <div class="row"><button class="primary" id="btnSync" disabled>폴더 선택해서 모두 받기</button></div>
-      <div class="muted" id="syncMsg" style="margin-top:8px"></div>
     </section>
 
     <section class="card">
@@ -118,6 +110,7 @@
 <script>
 /* ================= 공통: 토큰·페이지 목록·상단 메뉴 (모든 나라장터 페이지 동일) ================= */
 const G2B = {
+  VERSION: "v01 · 2026-09-29",   // 배포 버전 (압축파일 이름과 같음)
   KEYS: { token: "g2b.token", repo: "g2b.repo", pages: "g2b.pages" },
   // 이미 알고 있는 페이지 (저장소 목록을 못 불러와도 메뉴에 표시)
   KNOWN: [
@@ -148,7 +141,7 @@ const G2B = {
     const cur = this.current(), repo = this.get(this.KEYS.repo);
     el.innerHTML = `<a class="brand" href="index.html">나라장터</a>` +
       this.pages().map(p => `<a class="item ${p.file === cur ? "on" : ""}" href="${encodeURI(p.file)}">${p.icon ? p.icon + " " : ""}${p.title.replace(/[<>&]/g, "")}</a>`).join("") +
-      `<span class="sp"></span><span class="repo">${repo.replace(/[<>&]/g, "")}</span>`;
+      `<span class="sp"></span><span class="repo">${repo.replace(/[<>&]/g, "")} · ${this.VERSION}</span>`;
   },
   // 저장소 admin 폴더의 .html 목록을 불러와 메뉴에 반영
   async discover(token, repo, branch) {
@@ -199,17 +192,15 @@ const runBadge = (r) => !r ? `<span class="badge b-gray">기록 없음</span>` :
 function renderPages(runsByWf = {}) {
   $("pages").innerHTML = G2B.pages().filter(p => p.file !== "index.html").map(p => {
     const r = p.workflow ? runsByWf[p.workflow] : null;
-    return `<div class="page">
+    return `<a class="page" href="${encodeURI(p.file)}" title="${esc(p.file)} 열기">
       <div class="top"><div class="ico">${esc(p.icon || "📄")}</div>
         <div><h3>${esc(p.title)} ${p.isNew ? `<span class="badge b-new">새 페이지</span>` : ""}${p.missing ? `<span class="badge b-warn">저장소에 없음</span>` : ""}</h3>
         <div class="file">admin/${esc(p.file)}</div></div></div>
       <div class="desc">${esc(p.desc || "설명 없음")}</div>
       ${p.workflow && st.token ? `<div class="run">최근 실행 ${runBadge(r)} ${r ? `${kst(r.created_at)} · ${r.event === "schedule" ? "자동" : "수동"}` : ""}</div>` : ""}
-      <div class="btns"><a class="btn primary" href="${encodeURI(p.file)}">열기</a>
-        ${st.token && !p.missing ? `<button data-dl="${esc(p.file)}">파일 받기</button>` : ""}</div>
-    </div>`;
+      <div class="open">열기 →</div>
+    </a>`;
   }).join("") || `<div class="muted">페이지가 없습니다.</div>`;
-  $("pages").querySelectorAll("[data-dl]").forEach(b => b.onclick = () => downloadOne(b.dataset.dl));
 }
 
 async function connect() {
@@ -225,7 +216,7 @@ async function connect() {
     G2B.set(G2B.KEYS.token, st.token); G2B.set(G2B.KEYS.repo, st.repo);
     $("connState").textContent = "연결됨"; $("connState").className = "badge b-ok";
     $("connForm").classList.add("hidden"); $("connDone").classList.remove("hidden"); $("repoLabel").textContent = st.repo;
-    $("btnSync").disabled = false; $("btnRefresh").disabled = false;
+    $("btnRefresh").disabled = false;
     await refresh();
   } catch (e) { toast(e.message, true); } finally { $("btnConnect").disabled = false; }
 }
@@ -250,42 +241,14 @@ async function loadRuns() {
   } catch (e) { $("runs").innerHTML = `<div class="muted">${esc(e.message)}</div>`; return []; }
 }
 
-async function fetchRaw(file) {
-  const res = await gh(`/repos/${st.repo}/contents/admin/${encodeURIComponent(file)}?ref=${st.branch}&t=${Date.now()}`, "application/vnd.github.raw+json");
-  if (!res.ok) throw new Error(file + " 을 받지 못했습니다");
-  return await res.blob();
-}
-async function downloadOne(file) {
-  try {
-    const a = document.createElement("a"); a.href = URL.createObjectURL(await fetchRaw(file)); a.download = file; a.click();
-    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
-    toast(`${file} 을 받았습니다. 이 파일과 같은 폴더로 옮겨 주세요.`);
-  } catch (e) { toast(e.message, true); }
-}
-async function syncAll() {
-  const files = G2B.pages().filter(p => !p.missing).map(p => p.file);
-  if (!window.showDirectoryPicker) {   // 폴더 선택을 지원하지 않는 브라우저는 하나씩 다운로드
-    for (const f of files) await downloadOne(f);
-    $("syncMsg").textContent = "다운로드 폴더에 받았습니다. 파일들을 이 페이지가 있는 폴더로 옮겨 주세요.";
-    return;
-  }
-  let dir;
-  try { dir = await window.showDirectoryPicker({ id: "g2b-admin", mode: "readwrite" }); } catch { return; }
-  $("btnSync").disabled = true; $("syncMsg").textContent = "받는 중…";
-  try {
-    for (const f of files) {
-      const blob = await fetchRaw(f);
-      const w = await (await dir.getFileHandle(f, { create: true })).createWritable();
-      await w.write(blob); await w.close();
-    }
-    $("syncMsg").textContent = `${files.length}개 파일을 "${dir.name}" 폴더에 최신으로 받았습니다. ${files.includes("index.html") ? "새로고침(⌘R)하면 반영됩니다." : ""}`;
-  } catch (e) { $("syncMsg").textContent = "실패: " + e.message; } finally { $("btnSync").disabled = false; }
-}
-
 $("btnConnect").onclick = connect;
 $("token").addEventListener("keydown", e => e.key === "Enter" && connect());
 $("btnChange").onclick = () => { $("connForm").classList.remove("hidden"); $("connDone").classList.add("hidden"); };
-$("btnSync").onclick = syncAll;
+$("btnLogout").onclick = () => {
+  if (!confirm("이 브라우저에 저장된 GitHub 연결을 지울까요? 모든 나라장터 페이지의 연결이 해제됩니다.")) return;
+  [G2B.KEYS.token, G2B.KEYS.repo, "g2b_admin", "g2bAnalysis.token", "g2bAnalysis.repo"].forEach(k => G2B.set(k, ""));
+  location.reload();
+};
 $("btnRefresh").onclick = () => refresh().then(() => toast("새로고침 완료"));
 
 G2B.renderNav($("g2bNav"));

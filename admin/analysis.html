@@ -96,6 +96,7 @@
   details summary { cursor: pointer; font-weight: 600; font-size: 14px; }
   a.ext { color: var(--accent); }
   td.nw { white-space: nowrap; }
+  .period { font-size: 12px; color: var(--sub); margin: -6px 0 12px; }
   .hidden { display: none !important; }
 </style>
 </head>
@@ -106,21 +107,13 @@
   <span id="connState" class="badge b-gray">연결 안 됨</span>
   <span class="sp"></span>
   <span class="muted" id="repoLabel"></span>
-  <button id="btnConnOpen">GitHub 연결 설정</button>
 </header>
 
 <main>
-  <!-- 연결 -->
-  <section class="card" id="connCard" style="grid-column: 1 / -1">
-    <h2>GitHub 연결</h2>
-    <p class="muted" style="margin:0">기존 모니터링 설정 페이지에서 쓰는 토큰을 그대로 붙여넣으면 됩니다. 토큰은 이 브라우저에만 저장됩니다.</p>
-    <div class="row" style="margin-top:10px; align-items:end">
-      <div style="flex:2; min-width:260px"><label class="f">GitHub 토큰</label>
-        <input type="password" id="token" placeholder="github_pat_..." autocomplete="off"></div>
-      <div style="flex:1; min-width:180px"><label class="f">저장소 <small>(비우면 자동)</small></label>
-        <input type="text" id="repo" placeholder="내아이디/narajangteo-monitor"></div>
-      <button class="primary" id="btnConnect">연결</button>
-    </div>
+  <!-- 연결 안내 (연결은 홈에서만) -->
+  <section class="card hidden" id="connCard" style="grid-column: 1 / -1">
+    <h2>GitHub 연결이 필요합니다</h2>
+    <p class="muted" style="margin:0" id="connMsg">GitHub 연결은 <a class="ext" href="index.html">나라장터 관리 홈</a>에서 처음 한 번만 하면 됩니다. 홈에서 연결한 뒤 이 페이지로 돌아오세요.</p>
   </section>
 
   <div class="col" id="leftCol">
@@ -170,13 +163,15 @@
   <div class="col" id="rightCol">
     <section class="card">
       <h2>분석 결과 <span class="sp"></span><span class="muted" id="resultTime"></span></h2>
+      <div class="period" id="period"></div>
       <div class="stats" id="stats"></div>
       <div class="tabs">
         <button class="on" data-tab="companies">업체별</button>
         <button data-tab="bids">공고별</button>
       </div>
       <div class="row" style="margin-bottom:10px">
-        <input type="text" id="search" placeholder="업체명·공고명·발주기관 검색" style="flex:1; min-width:200px">
+        <input type="text" id="search" placeholder="검색어" style="flex:2; min-width:200px">
+        <input type="text" id="exclude" placeholder="제외 검색어 (쉼표로 여러 개)" style="flex:2; min-width:200px">
         <label class="muted row hidden" style="gap:4px" id="onlyWinWrap"><input type="checkbox" id="onlyWin"> 낙찰 이력 있는 업체만</label>
         <label class="muted row hidden" style="gap:4px" id="onlyLiveWrap"><input type="checkbox" id="onlyLive"> 진행중 계약만</label>
       </div>
@@ -195,6 +190,7 @@
 <script>
 /* ================= 공통: 토큰·페이지 목록·상단 메뉴 (모든 나라장터 페이지 동일) ================= */
 const G2B = {
+  VERSION: "v01 · 2026-09-29",   // 배포 버전 (압축파일 이름과 같음)
   KEYS: { token: "g2b.token", repo: "g2b.repo", pages: "g2b.pages" },
   // 이미 알고 있는 페이지 (저장소 목록을 못 불러와도 메뉴에 표시)
   KNOWN: [
@@ -225,7 +221,7 @@ const G2B = {
     const cur = this.current(), repo = this.get(this.KEYS.repo);
     el.innerHTML = `<a class="brand" href="index.html">나라장터</a>` +
       this.pages().map(p => `<a class="item ${p.file === cur ? "on" : ""}" href="${encodeURI(p.file)}">${p.icon ? p.icon + " " : ""}${p.title.replace(/[<>&]/g, "")}</a>`).join("") +
-      `<span class="sp"></span><span class="repo">${repo.replace(/[<>&]/g, "")}</span>`;
+      `<span class="sp"></span><span class="repo">${repo.replace(/[<>&]/g, "")} · ${this.VERSION}</span>`;
   },
   // 저장소 admin 폴더의 .html 목록을 불러와 메뉴에 반영
   async discover(token, repo, branch) {
@@ -307,27 +303,19 @@ const repoPath = (p) => `/repos/${st.repo}${p}`;
 
 // ---------- 연결 ----------
 async function connect() {
-  st.token = $("token").value.trim();
-  let repo = $("repo").value.trim().replace(/^https?:\/\/github\.com\//, "").replace(/\/$/, "");
-  if (!st.token) return toast("토큰을 입력해 주세요", true);
-  $("btnConnect").disabled = true;
+  st.token = G2B.token() || lsGet("g2bAnalysis.token");
+  st.repo = G2B.get(G2B.KEYS.repo) || lsGet("g2bAnalysis.repo");
+  if (!st.token || !st.repo) { setConnected(false); return; }
   try {
-    if (!repo.includes("/")) {
-      const me = await (await gh("/user")).json();
-      repo = `${me.login}/${repo || "narajangteo-monitor"}`;
-    }
-    st.repo = repo;
     const info = await (await gh(repoPath(""))).json();
     st.branch = info.default_branch || "main";
-    lsSet(LS.token, st.token); lsSet(LS.repo, st.repo);
-    G2B.renderNav($("g2bNav"));
-    G2B.discover(st.token, st.repo, st.branch).then(() => G2B.renderNav($("g2bNav"))).catch(() => {});
-    $("repo").value = st.repo;
     setConnected(true);
+    G2B.discover(st.token, st.repo, st.branch).then(() => G2B.renderNav($("g2bNav"))).catch(() => {});
     await Promise.all([loadConfig(), loadResult(), loadRuns()]);
   } catch (e) {
-    setConnected(false); toast(e.message, true);
-  } finally { $("btnConnect").disabled = false; }
+    setConnected(false);
+    $("connMsg").innerHTML = `연결 실패: ${esc(e.message)} — <a class="ext" href="index.html">나라장터 관리 홈</a>에서 토큰을 다시 연결해 주세요.`;
+  }
 }
 function setConnected(on) {
   $("connState").textContent = on ? "연결됨" : "연결 안 됨";
@@ -482,9 +470,35 @@ const COLS = {
     ["참가업체수", "참가", "num"], ["계약업체(공동수급)", "계약업체(공동수급)"], ["계약완료일", "계약완료일"], ["상태", "상태"],
   ],
 };
+// 검색·제외 검색어가 적용되는 항목
+const SEARCH_FIELDS = {
+  companies: ["업체명", "사업자번호", "주요발주기관", "공동수급 파트너"],
+  bids: ["공고명", "공고번호", "발주기관", "낙찰업체", "계약업체(공동수급)"],
+};
+// 제외 검색어는 이름·기관에만 적용 (예: 공동수급 파트너 이름 때문에 다른 업체가 사라지지 않도록)
+const EXCLUDE_FIELDS = {
+  companies: ["업체명", "주요발주기관"],
+  bids: ["공고명", "발주기관", "낙찰업체"],
+};
+const FILTER_KEY = "g2bAnalysis.filters";
+function loadFilters() {
+  try { st.filters = JSON.parse(lsGet(FILTER_KEY) || "{}"); } catch { st.filters = {}; }
+  applyFilterInputs();
+}
+function applyFilterInputs() {
+  const f = st.filters[st.tab] || {};
+  $("search").value = f.q || ""; $("exclude").value = f.ex || "";
+  $("search").placeholder = st.tab === "companies" ? "검색: 업체명·사업자번호·발주기관" : "검색: 공고명·발주기관·낙찰/계약업체";
+  $("exclude").placeholder = st.tab === "companies" ? "제외: 업체명·발주기관 (쉼표로 여러 개)" : "제외: 공고명·발주기관·낙찰업체 (쉼표로 여러 개, 예: 심리상담, 법률)";
+}
+function saveFilters() {
+  st.filters = st.filters || {};
+  st.filters[st.tab] = { q: $("search").value, ex: $("exclude").value };
+  lsSet(FILTER_KEY, JSON.stringify(st.filters));
+}
 function renderResult() {
   const r = st.result;
-  if (!r) { $("stats").innerHTML = ""; $("tableWrap").innerHTML = `<div class="empty">아직 결과가 없습니다. 첫 실행이 끝나면 여기에 표시됩니다.</div>`; $("resultTime").textContent = ""; return; }
+  if (!r) { $("stats").innerHTML = ""; $("period").textContent = ""; $("tableWrap").innerHTML = `<div class="empty">아직 결과가 없습니다. 첫 실행이 끝나면 여기에 표시됩니다.</div>`; $("resultTime").textContent = ""; return; }
   const comps = r.companies || [], bids = r.bids || [];
   const wins = comps.filter(c => c.낙찰건수 > 0).length;
   const live = bids.filter(b => b.상태 === "진행중").length;
@@ -493,6 +507,13 @@ function renderResult() {
     ["수주 업체", wins.toLocaleString() + "곳"], ["진행중 계약", live.toLocaleString() + "건"]]
     .map(([k, v]) => `<div class="stat"><b>${v}</b><span>${k}</span></div>`).join("");
   $("resultTime").textContent = `낙찰 총액 ${eok(sum)} · ${(r.config?.keywords || []).join(", ")}`;
+  const ymd = (d) => d.toLocaleDateString("sv-SE", { timeZone: "Asia/Seoul" });
+  const end = new Date(r.info.created_at), yrs = Number(r.config?.years) || 3;
+  const begin = new Date(end.getTime() - Math.round(365 * yrs) * 86400e3);
+  const od = bids.map(b => b.개찰일).filter(Boolean).sort();
+  $("period").textContent = `데이터 기간: 공고 게시일 ${ymd(begin)} ~ ${ymd(end)} (최근 ${yrs}년)` +
+    (od.length ? ` · 실제 개찰일 ${od[0]} ~ ${od[od.length - 1]}` : "") +
+    ` · 낙찰금액 ${eok(r.config?.min_amount)} 이상 · 마지막 수집 ${kst(r.info.created_at)}`;
   $("onlyWinWrap").classList.toggle("hidden", st.tab !== "companies");
   $("onlyLiveWrap").classList.toggle("hidden", st.tab !== "bids");
   renderTable();
@@ -501,8 +522,14 @@ function renderTable() {
   const r = st.result; if (!r) return;
   const tab = st.tab, cols = COLS[tab];
   const q = $("search").value.trim().toLowerCase();
+  const ex = $("exclude").value.split(",").map(s => s.trim().toLowerCase()).filter(Boolean);
+  const text = (x) => SEARCH_FIELDS[tab].map(f => String(x[f] ?? "")).join(" ").toLowerCase();
   let rows = (tab === "companies" ? r.companies : r.bids) || [];
-  if (q) rows = rows.filter(x => Object.values(x).some(v => String(v ?? "").toLowerCase().includes(q)));
+  if (q) rows = rows.filter(x => text(x).includes(q));
+  const beforeEx = rows.length;
+  const exText = (x) => EXCLUDE_FIELDS[tab].map(f => String(x[f] ?? "")).join(" ").toLowerCase();
+  if (ex.length) rows = rows.filter(x => { const s = exText(x); return !ex.some(w => s.includes(w)); });
+  const excluded = beforeEx - rows.length;
   if (tab === "companies" && $("onlyWin").checked) rows = rows.filter(x => x.낙찰건수 > 0);
   if (tab === "bids" && $("onlyLive").checked) rows = rows.filter(x => x.상태 === "진행중");
   const [sk, sd] = st.sort[tab];
@@ -529,7 +556,8 @@ function renderTable() {
   }).join("");
   $("tableWrap").innerHTML = rows.length ? `<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`
     : `<div class="empty">조건에 맞는 항목이 없습니다.</div>`;
-  $("tableNote").textContent = rows.length > 500 ? `${rows.length.toLocaleString()}건 중 500건 표시 · 전체는 엑셀에서 확인하세요` : `${rows.length.toLocaleString()}건 · 행을 누르면 상세가 열립니다`;
+  $("tableNote").textContent = (rows.length > 500 ? `${rows.length.toLocaleString()}건 중 500건 표시 · 전체는 엑셀에서 확인하세요` : `${rows.length.toLocaleString()}건 · 행을 누르면 상세가 열립니다`)
+    + (excluded ? ` · 제외 검색어로 ${excluded.toLocaleString()}건 숨김` : "");
   $("tableWrap").querySelectorAll("th").forEach(th => th.onclick = () => {
     const k = th.dataset.k; const [ck, cd] = st.sort[tab];
     st.sort[tab] = [k, ck === k ? -cd : (["업체명", "공고명", "발주기관", "낙찰업체"].includes(k) ? 1 : -1)]; renderTable();
@@ -547,12 +575,15 @@ function detail(tab, row) {
       ${row["공동수급 파트너"] ? ` · 공동수급 파트너 <b>${esc(row["공동수급 파트너"])}</b>` : ""}</div>`;
     const wonOnly = (st.result.bids || []).filter(b => b.낙찰업체 === row.업체명 && !mine.some(m => b.공고번호.startsWith(m.공고번호)));
     if (!mine.length && !wonOnly.length) return extra + `<div class="muted">참여 상세가 아직 수집되지 않았습니다.</div>`;
-    return extra + `<table><thead><tr><th>개찰일</th><th>공고명</th><th>발주기관</th><th class="num">순위</th><th class="num">투찰금액</th><th class="num">기술점수</th><th class="num">종합점수</th></tr></thead><tbody>` +
-      mine.sort((a, b) => String(b.개찰일).localeCompare(String(a.개찰일))).map(p => `<tr class="${p.낙찰 ? "win" : ""}"><td>${esc(p.개찰일)}</td><td>${esc(p.공고명)}</td>
-        <td>${esc(p.발주기관)}</td><td class="num">${esc(p.순위)}${p.낙찰 ? " 낙찰" : ""}</td><td class="num">${eok(p.투찰금액)}</td>
-        <td class="num">${esc(p.기술점수)}</td><td class="num">${esc(p.종합점수)}</td></tr>`).join("") +
-      wonOnly.map(b => `<tr class="win"><td>${esc(b.개찰일)}</td><td>${esc(b.공고명)}</td><td>${esc(b.발주기관)}</td><td class="num">낙찰</td><td class="num">${eok(b.낙찰금액)}</td><td></td><td></td></tr>`).join("") +
-      `</tbody></table>`;
+    // 참여 기록 + (참여 명단이 없는) 낙찰 기록을 합쳐 개찰일 오래된 순으로
+    const items = [
+      ...mine.map(p => ({ 개찰일: p.개찰일, 공고명: p.공고명, 발주기관: p.발주기관, 순위: p.순위, 낙찰: !!p.낙찰, 금액: p.투찰금액, 기술: p.기술점수, 종합: p.종합점수 })),
+      ...wonOnly.map(b => ({ 개찰일: b.개찰일, 공고명: b.공고명, 발주기관: b.발주기관, 순위: "", 낙찰: true, 금액: b.낙찰금액, 기술: "", 종합: "" })),
+    ].sort((a, b) => String(a.개찰일 || "9999").localeCompare(String(b.개찰일 || "9999")));
+    return extra + `<table><thead><tr><th>개찰일 ▲</th><th>공고명</th><th>발주기관</th><th class="num">순위</th><th class="num">투찰금액</th><th class="num">기술점수</th><th class="num">종합점수</th></tr></thead><tbody>` +
+      items.map(p => `<tr class="${p.낙찰 ? "win" : ""}"><td class="nw">${esc(p.개찰일)}</td><td>${esc(p.공고명)}</td>
+        <td>${esc(p.발주기관)}</td><td class="num">${esc(p.순위)}${p.낙찰 ? " 낙찰" : ""}</td><td class="num">${eok(p.금액)}</td>
+        <td class="num">${esc(p.기술)}</td><td class="num">${esc(p.종합)}</td></tr>`).join("") + `</tbody></table>`;
   }
   const no = row.공고번호.split("-")[0];
   const list = parts.filter(p => p.공고번호 === no).sort((a, b) => (Number(a.순위) || 999) - (Number(b.순위) || 999));
@@ -577,9 +608,8 @@ async function downloadXlsx() {
 }
 
 // ---------- 이벤트 ----------
-$("btnConnect").onclick = connect;
-$("token").addEventListener("keydown", e => e.key === "Enter" && connect());
-$("btnConnOpen").onclick = () => { $("connCard").classList.toggle("hidden"); $("token").focus(); };
+$("connState").style.cursor = "pointer"; $("connState").title = "GitHub 연결은 홈에서 관리합니다";
+$("connState").onclick = () => { location.href = "index.html"; };
 $("btnRefresh").onclick = async () => { try { await Promise.all([loadResult(), loadRuns()]); toast("새로고침 완료"); } catch (e) { toast(e.message, true); } };
 $("btnRun").onclick = async () => {
   if (JSON.stringify(readConfig()) !== st.saved && !confirm("저장하지 않은 조건 변경이 있습니다. 저장된 조건으로 실행할까요?")) return;
@@ -592,17 +622,18 @@ $("btnXlsx").onclick = downloadXlsx;
 chipInput("kwInput", "keywords"); chipInput("exInput", "exclude_keywords", "ex");
 document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => {
   document.querySelectorAll(".tabs button").forEach(x => x.classList.toggle("on", x === b));
-  st.tab = b.dataset.tab; st.openRow = null; renderResult();
+  st.tab = b.dataset.tab; st.openRow = null; applyFilterInputs(); renderResult();
 });
-$("search").addEventListener("input", () => renderTable());
+$("search").addEventListener("input", () => { saveFilters(); renderTable(); });
+$("exclude").addEventListener("input", () => { saveFilters(); renderTable(); });
 $("onlyWin").onchange = renderTable; $("onlyLive").onchange = renderTable;
 window.addEventListener("beforeunload", e => { if (st.config && JSON.stringify(readConfig()) !== st.saved) { e.preventDefault(); e.returnValue = ""; } });
 
 // 시작
 st.config = defaultConfig(); renderConfig(); st.saved = JSON.stringify(readConfig());
 G2B.renderNav($("g2bNav"));
-$("token").value = G2B.token() || lsGet("g2bAnalysis.token"); $("repo").value = lsGet(LS.repo) || lsGet("g2bAnalysis.repo");
-if ($("token").value) connect();
+loadFilters();
+connect();
 </script>
 </body>
 </html>
