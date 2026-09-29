@@ -1,27 +1,29 @@
 name: 나라장터 키워드 모니터링
+run-name: "${{ github.event_name == 'workflow_dispatch' && format('{0} {1}', inputs.mode, inputs.request_id) || '예약 확인' }}"
 
 on:
   schedule:
-    # GitHub 시간은 UTC 기준입니다 (한국시간 = UTC + 9시간)
-    - cron: "17 11 * * *"   # 매일 20:17 (한국시간) 본 실행
-    - cron: "17 12 * * *"   # 매일 21:17 (한국시간) 백업 실행 - 본 실행이 성공했으면 자동으로 건너뜀
-  workflow_dispatch:         # Actions 화면의 "Run workflow" 버튼으로 수동 실행
+    # 매시간 17분(한국시간 06~23시)에 깨어나서, config.json 의 발송 요일·시각일 때만 실제로 보냅니다.
+    # 발송 시각은 설정 웹페이지(admin/index.html)에서 바꾸세요. 이 파일은 수정할 필요 없습니다.
+    - cron: "17 21-23,0-14 * * *"
+  workflow_dispatch:
     inputs:
-      dry_run:
-        description: "미리보기만 (슬랙으로 보내지 않음)"
-        type: boolean
-        default: false
+      mode:
+        description: "scheduled=예약과 동일 / preview=미리보기(슬랙 X) / send=슬랙으로 테스트 전송"
+        type: choice
+        options: [preview, send, scheduled]
+        default: preview
       lookback_hours:
-        description: "조회 기간(시간). 비워두면 지난 조회 이후분만"
+        description: "조회 기간(시간). 테스트 기본 24"
         required: false
         default: ""
-      force_run:
-        description: "오늘 이미 보고했어도 다시 실행"
-        type: boolean
-        default: true
+      request_id:
+        description: "설정 웹페이지가 결과를 찾기 위한 값 (비워둬도 됨)"
+        required: false
+        default: ""
 
 permissions:
-  contents: write   # 이미 보낸 공고 기록(state.json) 저장용
+  contents: write   # 발송 기록(state.json)·미리보기 결과 저장용
 
 concurrency:
   group: narajangteo
@@ -34,22 +36,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: 나라장터 조회 및 슬랙 전송
+      - name: 나라장터 조회
         env:
           G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          DRY_RUN: ${{ inputs.dry_run && '1' || '0' }}
-          FORCE_RUN: ${{ inputs.force_run && '1' || '0' }}
+          MODE: ${{ inputs.mode || 'scheduled' }}
           LOOKBACK_HOURS: ${{ inputs.lookback_hours }}
+          REQUEST_ID: ${{ inputs.request_id }}
         run: python3 monitor.py
 
-      - name: 보낸 공고 기록 저장
+      - name: 기록 저장
         if: always()
         run: |
-          if [ -f state.json ] && [ -n "$(git status --porcelain state.json)" ]; then
+          git add -A state.json previews 2>/dev/null || true
+          if ! git diff --cached --quiet; then
             git config user.name "g2b-monitor-bot"
             git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add state.json
-            git commit -m "기록 갱신 $(TZ=Asia/Seoul date +%F)"
-            git push
+            git commit -m "${{ inputs.mode == 'preview' && '미리보기 결과' || '발송 기록' }} $(TZ=Asia/Seoul date '+%F %H:%M')"
+            for i in 1 2 3; do git pull --rebase -q && git push -q && break; sleep 5; done
           fi
