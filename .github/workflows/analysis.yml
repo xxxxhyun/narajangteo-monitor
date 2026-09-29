@@ -1,0 +1,61 @@
+name: 경쟁·파트너 분석
+
+on:
+  # 매일 새벽 5시 13분(한국시간) 확인: 처음 3년치 수집 중이면 이어서 수집, 다 모은 뒤에는 매월 1일에만 갱신
+  schedule:
+    - cron: "13 20 * * *"
+  # Actions 탭에서 수동 실행 (조건을 비워 두면 analysis_config.json 값 사용)
+  workflow_dispatch:
+    inputs:
+      keywords:
+        description: "키워드 (쉼표로 구분, 비우면 설정파일 값)"
+        required: false
+        default: ""
+      years:
+        description: "조회 기간(년, 비우면 설정파일 값)"
+        required: false
+        default: ""
+      min_amount:
+        description: "최소 낙찰금액(원, 비우면 설정파일 값)"
+        required: false
+        default: ""
+      slack:
+        description: "끝나면 슬랙으로 요약 보내기"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: analysis
+  cancel-in-progress: false
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install openpyxl
+      - name: 분석 실행
+        env:
+          G2B_SERVICE_KEY: ${{ secrets.G2B_SERVICE_KEY }}
+          SLACK_WEBHOOK_URL: ${{ (github.event_name == 'schedule' || inputs.slack) && secrets.SLACK_WEBHOOK_URL || '' }}
+          RUN_KIND: ${{ github.event_name == 'schedule' && 'scheduled' || 'manual' }}
+          KEYWORDS: ${{ inputs.keywords }}
+          YEARS: ${{ inputs.years }}
+          MIN_AMOUNT: ${{ inputs.min_amount }}
+        run: python analyze.py
+      - name: 결과 저장
+        if: always()
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add analysis/ || true
+          if git diff --cached --quiet; then echo "변경 없음"; exit 0; fi
+          git commit -m "분석 결과 갱신 $(TZ=Asia/Seoul date '+%Y-%m-%d %H:%M')"
+          for i in 1 2 3; do git pull --rebase -X theirs && git push && break; sleep 5; done
