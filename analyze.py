@@ -48,6 +48,14 @@ BID_OPS = {   # 입찰공고 (아직 낙찰 전인 진행중 공고를 찾기 �
     "용역": "ad/BidPublicInfoService/getBidPblancListInfoServcPPSSrch",
     "물품": "ad/BidPublicInfoService/getBidPblancListInfoThngPPSSrch",
 }
+PLAN_OPS = {  # 발주계획 (공고 전 단계)
+    "용역": "ao/OrderPlanSttusService/getOrderPlanSttusListServcPPSSrch",
+    "물품": "ao/OrderPlanSttusService/getOrderPlanSttusListThngPPSSrch",
+}
+SPEC_OPS = {  # 사전규격 (공고 전 단계)
+    "용역": "ao/HrcspSsstndrdInfoService/getPublicPrcureThngInfoServcPPSSrch",
+    "물품": "ao/HrcspSsstndrdInfoService/getPublicPrcureThngInfoThngPPSSrch",
+}
 CONTRACT_OPS = {
     "용역": "ao/CntrctInfoService/getCntrctInfoListServcPPSSrch",
     "물품": "ao/CntrctInfoService/getCntrctInfoListThngPPSSrch",
@@ -62,8 +70,14 @@ DEFAULT_CONFIG = {
     "slack_top_n": 10,
 }
 
-OPEN_DAYS = 365         # 진행중 입찰은 최근 1년 공고에서 찾음
-STALE_DAYS = 180        # 개찰 후 이 기간이 지나도 낙찰 정보가 없으면 '낙찰 미확인'
+STALE_DAYS = 180        # 개찰 후 이 기간이 지나도 낙찰 정보가 없으면 유찰로 봄
+PRE_DAYS = 364          # 발주계획·사전규격은 최근 1년 등록분 (API 조회기간 최대 1년)
+PRE_STALE_DAYS = 180    # 사전규격 등록 후 / 발주예정월 후 이 기간이 지나도 공고가 없으면 목록에서 뺌
+
+# 상태 (상단 분류와 같음)
+ST_PRE, ST_BID, ST_WON, ST_FAIL = "진행중(발주)", "진행중(입찰)", "종료(낙찰)", "종료(유찰·취소)"
+SERVICE_LABEL = {"ScsbidInfoService": "낙찰정보", "CntrctInfoService": "계약정보", "BidPublicInfoService": "입찰공고",
+                 "OrderPlanSttusService": "발주계획", "HrcspSsstndrdInfoService": "사전규격"}
 RESWEEP_DAYS = 150      # 최근 5개월 공고는 아직 낙찰·계약 전일 수 있어 매번 다시 확인
 TIME_BUDGET = 50 * 60   # 한 번 실행 최대 50분 (남은 건 다음 실행이 이어서)
 REQUEST_TIMEOUT = 30
@@ -163,6 +177,17 @@ def fmt_eok(n):
     return f"{n / 100_000_000:,.1f}억" if n >= 100_000_000 else f"{n / 10_000:,.0f}만"
 
 
+def kw_in(kw, name):
+    """키워드 포함 여부. 영문 약어(AICC 등)는 단어 경계로 확인해 오탐(AICCS, MAICC 등)을 줄임"""
+    if re.fullmatch(r"[A-Za-z0-9]+", kw or ""):
+        return re.search(rf"(?<![A-Za-z]){re.escape(kw)}(?![A-Za-z])", name or "", re.I) is not None
+    return (kw or "").lower() in (name or "").lower()
+
+
+def norm_title(v):
+    return re.sub(r"[\s\[\]()<>{}·ㆍ,._\-]", "", s(v)).lower()
+
+
 def award_key(it):
     return "|".join([s(it.get("bidNtceNo")), s(it.get("bidNtceOrd")) or "000",
                      s(it.get("bidClsfcNo")) or "0", s(it.get("rbidNo")) or "000"])
@@ -195,20 +220,21 @@ class DailyLimit(ApiError):
 
 
 class Api:
-    """API 그룹(as=낙찰정보, ao=계약정보, ad=입찰공고)별 호출 수를 세고 한도를 지킵니다."""
+    """API 서비스(낙찰정보·계약정보·입찰공고·발주계획·사전규격)별 호출 수를 세고 한도를 지킵니다.
+    공공데이터포털의 하루 한도는 서비스마다 따로입니다."""
 
     def __init__(self, service_key, cache, max_calls):
         self.key = service_key
         self.cache = cache
         self.max_calls = max_calls
-        self.run_calls = {"as": 0, "ao": 0, "ad": 0}
+        self.run_calls = {k: 0 for k in SERVICE_LABEL}
         self.blocked = {}          # 그룹 → 사유 (한도 초과 등)
         self.lock = Lock()
         self.deadline = time.monotonic() + TIME_BUDGET
         self.samples = {}          # 오퍼레이션별 첫 응답 항목의 필드 목록 (진단용)
 
     def _group(self, path):
-        return path.split("/")[0]
+        return path.split("/")[1]
 
     def can_call(self, path):
         g = self._group(path)
@@ -299,7 +325,9 @@ AWARD_FIELDS = ["bidNtceNo", "bidNtceOrd", "bidClsfcNo", "rbidNo", "bidNtceNm", 
 
 
 BID_FIELDS = ["bidNtceNo", "bidNtceOrd", "bidNtceNm", "ntceInsttNm", "dminsttNm", "bidNtceDt", "bidClseDt",
-              "opengDt", "asignBdgtAmt", "presmptPrce", "cntrctCnclsMthdNm", "ntceKindNm", "bidNtceDtlUrl"]
+              "opengDt", "asignBdgtAmt", "presmptPrce", "cntrctCnclsMthdNm", "ntceKindNm", "bidNtceDtlUrl",
+              "orderPlanUntyNo", "bfSpecRgstNo"] + \
+             [f"ntceSpecDocUrl{i}" for i in range(1, 11)] + [f"ntceSpecFileNm{i}" for i in range(1, 11)]
 
 
 def sweep(api, cache, cfg, today, kind):
@@ -308,8 +336,9 @@ def sweep(api, cache, cfg, today, kind):
         ops, store, fields, prefix, days, label = AWARD_OPS, cache.setdefault("awards", {}), AWARD_FIELDS, "", \
             int(365 * float(cfg["years"])), "1-2) 낙찰 목록"
     else:
-        ops, store, fields, prefix, days, label = BID_OPS, cache.setdefault("open_bids", {}), BID_FIELDS, "bid|", \
-            min(OPEN_DAYS, int(365 * float(cfg["years"]))), "1-1) 입찰공고(진행중)"
+        # bid2|: 첨부파일 항목을 받기 위해 v03에서 한 번 전체 다시 수집 (이후엔 최근 구간만)
+        ops, store, fields, prefix, days, label = BID_OPS, cache.setdefault("open_bids", {}), BID_FIELDS, "bid2|", \
+            int(365 * float(cfg["years"])), "1-1) 입찰공고"
     swept = cache.setdefault("swept", {})
     start = today - timedelta(days=days)
     resweep_from = today - timedelta(days=RESWEEP_DAYS)
@@ -318,7 +347,7 @@ def sweep(api, cache, cfg, today, kind):
     if kind == "award":
         tstr = today.isoformat()
         for b in cache.get("open_bids", {}).values():
-            if open_stage(b, tstr)[0] == "진행중" and norm_date(b.get("bidNtceDt")):
+            if open_stage(b, tstr)[0] == ST_BID and norm_date(b.get("bidNtceDt")):
                 for kw in b.get("keywords", []):
                     pending_open.add((b.get("type"), kw, norm_date(b.get("bidNtceDt"))))
     todo = []
@@ -363,7 +392,7 @@ def sweep(api, cache, cfg, today, kind):
             continue
         for it in items:
             name = s(it.get("bidNtceNm"))
-            if kw.lower() not in name.lower():  # 서버 검색 결과를 한 번 더 확인
+            if not kw_in(kw, name):  # 서버 검색 결과를 한 번 더 확인
                 continue
             if kind == "award":
                 k = award_key(it)
@@ -394,10 +423,10 @@ def sweep(api, cache, cfg, today, kind):
 
 
 def selected_awards(cache, cfg):
-    """현재 조건(키워드·금액·제외어·기간)에 맞는 낙찰 건"""
+    """현재 조건(키워드·금액·제외어·기간)에 맞는 낙찰 건 (공고번호당 1건)"""
     kws = set(cfg["keywords"])
     start = (datetime.now(KST).date() - timedelta(days=int(365 * float(cfg["years"])))).isoformat()
-    out = {}
+    best = {}
     for k, a in cache.get("awards", {}).items():
         if a.get("type") not in cfg["types"] or not kws & set(a.get("keywords", [])):
             continue
@@ -406,11 +435,18 @@ def selected_awards(cache, cfg):
         name = a.get("bidNtceNm", "")
         if any(x and x in name for x in cfg.get("exclude_keywords", [])):
             continue
+        if not any(kw_in(k_, name) for k_ in a.get("keywords", [])):
+            continue
         d = norm_date(a.get("rlOpengDt")) or norm_date(a.get("fnlSucsfDate"))
         if d and d < start:
             continue
-        out[k] = a
-    return out
+        # 같은 공고번호의 변경공고(차수)·재입찰은 1건으로: 가장 최근 재입찰·차수를 대표로
+        no = a.get("bidNtceNo", "")
+        rank = (s(a.get("rbidNo")).zfill(3), s(a.get("bidNtceOrd")).zfill(3), s(a.get("fnlSucsfDate")))
+        if no in best and best[no][0] >= rank:
+            continue
+        best[no] = (rank, k)
+    return {k: cache["awards"][k] for _, k in best.values()}
 
 
 def bid_amount(b):
@@ -420,7 +456,7 @@ def bid_amount(b):
 def selected_open(cache, cfg, awarded_nos):
     """아직 낙찰 정보가 없는 입찰공고 (조건: 키워드·예산 금액·제외어·기간)"""
     kws = set(cfg["keywords"])
-    start = (datetime.now(KST).date() - timedelta(days=min(OPEN_DAYS, int(365 * float(cfg["years"]))))).isoformat()
+    start = (datetime.now(KST).date() - timedelta(days=int(365 * float(cfg["years"])))).isoformat()
     out = {}
     for no, b in cache.get("open_bids", {}).items():
         if no in awarded_nos or b.get("type") not in cfg["types"] or not kws & set(b.get("keywords", [])):
@@ -430,6 +466,8 @@ def selected_open(cache, cfg, awarded_nos):
         name = b.get("bidNtceNm", "")
         if any(x and x in name for x in cfg.get("exclude_keywords", [])):
             continue
+        if not any(kw_in(k_, name) for k_ in b.get("keywords", [])):
+            continue
         if (norm_date(b.get("bidNtceDt")) or "9999") < start:
             continue
         out["open|" + no] = b
@@ -437,16 +475,137 @@ def selected_open(cache, cfg, awarded_nos):
 
 
 def open_stage(b, today):
-    """진행중 입찰의 세부 단계"""
+    """낙찰 정보가 없는 입찰공고의 상태와 세부 단계"""
     if b.get("cancelled"):
-        return "취소", "취소공고"
+        return ST_FAIL, "취소공고"
     close, opened = norm_date(b.get("bidClseDt")), norm_date(b.get("opengDt"))
     if close and close >= today:
-        return "진행중", "입찰 접수중"
+        return ST_BID, "입찰 접수중"
     ref = opened or close
     if ref and ref < (date.fromisoformat(today) - timedelta(days=STALE_DAYS)).isoformat():
-        return "낙찰 미확인", "개찰 후 낙찰 정보 없음(유찰 가능)"
-    return "진행중", "개찰·평가·협상중"
+        return ST_FAIL, "개찰 후 6개월 넘게 낙찰 정보 없음(유찰)"
+    return ST_BID, "개찰·평가·협상중"
+
+
+PLAN_FIELDS = ["orderPlanUntyNo", "bizNm", "orderInsttNm", "totlmngInsttNm", "sumOrderAmt", "orderYear", "orderMnth",
+               "cntrctMthdNm", "bidNtceNoList", "nticeDt", "chgDt", "orderPlanDtlUrl", "prdctClsfcNoNm", "deptNm"]
+SPEC_FIELDS = ["bfSpecRgstNo", "prdctClsfcNoNm", "orderInsttNm", "rlDminsttNm", "asignBdgtAmt", "rcptDt", "rgstDt",
+               "opninRgstClseDt", "bidNtceNoList", "bsnsDivNm"] + [f"specDocFileUrl{i}" for i in range(1, 6)]
+
+
+def fetch_range(api, op, params, a, b, depth=0):
+    """기간 조회. 기간 초과 오류(07)면 반으로 나눠 다시"""
+    try:
+        return api.paged(op, {**params, "inqryBgnDt": f"{a:%Y%m%d}0000", "inqryEndDt": f"{b:%Y%m%d}2359"})
+    except DailyLimit:
+        raise
+    except ApiError as e:
+        if ("입력범위" in str(e) or str(e).startswith("07")) and depth < 4 and a < b:
+            return [it for x, y in split_window(a, b) for it in fetch_range(api, op, params, x, y, depth + 1)]
+        raise
+
+
+def fetch_pre(api, cache, cfg, today):
+    """0) 공고 전 단계: 발주계획·사전규격 (최근 1년 등록분, 매일 전체 다시 조회 · 키워드당 1~2회)"""
+    start = today - timedelta(days=PRE_DAYS)
+    for kind, ops, kparam, keyf, fields, store_name in [
+        ("발주계획", PLAN_OPS, "bizNm", "orderPlanUntyNo", PLAN_FIELDS, "plans"),
+        ("사전규격", SPEC_OPS, "prdctClsfcNoNm", "bfSpecRgstNo", SPEC_FIELDS, "prespecs"),
+    ]:
+        store = cache.setdefault(store_name, {})
+        got = fail = 0
+        for typ in cfg["types"]:
+            for kw in cfg["keywords"]:
+                if not api.can_call(ops[typ]):
+                    break
+                params = {"inqryDiv": "1", kparam: kw}
+                if kind == "발주계획":   # 발주 예정 연월 범위 (필수)
+                    params.update(orderBgnYm=f"{today.year - 1}01", orderEndYm=f"{today.year + 1}12")
+                try:
+                    items = fetch_range(api, ops[typ], params, start, today)
+                except DailyLimit as e:
+                    log(f"  {kind}: {e}")
+                    break
+                except ApiError as e:
+                    fail += 1
+                    log(f"  [{kind}/{typ}/{kw}] 실패: {e}")
+                    continue
+                for it in items:
+                    key = s(it.get(keyf))
+                    name = s(it.get("bizNm") if kind == "발주계획" else it.get("prdctClsfcNoNm"))
+                    if not key or not kw_in(kw, name):
+                        continue
+                    rec = store.get(key) or {"type": typ, "keywords": []}
+                    rec.update({f: s(it.get(f)) for f in fields if s(it.get(f))})
+                    rec["seen"] = today.isoformat()
+                    if kw not in rec["keywords"]:
+                        rec["keywords"].append(kw)
+                    store[key] = rec
+                    got += 1
+        log(f"0) {kind}: {got}건 확인 · 실패 {fail}")
+
+
+def split_bid_nos(raw):
+    """bidNtceNoList → 공고번호 목록 (발주계획은 번호 뒤에 차수 3자리가 붙음)"""
+    out = []
+    for part in re.split(r"[,\s]+", s(raw)):
+        n = part.split("-")[0]
+        if len(n) == 16 and n[-3:].isdigit():
+            n = n[:-3]
+        if n and n not in out:
+            out.append(n)
+    return out
+
+
+def selected_pre(cache, cfg, bid_nos, plan_nos_in_bids):
+    """진행중(발주): 아직 입찰공고가 나오지 않은 발주계획·사전규격"""
+    today = datetime.now(KST).date()
+    fresh = (today - timedelta(days=3)).isoformat()          # 최근 조회에서 확인된 것만
+    stale = (today - timedelta(days=PRE_STALE_DAYS)).isoformat()
+    kws, min_amt = set(cfg["keywords"]), to_int(cfg["min_amount"])
+    ex = [x for x in cfg.get("exclude_keywords", []) if x]
+    out, spec_titles = {}, set()
+    for no, r in cache.get("prespecs", {}).items():
+        name = r.get("prdctClsfcNoNm", "")
+        if (r.get("seen", "") < fresh or r.get("type") not in cfg["types"] or not kws & set(r.get("keywords", []))
+                or any(x in name for x in ex) or to_int(r.get("asignBdgtAmt")) < min_amt):
+            continue
+        if any(n in bid_nos for n in split_bid_nos(r.get("bidNtceNoList"))) or split_bid_nos(r.get("bidNtceNoList")):
+            continue   # 이미 입찰공고가 나옴
+        if (norm_date(r.get("rcptDt")) or norm_date(r.get("rgstDt")) or "9999") < stale:
+            continue   # 사전규격 후 6개월 넘게 공고 없음
+        org = r.get("rlDminsttNm") or r.get("orderInsttNm", "")
+        spec_titles.add((norm_title(name), norm_title(org)))
+        out["spec|" + no] = {**r, "_kind": "사전규격"}
+    for no, r in cache.get("plans", {}).items():
+        name = r.get("bizNm", "")
+        if (r.get("seen", "") < fresh or r.get("type") not in cfg["types"] or not kws & set(r.get("keywords", []))
+                or any(x in name for x in ex) or to_int(r.get("sumOrderAmt")) < min_amt):
+            continue
+        if split_bid_nos(r.get("bidNtceNoList")) or no in plan_nos_in_bids:
+            continue   # 이미 입찰공고가 나옴
+        ym = f"{s(r.get('orderYear'))}-{s(r.get('orderMnth')).zfill(2)}-01"
+        if len(ym) == 10 and ym < stale[:8] + "01":
+            continue   # 발주 예정월이 6개월 넘게 지났는데 공고 없음
+        if (norm_title(name), norm_title(r.get("orderInsttNm", ""))) in spec_titles:
+            continue   # 같은 사업의 사전규격이 있으면 사전규격으로 표시
+        out["plan|" + no] = {**r, "_kind": "발주계획"}
+    return out
+
+
+def bid_attachments(b):
+    """입찰공고 첨부 (제안요청서·과업지시서 등)"""
+    out = []
+    for i in range(1, 11):
+        url = s(b.get(f"ntceSpecDocUrl{i}"))
+        if url:
+            out.append({"name": s(b.get(f"ntceSpecFileNm{i}")) or f"첨부파일 {i}", "url": url})
+    return out
+
+
+def spec_attachments(r):
+    return [{"name": f"사전규격 문서 {i}", "url": s(r.get(f"specDocFileUrl{i}"))}
+            for i in range(1, 6) if s(r.get(f"specDocFileUrl{i}"))]
 
 
 # ---------------------------------------------------------------------------
@@ -501,7 +660,7 @@ def fetch_details(api, cache, sel, open_sel=None):
     for k, b in sorted((open_sel or {}).items(), key=lambda kv: -bid_amount(kv[1])):
         st, _ = open_stage(b, today)
         opened = norm_date(b.get("opengDt")) or norm_date(b.get("bidClseDt"))
-        if st == "진행중" and opened and opened <= today and checked.get(k) != today:
+        if st == ST_BID and opened and opened <= today and checked.get(k) != today:
             open_todo.append((k, b))
 
     def job_o(kv):
@@ -554,7 +713,7 @@ def fetch_details(api, cache, sel, open_sel=None):
     ]:
         log(f"{label}: 조회할 공고 {len(todo)}건")
         g = op.split("/")[0]
-        room = 0 if not api.can_call(op) else api.max_calls - api.run_calls[g]
+        room = 0 if not api.can_call(op) else api.max_calls - api.run_calls.get(g, 0)
         batch = todo[:max(room - 5, 0)]
         with ThreadPoolExecutor(max_workers=4) as pool:
             errs = [e for e in pool.map(job, batch) if e]
@@ -603,9 +762,22 @@ def contract_end(c):
     return norm_date(m[-1]) if m else ""
 
 
+BID_COLS = ["공고번호", "구분", "상태", "운영중", "진행단계", "공고명", "키워드", "발주기관", "공고일", "입찰마감일", "개찰일",
+            "참가업체수", "낙찰업체", "금액", "금액기준", "낙찰금액", "낙찰률", "계약업체(공동수급)", "계약일", "계약금액",
+            "계약시작일", "계약완료일", "참여업체 수집", "첨부", "링크"]
+
+
+def bid_row(**kw):
+    return {c: kw.get(c, "") for c in BID_COLS}
+
+
 def build(cache, cfg):
     sel = selected_awards(cache, cfg)
-    open_sel = selected_open(cache, cfg, {a["bidNtceNo"] for a in cache.get("awards", {}).values()})
+    awarded = {a["bidNtceNo"] for a in cache.get("awards", {}).values()}
+    open_sel = selected_open(cache, cfg, awarded)
+    store_bids = cache.get("open_bids", {})
+    pre_sel = selected_pre(cache, cfg, set(store_bids) | awarded,
+                           {s(b.get("orderPlanUntyNo")) for b in store_bids.values() if s(b.get("orderPlanUntyNo"))})
     parts, conts = cache.get("participants", {}), cache.get("contracts", {})
     today = datetime.now(KST).date().isoformat()
     bids, rows_p, companies = [], [], {}
@@ -628,7 +800,7 @@ def build(cache, cfg):
         if not cid:
             return None
         c = companies.setdefault(cid, {"업체명": s(name), "사업자번호": norm_bizno(bizno), "참여": set(),
-                                        "낙찰": set(), "낙찰금액": 0, "계약": set(), "진행중계약": set(), "진행중입찰": set(),
+                                        "낙찰": set(), "낙찰금액": 0, "계약": set(), "운영중": set(), "진행중입찰": set(),
                                         "기관": {}, "키워드": set(), "최근낙찰일": "", "공동수급": set()})
         if not c["사업자번호"] and norm_bizno(bizno):
             c["사업자번호"] = norm_bizno(bizno)
@@ -688,34 +860,35 @@ def build(cache, cfg):
                     c["계약"].add(k)
                     beg = contract_start(ct)
                     if end and end >= today and (not beg or beg <= today):
-                        c["진행중계약"].add(k)
+                        c["운영중"].add(k)
                     if len(corps) > 1:
                         c["공동수급"].update(x["name"] for x in corps if x["name"] != cp["name"])
                     touch(c)
-        # 상태: 낙찰 후 계약기간 안이면 사업진행중
+        # 상태: 낙찰 = 종료(낙찰). 오늘이 계약기간 안이면 '운영중' 표시만 추가
+        running = bool(clist) and bool(c_end) and c_end >= today and (not c_start or c_start <= today)
         if not clist:
-            status, stage = "낙찰", ("계약 조회 전" if clist is None else "계약정보 없음")
-        elif c_end and c_end >= today and (not c_start or c_start <= today):
-            status, stage = "사업진행중", f"계약기간 {c_start or '?'} ~ {c_end}"
+            stage = "계약 조회 전" if clist is None else "계약정보 없음"
         elif c_start and c_start > today:
-            status, stage = "낙찰", f"사업 시작 전 ({c_start} ~ {c_end or '?'})"
+            stage = f"사업 시작 전 ({c_start} ~ {c_end or '?'})"
         elif c_end:
-            status, stage = "종료", f"계약기간 {c_start or '?'} ~ {c_end}"
+            stage = f"계약기간 {c_start or '?'} ~ {c_end}"
         else:
-            status, stage = "낙찰", "계약기간 미상"
-        bids.append({
-            "공고번호": a["bidNtceNo"] + "-" + (a.get("bidNtceOrd") or "000"), "구분": a.get("type"),
-            "상태": status, "진행단계": stage,
-            "공고명": a.get("bidNtceNm", ""), "키워드": ", ".join(a.get("keywords", [])),
-            "발주기관": org, "개찰일": opened, "참가업체수": to_int(a.get("prtcptCnum")) or "",
-            "낙찰업체": a.get("bidwinnrNm", ""), "금액": amt, "금액기준": "낙찰금액",
-            "낙찰금액": amt, "낙찰률": to_float(a.get("sucsfbidRate")) or "",
-            "계약업체(공동수급)": ", ".join(c_names) if clist else ("조회 전" if clist is None else "계약정보 없음"),
-            "계약일": ", ".join(sorted({d for d in c_dates if d})),
-            "계약금액": c_amt or "", "계약시작일": c_start, "계약완료일": c_end,
-            "참여업체 수집": "완료" if plist is not None else "조회 전",
-            "링크": a.get("bidNtceDtlUrl", ""),
-        })
+            stage = "계약기간 미상"
+        nb = store_bids.get(a["bidNtceNo"], {})   # 같은 공고의 입찰공고 정보 (공고일·첨부)
+        bids.append(bid_row(
+            공고번호=a["bidNtceNo"] + "-" + (a.get("bidNtceOrd") or "000"), 구분=a.get("type"),
+            상태=ST_WON, 운영중="운영중" if running else "", 진행단계=stage,
+            공고명=a.get("bidNtceNm", ""), 키워드=", ".join(a.get("keywords", [])),
+            발주기관=org, 공고일=norm_date(nb.get("bidNtceDt")), 입찰마감일=norm_date(nb.get("bidClseDt")),
+            개찰일=opened, 참가업체수=to_int(a.get("prtcptCnum")) or "",
+            낙찰업체=a.get("bidwinnrNm", ""), 금액=amt, 금액기준="낙찰금액",
+            낙찰금액=amt, 낙찰률=to_float(a.get("sucsfbidRate")) or "",
+            **{"계약업체(공동수급)": ", ".join(c_names) if clist else ("조회 전" if clist is None else "계약정보 없음"),
+               "참여업체 수집": "완료" if plist is not None else "조회 전"},
+            계약일=", ".join(sorted({d for d in c_dates if d})),
+            계약금액=c_amt or "", 계약시작일=c_start, 계약완료일=c_end,
+            첨부=bid_attachments(nb), 링크=a.get("bidNtceDtlUrl", "") or nb.get("bidNtceDtlUrl", ""),
+        ))
 
     # 진행중 입찰 (아직 낙찰 정보 없음)
     for k, b in sorted(open_sel.items(), key=lambda kv: s(kv[1].get("bidNtceDt")), reverse=True):
@@ -727,7 +900,7 @@ def build(cache, cfg):
             c = company(p.get("prcbdrNm"), p.get("prcbdrBizno"))
             if c:
                 c["참여"].add(k)
-                if status == "진행중":
+                if status == ST_BID:
                     c["진행중입찰"].add(k)
                 c["기관"].setdefault(org, set()).add(k)
                 c["키워드"].update(b.get("keywords", []))
@@ -740,18 +913,36 @@ def build(cache, cfg):
                            "가격점수": to_float(p.get("bidPrceEvlVal")) or "",
                            "종합점수": to_float(p.get("totalEvlAmtVal")) or "",
                            "비고": p.get("rmrk", ""), "낙찰": ""})
-        bids.append({
-            "공고번호": b["bidNtceNo"] + "-" + (b.get("bidNtceOrd") or "000"), "구분": b.get("type"),
-            "상태": status, "진행단계": stage + (f" · 참여 {len(plist)}곳" if plist else ""),
-            "공고명": b.get("bidNtceNm", ""), "키워드": ", ".join(b.get("keywords", [])),
-            "발주기관": org, "개찰일": opened, "참가업체수": len(plist) if plist else "",
-            "낙찰업체": "", "금액": bid_amount(b), "금액기준": "배정예산" if to_int(b.get("asignBdgtAmt")) else "추정가격",
-            "낙찰금액": "", "낙찰률": "",
-            "계약업체(공동수급)": "", "계약일": "", "계약금액": "", "계약시작일": "", "계약완료일": "",
-            "참여업체 수집": ("완료" if plist is not None else "개찰 전·조회 전"),
-            "링크": b.get("bidNtceDtlUrl", ""),
-            "공고일": norm_date(b.get("bidNtceDt")), "입찰마감일": norm_date(b.get("bidClseDt")),
-        })
+        bids.append(bid_row(
+            공고번호=b["bidNtceNo"] + "-" + (b.get("bidNtceOrd") or "000"), 구분=b.get("type"),
+            상태=status, 진행단계=stage + (f" · 참여 {len(plist)}곳" if plist else ""),
+            공고명=b.get("bidNtceNm", ""), 키워드=", ".join(b.get("keywords", [])),
+            발주기관=org, 공고일=norm_date(b.get("bidNtceDt")), 입찰마감일=norm_date(b.get("bidClseDt")),
+            개찰일=opened, 참가업체수=len(plist) if plist else "",
+            금액=bid_amount(b), 금액기준="배정예산" if to_int(b.get("asignBdgtAmt")) else "추정가격",
+            **{"참여업체 수집": "완료" if plist is not None else "개찰 전·조회 전"},
+            첨부=bid_attachments(b), 링크=b.get("bidNtceDtlUrl", ""),
+        ))
+
+    # 진행중(발주): 입찰공고 전인 발주계획·사전규격
+    for k, r in pre_sel.items():
+        if r["_kind"] == "사전규격":
+            ym = norm_date(r.get("opninRgstClseDt"))
+            bids.append(bid_row(
+                공고번호=r.get("bfSpecRgstNo", ""), 구분=r.get("type"), 상태=ST_PRE,
+                진행단계="사전규격" + (f" · 의견마감 {ym}" if ym else ""),
+                공고명=r.get("prdctClsfcNoNm", ""), 키워드=", ".join(r.get("keywords", [])),
+                발주기관=r.get("rlDminsttNm") or r.get("orderInsttNm", ""),
+                공고일=norm_date(r.get("rcptDt")) or norm_date(r.get("rgstDt")),
+                금액=to_int(r.get("asignBdgtAmt")), 금액기준="배정예산", 첨부=spec_attachments(r)))
+        else:
+            ym = f"{s(r.get('orderYear'))}.{s(r.get('orderMnth')).zfill(2)}" if r.get("orderYear") else ""
+            bids.append(bid_row(
+                공고번호=r.get("orderPlanUntyNo", ""), 구분=r.get("type"), 상태=ST_PRE,
+                진행단계="발주계획" + (f" · 발주예정 {ym}" if ym else ""),
+                공고명=r.get("bizNm", ""), 키워드=", ".join(r.get("keywords", [])),
+                발주기관=r.get("orderInsttNm", ""), 공고일=norm_date(r.get("nticeDt")),
+                금액=to_int(r.get("sumOrderAmt")), 금액기준="발주금액", 링크=r.get("orderPlanDtlUrl", "")))
 
     comp_rows = []
     for c in companies.values():
@@ -759,17 +950,18 @@ def build(cache, cfg):
         comp_rows.append({
             "업체명": c["업체명"], "사업자번호": c["사업자번호"], "참여건수": len(c["참여"]),
             "낙찰건수": len(c["낙찰"]), "수주율(%)": round(len(c["낙찰"]) / len(c["참여"]) * 100) if c["참여"] else "",
-            "낙찰금액합계": c["낙찰금액"], "사업진행중": len(c["진행중계약"]), "진행중입찰": len(c["진행중입찰"]),
+            "낙찰금액합계": c["낙찰금액"], "운영중": len(c["운영중"]), "진행중입찰": len(c["진행중입찰"]),
             "최근낙찰일": c["최근낙찰일"],
             "주요발주기관": ", ".join(f"{o}({n})" for o, n in orgs[:3]),
             "관련키워드": ", ".join(sorted(c["키워드"])), "공동수급 파트너": ", ".join(sorted(c["공동수급"]))[:200],
         })
     comp_rows.sort(key=lambda r: (-r["낙찰금액합계"], -r["낙찰건수"], -r["참여건수"]))
     progress = {
-        "공고": len(sel),
+        "낙찰 공고": len(sel),
         "참여업체 수집": sum(1 for k in sel if k in parts),
         "계약 수집": sum(1 for a in sel.values() if a["bidNtceNo"] in conts),
-        "진행중 입찰": sum(1 for x in bids if x["상태"] == "진행중"),
+        **{st: sum(1 for x in bids if x["상태"] == st) for st in (ST_PRE, ST_BID, ST_WON, ST_FAIL)},
+        "운영중": sum(1 for x in bids if x["운영중"]),
     }
     return comp_rows, bids, rows_p, progress
 
@@ -793,7 +985,7 @@ def write_xlsx(path, cfg, comp_rows, bids, rows_p, info):
         cols = list(rows[0].keys()) if rows else ["(결과 없음)"]
         ws.append(cols)
         for r in rows:
-            ws.append([r.get(c, "") for c in cols])
+            ws.append([", ".join(x["name"] for x in v) if isinstance(v := r.get(c, ""), list) else v for c in cols])
         for cell in ws[1]:
             cell.font = Font(bold=True, color="FFFFFF")
             cell.fill = head_fill
@@ -827,9 +1019,9 @@ def write_xlsx(path, cfg, comp_rows, bids, rows_p, info):
         ["종류", ", ".join(cfg["types"])], ["생성", info["created_at"]], [],
         ["수집 진행"], *[[k, v] for k, v in info["progress"].items()], ["상태", info["status"]], [],
         ["읽는 법"],
-        ["업체별 요약", "낙찰금액합계가 큰 순. 사업진행중 = 오늘이 계약기간 안인 사업 수, 진행중입찰 = 낙찰 전 입찰에 참여한 건수"],
-        ["상태", "진행중 = 공고~낙찰 전 / 낙찰 = 낙찰됐고 계약기간 전·미상 / 사업진행중 = 오늘이 계약기간 안 / 종료 = 계약기간 끝남 / 낙찰 미확인 = 개찰 후 6개월 넘게 낙찰 정보 없음(유찰 가능) / 취소"],
-        ["공고별", "금액은 낙찰 건은 낙찰금액, 진행중 건은 배정예산(없으면 추정가격). 진행중 입찰은 최근 1년 공고"],
+        ["업체별 요약", "낙찰금액합계가 큰 순. 운영중 = 오늘이 계약기간 안인 사업 수, 진행중입찰 = 낙찰 전 입찰에 참여한 건수"],
+        ["상태", "진행중(발주) = 발주계획·사전규격만 있고 입찰공고 전 / 진행중(입찰) = 입찰공고~낙찰 전 / 종료(낙찰) = 낙찰됨 (운영중 = 오늘이 계약기간 안) / 종료(유찰·취소) = 취소공고 또는 개찰 후 6개월 넘게 낙찰 정보 없음"],
+        ["공고별", "공고번호당 1행 (변경공고·재입찰 차수는 합침). 금액: 낙찰 건은 낙찰금액, 입찰 중은 배정예산(없으면 추정가격), 발주 단계는 발주금액·배정예산"],
         ["참여 상세", "노란 줄 = 낙찰자. 협상계약은 기술·가격·종합점수 포함"],
         ["한계", "하도급·나라장터 외 자체조달(국방·일부 공기업)은 포함되지 않음. 수의계약은 참여업체 없이 계약만 있음"],
     ]:
@@ -846,10 +1038,13 @@ def slack_summary(cfg, comp_rows, bids, info, new_awards):
     top = [r for r in comp_rows if r["낙찰건수"]][: int(cfg.get("slack_top_n", 10))]
     lines = [f":bar_chart: *나라장터 경쟁·파트너 분석* ({info['created_at'][:10]})",
              f"키워드 {', '.join(cfg['keywords'])} · 최근 {cfg['years']}년 · 낙찰 {fmt_eok(cfg['min_amount'])}↑",
-             f"공고 {len(bids)}건 (진행중 입찰 {sum(1 for b in bids if b['상태'] == '진행중')}건) · 업체 {len(comp_rows)}곳 · {info['status']}", "", "*수주 상위 업체*"]
+             f"공고 {len(bids)}건 = " + " · ".join(f"{st} {sum(1 for b in bids if b['상태'] == st)}"
+                                                 for st in (ST_PRE, ST_BID, ST_WON, ST_FAIL))
+             + f" (운영중 {sum(1 for b in bids if b['운영중'])})",
+             f"업체 {len(comp_rows)}곳 · {info['status']}", "", "*수주 상위 업체*"]
     for i, r in enumerate(top, 1):
         lines.append(f"{i}. {r['업체명']} — 낙찰 {r['낙찰건수']}건 · {fmt_eok(r['낙찰금액합계'])} · 참여 {r['참여건수']}건"
-                     + (f" · 사업진행중 {r['사업진행중']}" if r["사업진행중"] else ""))
+                     + (f" · 운영중 {r['운영중']}" if r["운영중"] else ""))
     if new_awards:
         lines += ["", f"*이번에 새로 확인된 낙찰 {len(new_awards)}건*"]
         for b in new_awards[:10]:
@@ -895,6 +1090,8 @@ def main():
         save_json(CACHE_PATH, cache, compact=True)
         pending_windows = sweep(api, cache, cfg, now.date(), "award")
         save_json(CACHE_PATH, cache, compact=True)
+        fetch_pre(api, cache, cfg, now.date())
+        save_json(CACHE_PATH, cache, compact=True)
         sel = selected_awards(cache, cfg)
         open_sel = selected_open(cache, cfg, {a["bidNtceNo"] for a in cache.get("awards", {}).values()})
         log(f"조건에 맞는 낙찰 공고 {len(sel)}건 · 낙찰 전 입찰공고 {len(open_sel)}건")
@@ -903,8 +1100,8 @@ def main():
         save_json(CACHE_PATH, cache, compact=True)
 
     comp_rows, bids, rows_p, progress = build(cache, cfg)
-    complete = (pending_windows == 0 and pending_bids == 0 and progress["참여업체 수집"] == progress["공고"]
-                and progress["계약 수집"] == progress["공고"])
+    complete = (pending_windows == 0 and pending_bids == 0 and progress["참여업체 수집"] == progress["낙찰 공고"]
+                and progress["계약 수집"] == progress["낙찰 공고"])
     status = "수집 완료" if complete else "수집 중 (남은 건은 다음 실행에서 이어서)"
     cache["complete"] = complete
     cache["config_sig"] = json.dumps(cfg, sort_keys=True, ensure_ascii=False)
@@ -912,8 +1109,9 @@ def main():
 
     info = {"created_at": now.isoformat(timespec="seconds"), "status": status,
             "progress": {"낙찰 목록 남은 구간": pending_windows, "입찰공고 남은 구간": pending_bids, **progress},
-            "calls": api.run_calls, "blocked": api.blocked}
-    log(f"API 호출: 낙찰정보 {api.run_calls['as']}회 · 계약정보 {api.run_calls['ao']}회 · 입찰공고 {api.run_calls['ad']}회")
+            "calls": {SERVICE_LABEL[k]: v for k, v in api.run_calls.items()},
+            "blocked": {SERVICE_LABEL.get(k, k): v for k, v in api.blocked.items()}}
+    log("API 호출: " + " · ".join(f"{SERVICE_LABEL[k]} {v}회" for k, v in api.run_calls.items()))
     for path, fields in api.samples.items():
         log(f"  응답 필드 [{path.split('/')[-1]}]: {', '.join(fields)}")
     log(f"결과: 공고 {len(bids)}건 · 업체 {len(comp_rows)}곳 · 참여기록 {len(rows_p)}줄 · {status}")
