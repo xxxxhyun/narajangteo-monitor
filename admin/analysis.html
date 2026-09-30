@@ -65,7 +65,7 @@
   .bar > i { display: block; height: 100%; background: var(--accent); border-radius: 99px; transition: width .4s; }
   .kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 13px; }
   .kv dt { color: var(--sub); } .kv dd { margin: 0; }
-  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+  .stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 14px; }
   @media (max-width: 640px) { .stats { grid-template-columns: repeat(2, 1fr); } }
   .stat { background: var(--bg); border-radius: 10px; padding: 10px 12px; }
   .stat b { display: block; font-size: 20px; } .stat span { font-size: 12px; color: var(--sub); }
@@ -141,7 +141,7 @@
         <div style="flex:1"><label class="f">조회 기간</label>
           <select id="years"><option value="1">최근 1년</option><option value="2">최근 2년</option>
             <option value="3">최근 3년</option><option value="5">최근 5년</option></select></div>
-        <div style="flex:1"><label class="f">최소 낙찰금액 <small>(억원)</small></label>
+        <div style="flex:1"><label class="f">최소 금액 <small>(억원 · 낙찰금액/예산)</small></label>
           <input type="number" id="minAmt" min="0" step="0.5"></div>
       </div>
       <label class="f">종류</label>
@@ -173,7 +173,9 @@
         <input type="text" id="search" placeholder="검색어" style="flex:2; min-width:200px">
         <input type="text" id="exclude" placeholder="제외 검색어 (쉼표로 여러 개)" style="flex:2; min-width:200px">
         <label class="muted row hidden" style="gap:4px" id="onlyWinWrap"><input type="checkbox" id="onlyWin"> 낙찰 이력 있는 업체만</label>
-        <label class="muted row hidden" style="gap:4px" id="onlyLiveWrap"><input type="checkbox" id="onlyLive"> 진행중 계약만</label>
+        <select id="statusSel" class="hidden" style="width:auto; min-width:150px">
+          <option value="">상태: 전체</option><option>진행중</option><option>낙찰</option><option>사업진행중</option>
+          <option>종료</option><option>낙찰 미확인</option><option>취소</option></select>
       </div>
       <div class="tbl-wrap" id="tableWrap"><div class="empty">아직 결과가 없습니다. 첫 실행이 끝나면 여기에 표시됩니다.</div></div>
       <div class="muted" style="margin-top:8px" id="tableNote"></div>
@@ -252,6 +254,7 @@ const G2B = {
   },
 };
 /* ================================================================================================ */
+G2B.VERSION = "v02 · 2026-09-30";   // 이 파일의 버전 (페이지마다 따로 표시)
 
 const $ = (id) => document.getElementById(id);
 const CONFIG_PATH = "analysis_config.json";
@@ -449,13 +452,15 @@ function renderStatus() {
     <div class="row" style="margin-bottom:10px"><span class="badge ${done ? "b-ok" : "b-warn"}">${done ? "수집 완료" : "수집 중"}</span>
       <span class="muted">마지막 갱신 ${kst(i.created_at)} (${ago(i.created_at)})</span></div>
     ${!done ? `<div class="muted" style="margin-bottom:10px">남은 건은 매일 새벽 5시 자동 실행이 이어서 모읍니다.</div>` : ""}
-    <div class="muted">낙찰 목록 ${p["낙찰 목록 남은 구간"] ? `— 남은 구간 ${p["낙찰 목록 남은 구간"]}개` : "✓"}</div>
-    <div class="bar"><i style="width:${p["낙찰 목록 남은 구간"] ? 50 : 100}%"></i></div>
+    <div class="muted">낙찰 목록 ${p["낙찰 목록 남은 구간"] ? `— 남은 구간 ${p["낙찰 목록 남은 구간"]}개` : "✓"}
+      · 입찰공고(진행중) ${p["입찰공고 남은 구간"] ? `— 남은 구간 ${p["입찰공고 남은 구간"]}개` : "✓"}</div>
+    <div class="bar"><i style="width:${p["낙찰 목록 남은 구간"] || p["입찰공고 남은 구간"] ? 50 : 100}%"></i></div>
     <div class="muted">참여업체 ${p["참여업체 수집"] ?? 0} / ${total}건</div>
     <div class="bar"><i style="width:${pct(p["참여업체 수집"])}%"></i></div>
     <div class="muted">계약정보 ${p["계약 수집"] ?? 0} / ${total}건</div>
     <div class="bar"><i style="width:${pct(p["계약 수집"])}%"></i></div>
-    <dl class="kv"><dt>지난 실행 호출</dt><dd>낙찰정보 ${i.calls?.as ?? 0}회 · 계약정보 ${i.calls?.ao ?? 0}회</dd>
+    <dl class="kv"><dt>지난 실행 호출</dt><dd>낙찰정보 ${i.calls?.as ?? 0}회 · 계약정보 ${i.calls?.ao ?? 0}회 · 입찰공고 ${i.calls?.ad ?? 0}회</dd>
+      <dt>갱신</dt><dd>매일 새벽 5시 자동 (진행중 입찰·낙찰·계약 변동 반영)</dd>
       ${blocked.length ? `<dt>멈춘 이유</dt><dd>${esc(blocked.join(", "))}</dd>` : ""}</dl>`;
   $("log").textContent = (r.log || []).join("\n") || "-";
 }
@@ -463,13 +468,15 @@ function renderStatus() {
 const COLS = {
   companies: [
     ["업체명", "업체명"], ["참여건수", "참여", "num"], ["낙찰건수", "낙찰", "num"], ["수주율(%)", "수주율", "num"],
-    ["낙찰금액합계", "낙찰금액", "money"], ["진행중계약", "진행중", "num"], ["최근낙찰일", "최근 낙찰"], ["주요발주기관", "주요 발주기관"],
+    ["낙찰금액합계", "낙찰금액", "money"], ["사업진행중", "사업진행중", "num"], ["진행중입찰", "진행중 입찰", "num"],
+    ["최근낙찰일", "최근 낙찰"], ["주요발주기관", "주요 발주기관"],
   ],
   bids: [
-    ["개찰일", "개찰일"], ["공고명", "공고명"], ["발주기관", "발주기관"], ["낙찰업체", "낙찰업체"], ["낙찰금액", "낙찰금액", "money"],
-    ["참가업체수", "참가", "num"], ["계약업체(공동수급)", "계약업체(공동수급)"], ["계약완료일", "계약완료일"], ["상태", "상태"],
+    ["상태", "상태"], ["개찰일", "개찰일"], ["공고명", "공고명"], ["발주기관", "발주기관"], ["금액", "금액", "money"],
+    ["참가업체수", "참가", "num"], ["낙찰업체", "낙찰업체"], ["계약업체(공동수급)", "계약업체(공동수급)"], ["계약완료일", "계약완료일"],
   ],
 };
+const STATUS_CLS = { "진행중": "b-run", "낙찰": "b-warn", "사업진행중": "b-ok", "종료": "b-gray", "낙찰 미확인": "b-gray", "취소": "b-bad" };
 // 검색·제외 검색어가 적용되는 항목
 const SEARCH_FIELDS = {
   companies: ["업체명", "사업자번호", "주요발주기관", "공동수급 파트너"],
@@ -488,7 +495,7 @@ function loadFilters() {
 function applyFilterInputs() {
   const f = st.filters[st.tab] || {};
   $("search").value = f.q || ""; $("exclude").value = f.ex || "";
-  $("search").placeholder = st.tab === "companies" ? "검색: 업체명·사업자번호·발주기관" : "검색: 공고명·발주기관·낙찰/계약업체";
+  $("search").placeholder = st.tab === "companies" ? "검색: 업체명·사업자번호·발주기관 (여러 단어는 모두 포함)" : "검색: 공고명·발주기관·업체 (여러 단어는 모두 포함, 예: 고객센터 운영)";
   $("exclude").placeholder = st.tab === "companies" ? "제외: 업체명·발주기관 (쉼표로 여러 개)" : "제외: 공고명·발주기관·낙찰업체 (쉼표로 여러 개, 예: 심리상담, 법률)";
 }
 function saveFilters() {
@@ -501,10 +508,11 @@ function renderResult() {
   if (!r) { $("stats").innerHTML = ""; $("period").textContent = ""; $("tableWrap").innerHTML = `<div class="empty">아직 결과가 없습니다. 첫 실행이 끝나면 여기에 표시됩니다.</div>`; $("resultTime").textContent = ""; return; }
   const comps = r.companies || [], bids = r.bids || [];
   const wins = comps.filter(c => c.낙찰건수 > 0).length;
-  const live = bids.filter(b => b.상태 === "진행중").length;
+  const live = bids.filter(b => b.상태 === "사업진행중").length;
+  const open = bids.filter(b => b.상태 === "진행중").length;
   const sum = bids.reduce((a, b) => a + (Number(b.낙찰금액) || 0), 0);
   $("stats").innerHTML = [["공고", bids.length.toLocaleString() + "건"], ["참여 업체", comps.length.toLocaleString() + "곳"],
-    ["수주 업체", wins.toLocaleString() + "곳"], ["진행중 계약", live.toLocaleString() + "건"]]
+    ["수주 업체", wins.toLocaleString() + "곳"], ["진행중 입찰", open.toLocaleString() + "건"], ["사업진행중", live.toLocaleString() + "건"]]
     .map(([k, v]) => `<div class="stat"><b>${v}</b><span>${k}</span></div>`).join("");
   $("resultTime").textContent = `낙찰 총액 ${eok(sum)} · ${(r.config?.keywords || []).join(", ")}`;
   const ymd = (d) => d.toLocaleDateString("sv-SE", { timeZone: "Asia/Seoul" });
@@ -513,25 +521,25 @@ function renderResult() {
   const od = bids.map(b => b.개찰일).filter(Boolean).sort();
   $("period").textContent = `데이터 기간: 공고 게시일 ${ymd(begin)} ~ ${ymd(end)} (최근 ${yrs}년)` +
     (od.length ? ` · 실제 개찰일 ${od[0]} ~ ${od[od.length - 1]}` : "") +
-    ` · 낙찰금액 ${eok(r.config?.min_amount)} 이상 · 마지막 수집 ${kst(r.info.created_at)}`;
+    ` · 진행중 입찰은 최근 1년 공고 · 금액 ${eok(r.config?.min_amount)} 이상(낙찰 건은 낙찰금액, 진행중은 예산) · 마지막 수집 ${kst(r.info.created_at)}`;
   $("onlyWinWrap").classList.toggle("hidden", st.tab !== "companies");
-  $("onlyLiveWrap").classList.toggle("hidden", st.tab !== "bids");
+  $("statusSel").classList.toggle("hidden", st.tab !== "bids");
   renderTable();
 }
 function renderTable() {
   const r = st.result; if (!r) return;
   const tab = st.tab, cols = COLS[tab];
-  const q = $("search").value.trim().toLowerCase();
+  const qs = $("search").value.split(/[,\s]+/).map(s => s.trim().toLowerCase()).filter(Boolean);  // 여러 단어 = 모두 포함(AND)
   const ex = $("exclude").value.split(",").map(s => s.trim().toLowerCase()).filter(Boolean);
   const text = (x) => SEARCH_FIELDS[tab].map(f => String(x[f] ?? "")).join(" ").toLowerCase();
   let rows = (tab === "companies" ? r.companies : r.bids) || [];
-  if (q) rows = rows.filter(x => text(x).includes(q));
+  if (qs.length) rows = rows.filter(x => { const s = text(x); return qs.every(w => s.includes(w)); });
   const beforeEx = rows.length;
   const exText = (x) => EXCLUDE_FIELDS[tab].map(f => String(x[f] ?? "")).join(" ").toLowerCase();
   if (ex.length) rows = rows.filter(x => { const s = exText(x); return !ex.some(w => s.includes(w)); });
   const excluded = beforeEx - rows.length;
   if (tab === "companies" && $("onlyWin").checked) rows = rows.filter(x => x.낙찰건수 > 0);
-  if (tab === "bids" && $("onlyLive").checked) rows = rows.filter(x => x.상태 === "진행중");
+  if (tab === "bids" && $("statusSel").value) rows = rows.filter(x => x.상태 === $("statusSel").value);
   const [sk, sd] = st.sort[tab];
   rows = [...rows].sort((a, b) => {
     const x = a[sk], y = b[sk];
@@ -544,7 +552,7 @@ function renderTable() {
     let v = row[k];
     if (t === "money") v = eok(v);
     if (k === "공고명" && row.링크) v = `<a class="ext" href="${esc(row.링크)}" target="_blank" rel="noopener">${esc(v)}</a>`;
-    else if (k === "상태") v = v ? `<span class="badge ${v === "진행중" ? "b-ok" : v === "종료" ? "b-gray" : "b-warn"}">${esc(v)}</span>` : "";
+    else if (k === "상태") v = v ? `<span class="badge ${STATUS_CLS[v] || "b-gray"}" title="${esc(row.진행단계 || "")}">${esc(v)}</span>` : "";
     else v = esc(v ?? "");
     return `<td class="${t ? "num" : (/일$|상태/.test(k) ? "nw" : "")}">${v}</td>`;
   };
@@ -588,8 +596,11 @@ function detail(tab, row) {
   const no = row.공고번호.split("-")[0];
   const list = parts.filter(p => p.공고번호 === no).sort((a, b) => (Number(a.순위) || 999) - (Number(b.순위) || 999));
   const extra = `<div class="muted" style="margin-bottom:8px">공고번호 ${esc(row.공고번호)} · ${esc(row.구분)} · 키워드 ${esc(row.키워드)}
-    · 낙찰률 ${esc(row.낙찰률)}% · 계약일 ${esc(row.계약일 || "-")} · 계약금액 ${eok(row.계약금액)}</div>`;
-  if (!list.length) return extra + `<div class="muted">${row["참여업체 수집"] === "완료" ? "참여업체 정보가 없습니다(수의계약 등)." : "참여업체가 아직 수집되지 않았습니다."}</div>`;
+    · <b>${esc(row.상태)}</b> ${esc(row.진행단계 || "")}
+    ${row.상태 === "진행중" || row.상태 === "취소" || row.상태 === "낙찰 미확인"
+      ? ` · 공고일 ${esc(row.공고일 || "-")} · 입찰마감 ${esc(row.입찰마감일 || "-")} · ${esc(row.금액기준)} ${eok(row.금액)}`
+      : ` · 낙찰률 ${esc(row.낙찰률)}% · 계약일 ${esc(row.계약일 || "-")} · 계약금액 ${eok(row.계약금액)}`}</div>`;
+  if (!list.length) return extra + `<div class="muted">${row["참여업체 수집"] === "완료" ? "참여업체 정보가 없습니다(수의계약·개찰 전 등)." : row.상태 === "진행중" ? "아직 개찰 전이거나 참여업체가 공개되지 않았습니다. 개찰 후 매일 자동으로 확인합니다." : "참여업체가 아직 수집되지 않았습니다."}</div>`;
   return extra + `<table><thead><tr><th class="num">순위</th><th>업체명</th><th>사업자번호</th><th class="num">투찰금액</th><th class="num">투찰률</th><th class="num">기술</th><th class="num">가격</th><th class="num">종합</th></tr></thead><tbody>` +
     list.map(p => `<tr class="${p.낙찰 ? "win" : ""}"><td class="num">${esc(p.순위)}</td><td>${esc(p.업체명)}${p.낙찰 ? " <b>(낙찰)</b>" : ""}</td>
       <td>${esc(p.사업자번호)}</td><td class="num">${eok(p.투찰금액)}</td><td class="num">${esc(p.투찰률)}</td><td class="num">${esc(p.기술점수)}</td>
@@ -626,7 +637,7 @@ document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => {
 });
 $("search").addEventListener("input", () => { saveFilters(); renderTable(); });
 $("exclude").addEventListener("input", () => { saveFilters(); renderTable(); });
-$("onlyWin").onchange = renderTable; $("onlyLive").onchange = renderTable;
+$("onlyWin").onchange = renderTable; $("statusSel").onchange = renderTable;
 window.addEventListener("beforeunload", e => { if (st.config && JSON.stringify(readConfig()) !== st.saved) { e.preventDefault(); e.returnValue = ""; } });
 
 // 시작
