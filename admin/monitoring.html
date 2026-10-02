@@ -7,6 +7,7 @@
 <meta name="description" content="입찰공고·발주계획·사전규격 키워드 모니터링 슬랙 알림 설정">
 <meta name="g2b-workflow" content="narajangteo.yml">
 <meta name="g2b-icon" content="🔔">
+<meta name="robots" content="noindex, nofollow">
 <style>
 :root{
   --bg:#f6f7f9; --card:#fff; --ink:#1d2129; --sub:#5b6472; --line:#e3e6eb;
@@ -116,8 +117,9 @@ details.fmt{margin-bottom:6px}
 <section>
   <!-- 연결 -->
   <div class="card hide" id="cardConn">
-    <h2>GitHub 연결이 필요합니다</h2>
-    <p class="desc">GitHub 연결은 <a href="index.html">나라장터 관리 홈</a>에서 처음 한 번만 하면 됩니다. 홈에서 연결한 뒤 이 페이지로 돌아오세요.</p>
+    <h2>관리자 전용 페이지입니다</h2>
+    <p class="desc">키워드 모니터링 설정은 관리자만 할 수 있습니다. 관리자라면 <a href="index.html">나라장터 관리 홈</a>에서 GitHub 토큰으로 연결한 뒤 이 페이지로 돌아오세요.
+      분석 결과 조회는 <a href="analysis.html">경쟁·파트너 분석</a>에서 누구나 할 수 있어요.</p>
     <div id="connStatus" class="status"></div>
   </div>
 
@@ -239,10 +241,10 @@ const G2B = {
   // 이미 알고 있는 페이지 (저장소 목록을 못 불러와도 메뉴에 표시)
   KNOWN: [
     { file: "index.html", title: "홈", icon: "🏠", order: 0, desc: "나라장터 관련 페이지 모음" },
-    { file: "monitoring.html", title: "키워드 모니터링", icon: "🔔", order: 1, workflow: "narajangteo.yml",
+    { file: "monitoring.html", title: "키워드 모니터링", icon: "🔔", order: 1, workflow: "narajangteo.yml", adminOnly: true,
       desc: "입찰공고·발주계획·사전규격에서 키워드에 맞는 신규 건을 슬랙으로 보고. 키워드·제외 조건·발송 시각·메시지 형식 설정" },
     { file: "analysis.html", title: "경쟁·파트너 분석", icon: "📊", order: 2, workflow: "analysis.yml",
-      desc: "유사 사업의 참여업체·낙찰업체·계약업체를 모아 업체별로 정리. 조건 설정, 실행, 진행 상황, 결과 표·엑셀" },
+      desc: "유사 사업의 발주·입찰·낙찰·계약 현황과 참여업체·낙찰업체를 업체별·공고별로 조회하고 엑셀로 받기. 누구나 조회 가능 (조건 설정·실행은 관리자)" },
   ],
   get(k) { try { return localStorage.getItem(k) || ""; } catch { return ""; } },
   set(k, v) { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch {} },
@@ -265,11 +267,16 @@ const G2B = {
     const cur = this.current(), repo = this.get(this.KEYS.repo);
     el.innerHTML = `<a class="brand" href="index.html">나라장터</a>` +
       this.pages().map(p => `<a class="item ${p.file === cur ? "on" : ""}" href="${encodeURI(p.file)}">${p.icon ? p.icon + " " : ""}${p.title.replace(/[<>&]/g, "")}</a>`).join("") +
-      `<span class="sp"></span><span class="repo">${repo.replace(/[<>&]/g, "")} · ${this.VERSION}</span>`;
+      `<span class="sp"></span><span class="repo">${repo ? repo.replace(/[<>&]/g, "") + " · " : ""}${this.VERSION}</span>`;
   },
   // 저장소 admin 폴더의 .html 목록을 불러와 메뉴에 반영
-  async discover(token, repo, branch) {
-    const h = { Authorization: "Bearer " + token, Accept: "application/vnd.github+json" };
+  // 공개 저장소 주소 (GitHub Pages면 주소에서, 아니면 저장된 값)
+  publicRepo() {
+    if (location.hostname.endsWith(".github.io")) return location.hostname.split(".")[0] + "/" + location.pathname.split("/")[1];
+    return this.get(this.KEYS.repo) || "xxxxhyun/narajangteo-monitor";
+  },
+  async discover(token, repo, branch) {   // token 없이도 공개 저장소면 동작
+    const h = { Accept: "application/vnd.github+json", ...(token ? { Authorization: "Bearer " + token } : {}) };
     const res = await fetch(`https://api.github.com/repos/${repo}/contents/admin?ref=${branch}&t=${Date.now()}`, { headers: h });
     if (!res.ok) throw new Error("admin 폴더를 읽지 못했습니다 (" + res.status + ")");
     const files = (await res.json()).filter(f => f.type === "file" && /\.html?$/i.test(f.name));
@@ -296,6 +303,7 @@ const G2B = {
   },
 };
 /* ================================================================================================ */
+G2B.VERSION = "v04 · 2026-10-02";   // 이 파일의 버전
 
 /* =========================================================================
  * 상수 · 기본값  (monitor.py 와 동일하게 유지)

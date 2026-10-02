@@ -7,6 +7,7 @@
 <meta name="description" content="유사 사업의 참여업체·낙찰업체·계약업체를 모아 업체별로 정리">
 <meta name="g2b-workflow" content="analysis.yml">
 <meta name="g2b-icon" content="📊">
+<meta name="robots" content="noindex, nofollow">
 <style>
   :root {
     --bg: #f5f6f8; --card: #fff; --ink: #1d2433; --sub: #5d6778; --line: #e3e6ec;
@@ -30,6 +31,9 @@
     display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
   header h1 { font-size: 18px; margin: 0; }
   header .sp { flex: 1; }
+  body.viewer #leftCol, body.viewer #logCard, body.viewer .admin-only { display: none !important; }
+  body.viewer main { grid-template-columns: minmax(0, 1fr) !important; }
+  .mode { font-size: 12px; }
   main { padding: 16px 24px 60px; display: grid; gap: 16px;
     grid-template-columns: 400px minmax(0, 1fr); align-items: start; }
   @media (max-width: 1100px) { main { grid-template-columns: 1fr; padding: 16px; } }
@@ -123,16 +127,16 @@
 <nav class="g2b-nav" id="g2bNav"></nav>
 <header>
   <h1>나라장터 경쟁·파트너 분석</h1>
-  <span id="connState" class="badge b-gray">연결 안 됨</span>
+  <span id="connState" class="badge b-gray">조회 모드</span>
   <span class="sp"></span>
-  <span class="muted" id="repoLabel"></span>
+  <span class="muted mode" id="repoLabel">조회 모드 · 설정·실행은 관리자만 할 수 있습니다</span>
 </header>
 
 <main>
-  <!-- 연결 안내 (연결은 홈에서만) -->
+  <!-- 관리자 연결 실패 안내 -->
   <section class="card hidden" id="connCard" style="grid-column: 1 / -1">
-    <h2>GitHub 연결이 필요합니다</h2>
-    <p class="muted" style="margin:0" id="connMsg">GitHub 연결은 <a class="ext" href="index.html">나라장터 관리 홈</a>에서 처음 한 번만 하면 됩니다. 홈에서 연결한 뒤 이 페이지로 돌아오세요.</p>
+    <h2>관리자 연결 실패</h2>
+    <p class="muted" style="margin:0" id="connMsg"></p>
   </section>
 
   <div class="col" id="leftCol">
@@ -142,7 +146,6 @@
       <div id="statusBox"><div class="muted">연결하면 표시됩니다.</div></div>
       <div class="row" style="margin-top:14px">
         <button class="primary" id="btnRun" disabled>지금 실행</button>
-        <button id="btnXlsx" disabled>엑셀 다운로드</button>
         <label class="muted row" style="gap:4px"><input type="checkbox" id="slackOnRun" checked> 끝나면 슬랙 요약</label>
       </div>
       <h2 style="margin-top:18px">최근 실행</h2>
@@ -181,7 +184,8 @@
 
   <div class="col" id="rightCol">
     <section class="card">
-      <h2>분석 결과 <span class="sp"></span><span class="muted" id="resultTime"></span></h2>
+      <h2>분석 결과 <span class="sp"></span><span class="muted" id="resultTime"></span>
+        <button id="btnXlsx" disabled>엑셀 다운로드</button></h2>
       <div class="period" id="period"></div>
       <div class="stats" id="stats"></div>
       <div class="tabs">
@@ -200,7 +204,7 @@
       <div class="muted" style="margin-top:8px" id="tableNote"></div>
     </section>
 
-    <section class="card">
+    <section class="card" id="logCard">
       <details id="logBox"><summary>마지막 실행 로그</summary>
         <pre class="log" id="log" style="margin-top:10px">-</pre></details>
     </section>
@@ -218,10 +222,10 @@ const G2B = {
   // 이미 알고 있는 페이지 (저장소 목록을 못 불러와도 메뉴에 표시)
   KNOWN: [
     { file: "index.html", title: "홈", icon: "🏠", order: 0, desc: "나라장터 관련 페이지 모음" },
-    { file: "monitoring.html", title: "키워드 모니터링", icon: "🔔", order: 1, workflow: "narajangteo.yml",
+    { file: "monitoring.html", title: "키워드 모니터링", icon: "🔔", order: 1, workflow: "narajangteo.yml", adminOnly: true,
       desc: "입찰공고·발주계획·사전규격에서 키워드에 맞는 신규 건을 슬랙으로 보고. 키워드·제외 조건·발송 시각·메시지 형식 설정" },
     { file: "analysis.html", title: "경쟁·파트너 분석", icon: "📊", order: 2, workflow: "analysis.yml",
-      desc: "유사 사업의 참여업체·낙찰업체·계약업체를 모아 업체별로 정리. 조건 설정, 실행, 진행 상황, 결과 표·엑셀" },
+      desc: "유사 사업의 발주·입찰·낙찰·계약 현황과 참여업체·낙찰업체를 업체별·공고별로 조회하고 엑셀로 받기. 누구나 조회 가능 (조건 설정·실행은 관리자)" },
   ],
   get(k) { try { return localStorage.getItem(k) || ""; } catch { return ""; } },
   set(k, v) { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch {} },
@@ -244,11 +248,16 @@ const G2B = {
     const cur = this.current(), repo = this.get(this.KEYS.repo);
     el.innerHTML = `<a class="brand" href="index.html">나라장터</a>` +
       this.pages().map(p => `<a class="item ${p.file === cur ? "on" : ""}" href="${encodeURI(p.file)}">${p.icon ? p.icon + " " : ""}${p.title.replace(/[<>&]/g, "")}</a>`).join("") +
-      `<span class="sp"></span><span class="repo">${repo.replace(/[<>&]/g, "")} · ${this.VERSION}</span>`;
+      `<span class="sp"></span><span class="repo">${repo ? repo.replace(/[<>&]/g, "") + " · " : ""}${this.VERSION}</span>`;
   },
   // 저장소 admin 폴더의 .html 목록을 불러와 메뉴에 반영
-  async discover(token, repo, branch) {
-    const h = { Authorization: "Bearer " + token, Accept: "application/vnd.github+json" };
+  // 공개 저장소 주소 (GitHub Pages면 주소에서, 아니면 저장된 값)
+  publicRepo() {
+    if (location.hostname.endsWith(".github.io")) return location.hostname.split(".")[0] + "/" + location.pathname.split("/")[1];
+    return this.get(this.KEYS.repo) || "xxxxhyun/narajangteo-monitor";
+  },
+  async discover(token, repo, branch) {   // token 없이도 공개 저장소면 동작
+    const h = { Accept: "application/vnd.github+json", ...(token ? { Authorization: "Bearer " + token } : {}) };
     const res = await fetch(`https://api.github.com/repos/${repo}/contents/admin?ref=${branch}&t=${Date.now()}`, { headers: h });
     if (!res.ok) throw new Error("admin 폴더를 읽지 못했습니다 (" + res.status + ")");
     const files = (await res.json()).filter(f => f.type === "file" && /\.html?$/i.test(f.name));
@@ -275,11 +284,21 @@ const G2B = {
   },
 };
 /* ================================================================================================ */
-G2B.VERSION = "v03 · 2026-09-30";   // 이 파일의 버전 (페이지마다 따로 표시)
+G2B.VERSION = "v04 · 2026-10-02";   // 이 파일의 버전 (페이지마다 따로 표시)
 
 const $ = (id) => document.getElementById(id);
 const CONFIG_PATH = "analysis_config.json";
 const RESULT_PATH = "analysis/result.json";
+// 조회 모드: 공개 저장소의 결과 파일을 토큰 없이 읽음 (GitHub Pages면 같은 사이트, 아니면 raw 주소)
+const DEFAULT_REPO = "xxxxhyun/narajangteo-monitor";
+function publicRepo() {
+  if (location.hostname.endsWith(".github.io")) return location.hostname.split(".")[0] + "/" + location.pathname.split("/")[1];
+  return G2B.get(G2B.KEYS.repo) || DEFAULT_REPO;
+}
+function publicUrl(path) {
+  if (location.hostname.endsWith(".github.io")) return new URL("../" + path, location.href).href + "?t=" + Date.now();
+  return `https://raw.githubusercontent.com/${publicRepo()}/${st.branch || "main"}/${path}?t=${Date.now()}`;
+}
 const XLSX_PATH = "analysis/result.xlsx";
 const WORKFLOW = "analysis.yml";
 const LS = { token: G2B.KEYS.token, repo: G2B.KEYS.repo };
@@ -329,7 +348,7 @@ const repoPath = (p) => `/repos/${st.repo}${p}`;
 async function connect() {
   st.token = G2B.token() || lsGet("g2bAnalysis.token");
   st.repo = G2B.get(G2B.KEYS.repo) || lsGet("g2bAnalysis.repo");
-  if (!st.token || !st.repo) { setConnected(false); return; }
+  if (!st.token || !st.repo) { setConnected(false); return loadResult(); }   // 조회 모드
   try {
     const info = await (await gh(repoPath(""))).json();
     st.branch = info.default_branch || "main";
@@ -338,14 +357,18 @@ async function connect() {
     await Promise.all([loadConfig(), loadResult(), loadRuns()]);
   } catch (e) {
     setConnected(false);
-    $("connMsg").innerHTML = `연결 실패: ${esc(e.message)} — <a class="ext" href="index.html">나라장터 관리 홈</a>에서 토큰을 다시 연결해 주세요.`;
+    $("connCard").classList.remove("hidden");
+    $("connMsg").innerHTML = `${esc(e.message)} — 조회 모드로 보여드립니다. 관리자라면 <a class="ext" href="index.html">홈</a>에서 토큰을 다시 연결해 주세요.`;
+    st.token = "";
+    loadResult().catch(err => toast(err.message, true));
   }
 }
 function setConnected(on) {
-  $("connState").textContent = on ? "연결됨" : "연결 안 됨";
+  document.body.classList.toggle("viewer", !on);
+  $("connState").textContent = on ? "관리자 모드" : "조회 모드";
   $("connState").className = "badge " + (on ? "b-ok" : "b-gray");
-  $("repoLabel").textContent = on ? st.repo : "";
-  $("connCard").classList.toggle("hidden", on);
+  $("repoLabel").textContent = on ? st.repo : "조회 모드 · 설정·실행은 관리자만 할 수 있습니다";
+  if (on) $("connCard").classList.add("hidden");
   ["btnRun", "btnSave", "btnSaveRun"].forEach(id => $(id).disabled = !on);
 }
 
@@ -458,8 +481,11 @@ function stopPoll() { clearInterval(st.pollTimer); st.pollTimer = null; }
 async function loadResult() {
   showLoading("결과 불러오는 중…", 15);
   try {
-    const res = await gh(repoPath(`/contents/${RESULT_PATH}?ref=${st.branch}&t=${Date.now()}`), { allow404: true, accept: "application/vnd.github.raw+json" });
+    const res = st.token
+      ? await gh(repoPath(`/contents/${RESULT_PATH}?ref=${st.branch}&t=${Date.now()}`), { allow404: true, accept: "application/vnd.github.raw+json" })
+      : await fetch(publicUrl(RESULT_PATH), { cache: "no-store" });
     if (res.status === 404) { st.result = null; $("btnXlsx").disabled = true; renderStatus(); renderResult(); return; }
+    if (!res.ok) throw new Error(`결과를 불러오지 못했습니다 (${res.status}). 저장소가 공개 상태인지 확인해 주세요.`);
     showLoading("결과 내려받는 중…", 45);
     const text = await res.text();
     showLoading("결과 정리 중…", 75);
@@ -741,7 +767,10 @@ function detail(tab, row) {
 async function downloadXlsx() {
   $("btnXlsx").disabled = true;
   try {
-    const res = await gh(repoPath(`/contents/${XLSX_PATH}?ref=${st.branch}&t=${Date.now()}`), { accept: "application/vnd.github.raw+json" });
+    const res = st.token
+      ? await gh(repoPath(`/contents/${XLSX_PATH}?ref=${st.branch}&t=${Date.now()}`), { accept: "application/vnd.github.raw+json" })
+      : await fetch(publicUrl(XLSX_PATH), { cache: "no-store" });
+    if (!res.ok) throw new Error(`엑셀을 받지 못했습니다 (${res.status})`);
     const blob = await res.blob();
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
@@ -751,7 +780,7 @@ async function downloadXlsx() {
 }
 
 // ---------- 이벤트 ----------
-$("connState").style.cursor = "pointer"; $("connState").title = "GitHub 연결은 홈에서 관리합니다";
+$("connState").style.cursor = "pointer"; $("connState").title = "관리자 연결은 홈에서 합니다";
 $("connState").onclick = () => { location.href = "index.html"; };
 $("btnRefresh").onclick = async () => { try { await Promise.all([loadResult(), loadRuns()]); toast("새로고침 완료"); } catch (e) { toast(e.message, true); } };
 $("btnRun").onclick = async () => {
@@ -778,7 +807,8 @@ window.addEventListener("beforeunload", e => { if (st.config && JSON.stringify(r
 st.config = defaultConfig(); renderConfig(); st.saved = JSON.stringify(readConfig());
 G2B.renderNav($("g2bNav"));
 loadFilters();
-connect();
+setConnected(false);
+connect().catch(e => toast(e.message, true));
 </script>
 </body>
 </html>

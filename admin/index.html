@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>나라장터 관리 홈</title>
 <meta name="description" content="나라장터 관련 페이지 모음">
+<meta name="robots" content="noindex, nofollow">
 <style>
   :root {
     --bg: #f5f6f8; --card: #fff; --ink: #1d2433; --sub: #5d6778; --line: #e3e6ec;
@@ -66,6 +67,8 @@
   .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff;
     padding: 10px 18px; border-radius: 10px; font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 60; max-width: 90vw; }
   .toast.show { opacity: 1; } .toast.err { background: var(--bad); }
+  body.viewer .admin-only { display: none !important; }
+  .b-admin { background: #fdf1df; color: #a15c00; }
   .hidden { display: none !important; }
 </style>
 </head>
@@ -84,8 +87,8 @@
 
   <div class="side">
     <section class="card" id="connCard">
-      <h2>GitHub 연결 <span class="sp"></span><span class="badge b-gray" id="connState">연결 안 됨</span></h2>
-      <div class="muted">여기서 처음 한 번만 연결하면 모든 나라장터 페이지가 이 연결을 함께 씁니다. 토큰은 이 브라우저에만 저장됩니다.</div>
+      <h2>관리자 연결 <span class="sp"></span><span class="badge b-gray" id="connState">조회 모드</span></h2>
+      <div class="muted">조회만 하실 분은 연결하지 않아도 됩니다. 관리자는 여기서 처음 한 번 GitHub 토큰으로 연결하면, 모든 나라장터 페이지에서 설정·실행을 할 수 있습니다. 토큰은 이 브라우저에만 저장됩니다.</div>
       <div id="connForm">
         <label class="f">GitHub 토큰</label>
         <input type="password" id="token" placeholder="github_pat_..." autocomplete="off">
@@ -99,7 +102,7 @@
       </div>
     </section>
 
-    <section class="card">
+    <section class="card admin-only">
       <h2>최근 자동 실행 <span class="sp"></span><button id="btnRefresh" disabled>새로고침</button></h2>
       <div class="runs" id="runs"><div class="muted">연결하면 표시됩니다.</div></div>
     </section>
@@ -115,10 +118,10 @@ const G2B = {
   // 이미 알고 있는 페이지 (저장소 목록을 못 불러와도 메뉴에 표시)
   KNOWN: [
     { file: "index.html", title: "홈", icon: "🏠", order: 0, desc: "나라장터 관련 페이지 모음" },
-    { file: "monitoring.html", title: "키워드 모니터링", icon: "🔔", order: 1, workflow: "narajangteo.yml",
+    { file: "monitoring.html", title: "키워드 모니터링", icon: "🔔", order: 1, workflow: "narajangteo.yml", adminOnly: true,
       desc: "입찰공고·발주계획·사전규격에서 키워드에 맞는 신규 건을 슬랙으로 보고. 키워드·제외 조건·발송 시각·메시지 형식 설정" },
     { file: "analysis.html", title: "경쟁·파트너 분석", icon: "📊", order: 2, workflow: "analysis.yml",
-      desc: "유사 사업의 참여업체·낙찰업체·계약업체를 모아 업체별로 정리. 조건 설정, 실행, 진행 상황, 결과 표·엑셀" },
+      desc: "유사 사업의 발주·입찰·낙찰·계약 현황과 참여업체·낙찰업체를 업체별·공고별로 조회하고 엑셀로 받기. 누구나 조회 가능 (조건 설정·실행은 관리자)" },
   ],
   get(k) { try { return localStorage.getItem(k) || ""; } catch { return ""; } },
   set(k, v) { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch {} },
@@ -141,11 +144,16 @@ const G2B = {
     const cur = this.current(), repo = this.get(this.KEYS.repo);
     el.innerHTML = `<a class="brand" href="index.html">나라장터</a>` +
       this.pages().map(p => `<a class="item ${p.file === cur ? "on" : ""}" href="${encodeURI(p.file)}">${p.icon ? p.icon + " " : ""}${p.title.replace(/[<>&]/g, "")}</a>`).join("") +
-      `<span class="sp"></span><span class="repo">${repo.replace(/[<>&]/g, "")} · ${this.VERSION}</span>`;
+      `<span class="sp"></span><span class="repo">${repo ? repo.replace(/[<>&]/g, "") + " · " : ""}${this.VERSION}</span>`;
   },
   // 저장소 admin 폴더의 .html 목록을 불러와 메뉴에 반영
-  async discover(token, repo, branch) {
-    const h = { Authorization: "Bearer " + token, Accept: "application/vnd.github+json" };
+  // 공개 저장소 주소 (GitHub Pages면 주소에서, 아니면 저장된 값)
+  publicRepo() {
+    if (location.hostname.endsWith(".github.io")) return location.hostname.split(".")[0] + "/" + location.pathname.split("/")[1];
+    return this.get(this.KEYS.repo) || "xxxxhyun/narajangteo-monitor";
+  },
+  async discover(token, repo, branch) {   // token 없이도 공개 저장소면 동작
+    const h = { Accept: "application/vnd.github+json", ...(token ? { Authorization: "Bearer " + token } : {}) };
     const res = await fetch(`https://api.github.com/repos/${repo}/contents/admin?ref=${branch}&t=${Date.now()}`, { headers: h });
     if (!res.ok) throw new Error("admin 폴더를 읽지 못했습니다 (" + res.status + ")");
     const files = (await res.json()).filter(f => f.type === "file" && /\.html?$/i.test(f.name));
@@ -172,6 +180,7 @@ const G2B = {
   },
 };
 /* ================================================================================================ */
+G2B.VERSION = "v04 · 2026-10-02";   // 이 파일의 버전
 
 const $ = (id) => document.getElementById(id);
 const st = { token: "", repo: "", branch: "main" };
@@ -194,7 +203,7 @@ function renderPages(runsByWf = {}) {
     const r = p.workflow ? runsByWf[p.workflow] : null;
     return `<a class="page" href="${encodeURI(p.file)}" title="${esc(p.file)} 열기">
       <div class="top"><div class="ico">${esc(p.icon || "📄")}</div>
-        <div><h3>${esc(p.title)} ${p.isNew ? `<span class="badge b-new">새 페이지</span>` : ""}${p.missing ? `<span class="badge b-warn">저장소에 없음</span>` : ""}</h3>
+        <div><h3>${esc(p.title)} ${p.adminOnly ? `<span class="badge b-admin">관리자 전용</span>` : ""}${p.isNew ? `<span class="badge b-new">새 페이지</span>` : ""}${p.missing ? `<span class="badge b-warn">저장소에 없음</span>` : ""}</h3>
         <div class="file">admin/${esc(p.file)}</div></div></div>
       <div class="desc">${esc(p.desc || "설명 없음")}</div>
       ${p.workflow && st.token ? `<div class="run">최근 실행 ${runBadge(r)} ${r ? `${kst(r.created_at)} · ${r.event === "schedule" ? "자동" : "수동"}` : ""}</div>` : ""}
@@ -214,7 +223,8 @@ async function connect() {
     if (!info.ok) throw new Error("저장소를 찾지 못했습니다: " + repo);
     st.repo = repo; st.branch = (await info.json()).default_branch || "main";
     G2B.set(G2B.KEYS.token, st.token); G2B.set(G2B.KEYS.repo, st.repo);
-    $("connState").textContent = "연결됨"; $("connState").className = "badge b-ok";
+    $("connState").textContent = "관리자 모드"; $("connState").className = "badge b-ok";
+    document.body.classList.remove("viewer");
     $("connForm").classList.add("hidden"); $("connDone").classList.remove("hidden"); $("repoLabel").textContent = st.repo;
     $("btnRefresh").disabled = false;
     await refresh();
@@ -253,8 +263,10 @@ $("btnRefresh").onclick = () => refresh().then(() => toast("새로고침 완료"
 
 G2B.renderNav($("g2bNav"));
 renderPages();
+document.body.classList.add("viewer");
 $("token").value = G2B.token(); $("repo").value = G2B.get(G2B.KEYS.repo);
 if ($("token").value) connect();
+else G2B.discover("", G2B.publicRepo(), "main").then(() => { G2B.renderNav($("g2bNav")); renderPages(); }).catch(() => {});  // 조회 모드: 공개 저장소에서 페이지 목록
 </script>
 </body>
 </html>
