@@ -97,6 +97,12 @@
   .tabs button.on { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
   .tbl-wrap { overflow: auto; max-height: calc(100vh - 330px); min-height: 300px; border: 1px solid var(--line); border-radius: 8px; }
   table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th.col-title, td.col-title { width: 32%; min-width: 320px; }
+  .corps { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 2px 0 8px; font-size: 12px; }
+  .corps b { margin-right: 4px; }
+  .corp { background: #f0f2f5; border-radius: 6px; padding: 3px 8px; }
+  .corp.lead { background: var(--ok-soft); color: var(--ok); font-weight: 600; }
+  .corp em { font-style: normal; color: var(--sub); }
   th, td { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
   th { background: #f0f2f5; position: sticky; top: 0; cursor: pointer; white-space: nowrap; user-select: none; z-index: 1; }
   th.num, td.num { text-align: right; white-space: nowrap; }
@@ -284,7 +290,7 @@ const G2B = {
   },
 };
 /* ================================================================================================ */
-G2B.VERSION = "v04 · 2026-10-02";   // 이 파일의 버전 (페이지마다 따로 표시)
+G2B.VERSION = "v05 · 2026-10-05";   // 이 파일의 버전 (페이지마다 따로 표시)
 
 const $ = (id) => document.getElementById(id);
 const CONFIG_PATH = "analysis_config.json";
@@ -667,14 +673,16 @@ function renderTable() {
   const tab = st.tab, cols = COLS[tab];
   const { rows, excluded } = filteredRows();
   const [sk, sd] = st.sort[tab];
-  const head = cols.map(([k, label, t]) => `<th class="${t ? "num" : ""}" data-k="${k}">${label}${sk === k ? (sd > 0 ? " ▲" : " ▼") : ""}</th>`).join("");
+  const head = cols.map(([k, label, t]) => `<th class="${k === "공고명" ? "col-title" : t ? "num" : ""}" data-k="${k}">${label}${sk === k ? (sd > 0 ? " ▲" : " ▼") : ""}</th>`).join("");
   const cell = (row, [k, , t]) => {
     let v = row[k];
     if (t === "money") v = eok(v);
     if (k === "공고명" && row.링크) v = `<a class="ext" href="${esc(row.링크)}" target="_blank" rel="noopener">${esc(v)}</a>`;
     else if (k === "상태") v = statusBadge(row);
+    else if (k === "계약업체(공동수급)") v = esc(corpSummary(v));
     else v = esc(v ?? "");
-    return `<td class="${t ? "num" : (/일$|상태/.test(k) ? "nw" : "")}">${v}</td>`;
+    const cls = k === "공고명" ? "col-title" : t ? "num" : (/일$|상태/.test(k) ? "nw" : "");
+    return `<td class="${cls}"${k === "계약업체(공동수급)" && corpList(row[k]).length > 1 ? ` title="${esc(row[k])}"` : ""}>${v}</td>`;
   };
   // 전체 행 표시 (많아도 한 번에 문자열로 만들어 넣음)
   const parts = [];
@@ -711,6 +719,29 @@ async function withLoading(fn, msg) {
   try { fn(); } finally { hideLoading(); }
 }
 
+// 계약업체(공동수급): "A(60%), B(40%)" → 지분 가장 큰 업체 외 N사
+function corpList(text) {
+  if (!text || /^(조회 전|계약정보 없음)$/.test(text)) return [];
+  return String(text).split(/,\s*(?![^()]*\))/).map(s => s.trim()).filter(Boolean).map(s => {
+    const m = s.match(/^(.*)\((\d+(?:\.\d+)?)%\)$/);
+    return m ? { name: m[1].trim(), share: Number(m[2]) } : { name: s, share: null };
+  });
+}
+function corpSummary(text) {
+  const list = corpList(text);
+  if (!list.length) return text || "";
+  const top = [...list].sort((a, b) => (b.share ?? -1) - (a.share ?? -1))[0];
+  return top.name + (list.length > 1 ? ` 외 ${list.length - 1}사` : "");
+}
+function corpDetail(row) {
+  const list = corpList(row["계약업체(공동수급)"]);
+  if (!list.length) return "";
+  const sorted = [...list].sort((a, b) => (b.share ?? -1) - (a.share ?? -1));
+  return `<div class="corps"><b>계약업체${list.length > 1 ? `(공동수급 ${list.length}사)` : ""}</b>` +
+    sorted.map((c, i) => `<span class="corp ${i === 0 ? "lead" : ""}">${esc(c.name)}${c.share != null ? ` <em>${c.share}%</em>` : ""}${i === 0 && list.length > 1 ? " · 대표" : ""}</span>`).join("") +
+    `</div>`;
+}
+
 // 첨부파일 버튼 (제안요청서는 강조)
 function attachButtons(row) {
   const list = row.첨부 || [];
@@ -730,7 +761,7 @@ function bidDetail(row) {
     · ${statusBadge(row)} ${esc(row.진행단계 || "")}
     ${won ? ` · 낙찰률 ${esc(row.낙찰률)}% · 계약일 ${esc(row.계약일 || "-")} · 계약금액 ${eok(row.계약금액)}`
           : ` · 공고일 ${esc(row.공고일 || "-")}${row.입찰마감일 ? " · 입찰마감 " + esc(row.입찰마감일) : ""} · ${esc(row.금액기준)} ${eok(row.금액)}`}</div>`;
-  const files = attachButtons(row);
+  const files = corpDetail(row) + attachButtons(row);
   if (!list.length) return extra + files + `<div class="muted">${pre ? "아직 입찰공고 전입니다. 공고가 나오면 진행중(입찰)로 바뀝니다."
     : row["참여업체 수집"] === "완료" ? "참여업체 정보가 없습니다(수의계약·개찰 전 등)."
     : row.상태 === ST.BID ? "아직 개찰 전이거나 참여업체가 공개되지 않았습니다. 개찰 후 매일 자동으로 확인합니다." : "참여업체가 아직 수집되지 않았습니다."}</div>`;
