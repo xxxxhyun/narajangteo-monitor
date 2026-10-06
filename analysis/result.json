@@ -1,6 +1,6 @@
 {
   "info": {
-    "created_at": "2026-10-05T08:07:53+09:00",
+    "created_at": "2026-10-06T10:17:45+09:00",
     "status": "수집 완료",
     "progress": {
       "낙찰 목록 남은 구간": 0,
@@ -9,15 +9,15 @@
       "참여업체 수집": 834,
       "계약 수집": 834,
       "진행중(발주)": 50,
-      "진행중(입찰)": 102,
+      "진행중(입찰)": 103,
       "종료(낙찰)": 834,
       "종료(유찰·취소)": 649,
       "운영중": 230
     },
     "calls": {
-      "낙찰정보": 188,
+      "낙찰정보": 190,
       "계약정보": 2,
-      "입찰공고": 86,
+      "입찰공고": 84,
       "발주계획": 23,
       "사전규격": 17
     },
@@ -73528,6 +73528,54 @@
       "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=20231001522&bidPbancOrd=000"
     },
     {
+      "공고번호": "R26BK01748264-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "입찰 접수중",
+      "공고명": "2027년 경기도 광역이동지원센터 콜센터 운영 용역",
+      "키워드": "콜센터",
+      "발주기관": "경기교통공사",
+      "공고일": "2026-10-06",
+      "입찰마감일": "2026-11-16",
+      "개찰일": "2026-11-16",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 5308000000,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "입찰공고문(2027년 경기도 광역이동지원센터 콜센터 운영 용역).pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01748264&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "제안요청서(2027년 경기도 광역이동지원센터 콜센터 운영 용역).hwpx",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01748264&bidPbancOrd=000&fileType=&fileSeq=2&prcmBsneSeCd=03"
+        },
+        {
+          "name": "과업지시서(2027년 경기도 광역이동지원센터 콜센터 운영 용역).hwpx",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01748264&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        },
+        {
+          "name": "「공공부문 도급 노동자 보호지침」.hwpx",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01748264&bidPbancOrd=000&fileType=&fileSeq=4&prcmBsneSeCd=03"
+        },
+        {
+          "name": "도급노동자 보호지침 특별유의서.hwpx",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01748264&bidPbancOrd=000&fileType=&fileSeq=5&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01748264&bidPbancOrd=000"
+    },
+    {
       "공고번호": "R26BK01753261-000",
       "구분": "용역",
       "상태": "진행중(입찰)",
@@ -74822,7 +74870,7 @@
       "계약금액": "",
       "계약시작일": "",
       "계약완료일": "",
-      "참여업체 수집": "개찰 전·조회 전",
+      "참여업체 수집": "완료",
       "첨부": [
         {
           "name": "광명시 민원콜센터 운영 민간위탁 수탁자 모집 공고.hwpx",
@@ -101426,42 +101474,6 @@
       "링크": ""
     },
     {
-      "공고번호": "R26BD00279128",
-      "구분": "용역",
-      "상태": "진행중(발주)",
-      "운영중": "",
-      "진행단계": "사전규격 · 의견마감 2026-10-05",
-      "공고명": "2027년 경기도 광역이동지원센터 콜센터 운영 용역",
-      "키워드": "콜센터",
-      "발주기관": "경기교통공사",
-      "공고일": "2026-09-30",
-      "입찰마감일": "",
-      "개찰일": "",
-      "참가업체수": "",
-      "낙찰업체": "",
-      "금액": 5308000000,
-      "금액기준": "배정예산",
-      "낙찰금액": "",
-      "낙찰률": "",
-      "계약업체(공동수급)": "",
-      "계약일": "",
-      "계약금액": "",
-      "계약시작일": "",
-      "계약완료일": "",
-      "참여업체 수집": "",
-      "첨부": [
-        {
-          "name": "사전규격 문서 1",
-          "url": "https://www.g2b.go.kr/pn/pnz/pnza/UntyAtchFile/downloadFile.do?bfSpecRegNo=R26BD00279128&fileType=BFDTL&fileSeq=1"
-        },
-        {
-          "name": "사전규격 문서 2",
-          "url": "https://www.g2b.go.kr/pn/pnz/pnza/UntyAtchFile/downloadFile.do?bfSpecRegNo=R26BD00279128&fileType=BFDTL&fileSeq=2"
-        }
-      ],
-      "링크": ""
-    },
-    {
       "공고번호": "R26BD00232091",
       "구분": "용역",
       "상태": "진행중(발주)",
@@ -102623,6 +102635,33 @@
       "참여업체 수집": "",
       "첨부": "",
       "링크": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20885573"
+    },
+    {
+      "공고번호": "R26DD20886959",
+      "구분": "용역",
+      "상태": "진행중(발주)",
+      "운영중": "",
+      "진행단계": "발주계획 · 발주예정 2026.10",
+      "공고명": "2027년 교육행정정보시스템(NEIS) 상담센터 운영 용역",
+      "키워드": "상담",
+      "발주기관": "세종특별자치시교육청 세종특별자치시교육청교육원",
+      "공고일": "2026-10-05",
+      "입찰마감일": "",
+      "개찰일": "",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 101016000,
+      "금액기준": "발주금액",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "",
+      "첨부": "",
+      "링크": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20886959"
     }
   ],
   "participants": [
@@ -267556,31 +267595,31 @@
     }
   ],
   "log": [
-    "[08:07:53] 조건: 키워드 ['상담', '채팅', '콜센터', '고객센터', '민원', 'AICC'] · 3년 · 낙찰 1.0억↑ · ['용역', '물품']",
-    "[08:07:53] 1-1) 입찰공고: 조회할 구간 84개 (종류 ['용역', '물품'] × 키워드 6개 × 월 단위)",
-    "[08:11:09]   완료 84 · 실패 0 · 남음 0 · 새 0건 (누적 3392건)",
-    "[08:11:09]   낙찰 전 진행중 공고가 있는 지난 구간 11개 재확인",
-    "[08:11:09] 1-2) 낙찰 목록: 조회할 구간 95개 (종류 ['용역', '물품'] × 키워드 6개 × 월 단위)",
-    "[08:14:05]   완료 95 · 실패 0 · 남음 0 · 새 0건 (누적 1826건)",
-    "[08:15:28] 0) 발주계획: 1314건 확인 · 실패 0",
-    "[08:16:00] 0) 사전규격: 706건 확인 · 실패 0",
-    "[08:16:00] 조건에 맞는 낙찰 공고 834건 · 낙찰 전 입찰공고 751건",
-    "[08:16:00] 2) 참여업체: 조회할 공고 0건",
-    "[08:16:00]   0건 완료 · 실패 0 · 남음 0",
-    "[08:16:00] 3) 계약: 조회할 공고 2건",
-    "[08:16:00]   2건 완료 · 실패 0 · 남음 0",
-    "[08:16:00] 2-2) 진행중 입찰 참여업체(매일 갱신): 조회할 공고 92건",
-    "[08:16:44]   92건 완료 · 실패 0 · 남음 0",
-    "[08:16:45] API 호출: 낙찰정보 188회 · 계약정보 2회 · 입찰공고 86회 · 발주계획 23회 · 사전규격 17회",
-    "[08:16:45]   응답 필드 [getBidPblancListInfoServcPPSSrch]: VAT, arsltApplDocRcptMthdNm, arsltCmptYn, arsltReqstdocRcptDt, asignBdgtAmt, befBidBbancNo, bfSpecRgstNo, bidBeginDt, bidClseDt, bidGrntymnyPaymntYn, bidMethdNm, bidNtceDt, bidNtceDtlUrl, bidNtceNm, bidNtceNo, bidNtceOrd, bidNtceUrl, bidPrceEvlRt, bidPrtcptFee, bidPrtcptFeePaymntYn, bidPrtcptLmtYn, bidQlfctRgstDt, brffcBidprcPermsnYn, chgDt, chgNtceRsn, cmmnSpldmdAgrmntClseDt, cmmnSpldmdAgrmntRcptdocMethd, cmmnSpldmdCorpRgnLmtYn, cmmnSpldmdMethdCd, cmmnSpldmdMethdNm, cntrctCnclsMthdNm, crdtrNm, dcmtgOprtnDt, dcmtgOprtnPlce, dminsttCd, dminsttNm, dminsttOfclEmailAdrs, drwtPrdprcNum, dsgntCmptYn, dtlsBidYn, exctvNm, indstrytyLmtYn, indutyVAT, infoBizYn, intrbidYn, jntcontrctDutyRgnNm1, jntcontrctDutyRgnNm2, jntcontrctDutyRgnNm3, mnfctYn, ntceDscrptYn, ntceInsttCd, ntceInsttNm, ntceInsttOfclEmailAdrs, ntceInsttOfclNm, ntceInsttOfclTelNo, ntceKindNm, ntceSpecDocUrl1, ntceSpecDocUrl10, ntceSpecDocUrl2, ntceSpecDocUrl3, ntceSpecDocUrl4, ntceSpecDocUrl5, ntceSpecDocUrl6, ntceSpecDocUrl7, ntceSpecDocUrl8, ntceSpecDocUrl9, ntceSpecFileNm1, ntceSpecFileNm10, ntceSpecFileNm2, ntceSpecFileNm3, ntceSpecFileNm4, ntceSpecFileNm5, ntceSpecFileNm6, ntceSpecFileNm7, ntceSpecFileNm8, ntceSpecFileNm9, opengDt, opengPlce, orderPlanUntyNo, ppswGnrlSrvceYn, pqApplDocRcptDt, pqApplDocRcptMthdNm, pqEvalYn, prdctClsfcLmtYn, prearngPrceDcsnMthdNm, presmptPrce, pubPrcrmntClsfcNm, pubPrcrmntClsfcNo, pubPrcrmntLrgClsfcNm, pubPrcrmntMidClsfcNm, purchsObjPrdctList, rbidOpengDt, rbidPermsnYn, reNtceYn, refNo, rgnDutyJntcontrctRt, rgnLmtBidLocplcJdgmBssCd, rgnLmtBidLocplcJdgmBssNm, rgstDt, rgstTyNm, rsrvtnPrceReMkngMthdNm, srvceDivNm, stdNtceDocUrl, sucsfbidLwltRate, sucsfbidMthdAppStd, sucsfbidMthdCd, sucsfbidMthdNm, techAbltEvlRt, totPrdprcNum, tpEvalApplClseDt, tpEvalApplMthdNm, tpEvalYn, untyNtceNo",
-    "[08:16:45]   응답 필드 [getBidPblancListInfoThngPPSSrch]: VAT, arsltApplDocRcptDt, arsltApplDocRcptMthdNm, asignBdgtAmt, befBidBbancNo, bfSpecRgstNo, bidBeginDt, bidClseDt, bidGrntymnyPaymntYn, bidMethdNm, bidNtceDt, bidNtceDtlUrl, bidNtceNm, bidNtceNo, bidNtceOrd, bidNtceUrl, bidPrceEvlRt, bidPrtcptFee, bidPrtcptFeePaymntYn, bidQlfctRgstDt, bidWgrnteeRcptClseDt, brffcBidprcPermsnYn, chgDt, chgNtceRsn, cmmnSpldmdAgrmntClseDt, cmmnSpldmdAgrmntRcptdocMethd, cmmnSpldmdCorpRgnLmtYn, cmmnSpldmdMethdCd, cmmnSpldmdMethdNm, cntrctCnclsMthdNm, crdtrNm, dlvrDaynum, dlvrTmlmtDt, dlvryCndtnNm, dminsttCd, dminsttNm, dminsttOfclEmailAdrs, drwtPrdprcNum, dsgntCmptYn, dtilPrdctClsfcNo, dtilPrdctClsfcNoNm, exctvNm, indstrytyLmtYn, indutyVAT, infoBizYn, intrbidYn, mnfctYn, ntceInsttCd, ntceInsttNm, ntceInsttOfclEmailAdrs, ntceInsttOfclNm, ntceInsttOfclTelNo, ntceKindNm, ntceSpecDocUrl1, ntceSpecDocUrl10, ntceSpecDocUrl2, ntceSpecDocUrl3, ntceSpecDocUrl4, ntceSpecDocUrl5, ntceSpecDocUrl6, ntceSpecDocUrl7, ntceSpecDocUrl8, ntceSpecDocUrl9, ntceSpecFileNm1, ntceSpecFileNm10, ntceSpecFileNm2, ntceSpecFileNm3, ntceSpecFileNm4, ntceSpecFileNm5, ntceSpecFileNm6, ntceSpecFileNm7, ntceSpecFileNm8, ntceSpecFileNm9, opengDt, opengPlce, orderPlanUntyNo, prdctClsfcLmtYn, prdctQty, prdctSpecNm, prdctUnit, prdctUprc, prearngPrceDcsnMthdNm, presmptPrce, purchsObjPrdctList, rbidOpengDt, rbidPermsnYn, reNtceYn, refNo, rgnLmtBidLocplcJdgmBssCd, rgnLmtBidLocplcJdgmBssNm, rgstDt, rgstTyNm, rsrvtnPrceReMkngMthdNm, stdNtceDocUrl, sucsfbidLwltRate, sucsfbidMthdAppStd, sucsfbidMthdCd, sucsfbidMthdNm, techAbltEvlRt, totPrdprcNum, untyNtceNo",
-    "[08:16:45]   응답 필드 [getScsbidListSttusServcPPSSrch]: bidClsfcNo, bidNtceNm, bidNtceNo, bidNtceOrd, bidwinnrAdrs, bidwinnrBizno, bidwinnrCeoNm, bidwinnrNm, bidwinnrTelNo, dminsttCd, dminsttNm, fnlSucsfCorpOfcl, fnlSucsfDate, ntceDivCd, prtcptCnum, rbidNo, rgstDt, rlOpengDt, sucsfbidAmt, sucsfbidRate",
-    "[08:16:45]   응답 필드 [getScsbidListSttusThngPPSSrch]: bidClsfcNo, bidNtceNm, bidNtceNo, bidNtceOrd, bidwinnrAdrs, bidwinnrBizno, bidwinnrCeoNm, bidwinnrNm, bidwinnrTelNo, dminsttCd, dminsttNm, fnlSucsfCorpOfcl, fnlSucsfDate, ntceDivCd, prtcptCnum, rbidNo, rgstDt, rlOpengDt, sucsfbidAmt, sucsfbidRate",
-    "[08:16:45]   응답 필드 [getOrderPlanSttusListServcPPSSrch]: agrmntYn, atchFileExistnceYn, bdgtDivCd, bidNtceNoList, bizNm, bsnsDivCd, bsnsDivNm, bsnsTyCd, bsnsTyNm, chgDt, cnsttyDivNm, cnstwkPrdCntnts, cnstwkRgnNm, cntrctMthdNm, deptNm, dsgnDocRdngPlceNm, dsgnDocRdngPrdCntnts, dtilPrdctClsfcNo, dtilPrdctClsfcNoNm, jrsdctnDivCd, jrsdctnDivNm, ntceNticeYn, nticeDt, ofclNm, orderContrctAmt, orderEtcAmt, orderGovsplyMtrcst, orderInsttCd, orderInsttNm, orderMnth, orderNtntrsAuxAmt, orderPlanDtlUrl, orderPlanSno, orderPlanUntyNo, orderThtmContrctAmt, orderYear, prcrmntMethd, prdctClsfcNo, prdctClsfcNoNm, qtyCntnts, rcritRgstNo, rmrkCntnts, specCntnts, specItemCntnts1, specItemCntnts2, specItemCntnts3, specItemCntnts4, specItemCntnts5, specItemNm1, specItemNm2, specItemNm3, specItemNm4, specItemNm5, sumOrderAmt, sumOrderDolAmt, telNo, totlmngInsttNm, unit, usgCntnts",
-    "[08:16:45]   응답 필드 [getOrderPlanSttusListThngPPSSrch]: agrmntYn, atchFileExistnceYn, bdgtDivCd, bidNtceNoList, bizNm, bsnsDivCd, bsnsDivNm, bsnsTyCd, bsnsTyNm, chgDt, cnsttyDivNm, cnstwkPrdCntnts, cnstwkRgnNm, cntrctMthdNm, deptNm, dsgnDocRdngPlceNm, dsgnDocRdngPrdCntnts, dtilPrdctClsfcNo, dtilPrdctClsfcNoNm, jrsdctnDivCd, jrsdctnDivNm, ntceNticeYn, nticeDt, ofclNm, orderContrctAmt, orderEtcAmt, orderGovsplyMtrcst, orderInsttCd, orderInsttNm, orderMnth, orderNtntrsAuxAmt, orderPlanDtlUrl, orderPlanSno, orderPlanUntyNo, orderThtmContrctAmt, orderYear, prcrmntMethd, prdctClsfcNo, prdctClsfcNoNm, qtyCntnts, rcritRgstNo, rmrkCntnts, specCntnts, specItemCntnts1, specItemCntnts2, specItemCntnts3, specItemCntnts4, specItemCntnts5, specItemNm1, specItemNm2, specItemNm3, specItemNm4, specItemNm5, sumOrderAmt, sumOrderDolAmt, telNo, totlmngInsttNm, unit, usgCntnts",
-    "[08:16:45]   응답 필드 [getPublicPrcureThngInfoServcPPSSrch]: asignBdgtAmt, bfSpecRgstNo, bidNtceNoList, bsnsDivNm, chgDt, dlvrDaynum, dlvrTmlmtDt, ofclNm, ofclTelNo, opninRgstClseDt, orderInsttNm, prdctClsfcNoNm, prdctDtlList, rcptDt, refNo, rgstDt, rlDminsttNm, specDocFileUrl1, specDocFileUrl2, specDocFileUrl3, specDocFileUrl4, specDocFileUrl5, swBizObjYn",
-    "[08:16:45]   응답 필드 [getPublicPrcureThngInfoThngPPSSrch]: asignBdgtAmt, bfSpecRgstNo, bidNtceNoList, bsnsDivNm, chgDt, dlvrDaynum, dlvrTmlmtDt, ofclNm, ofclTelNo, opninRgstClseDt, orderInsttNm, prdctClsfcNoNm, prdctDtlList, rcptDt, refNo, rgstDt, rlDminsttNm, specDocFileUrl1, specDocFileUrl2, specDocFileUrl3, specDocFileUrl4, specDocFileUrl5, swBizObjYn",
-    "[08:16:45]   응답 필드 [getOpengResultListInfoOpengCompt]: bidClsfcNo, bidNtceNo, bidNtceOrd, bidPrceEvlVal, bidprcAmt, bidprcDt, bidprcrt, cnsttyAccotBidAmtUrl, drwtNo1, drwtNo2, opengRank, opengRsltDivNm, prcbdrBizno, prcbdrCeoNm, prcbdrNm, rbidNo, rmrk, techEvlNaturVal, techEvlVal, totalEvlAmtVal",
-    "[08:16:45] 결과: 공고 1635건 · 업체 3150곳 · 참여기록 10308줄 · 수집 완료"
+    "[10:17:45] 조건: 키워드 ['상담', '채팅', '콜센터', '고객센터', '민원', 'AICC'] · 3년 · 낙찰 1.0억↑ · ['용역', '물품']",
+    "[10:17:45] 1-1) 입찰공고: 조회할 구간 84개 (종류 ['용역', '물품'] × 키워드 6개 × 월 단위)",
+    "[10:19:37]   완료 84 · 실패 0 · 남음 0 · 새 2건 (누적 3394건)",
+    "[10:19:37]   낙찰 전 진행중 공고가 있는 지난 구간 11개 재확인",
+    "[10:19:37] 1-2) 낙찰 목록: 조회할 구간 95개 (종류 ['용역', '물품'] × 키워드 6개 × 월 단위)",
+    "[10:23:08]   완료 95 · 실패 0 · 남음 0 · 새 0건 (누적 1826건)",
+    "[10:24:25] 0) 발주계획: 1315건 확인 · 실패 0",
+    "[10:24:55] 0) 사전규격: 706건 확인 · 실패 0",
+    "[10:24:55] 조건에 맞는 낙찰 공고 834건 · 낙찰 전 입찰공고 752건",
+    "[10:24:55] 2) 참여업체: 조회할 공고 0건",
+    "[10:24:55]   0건 완료 · 실패 0 · 남음 0",
+    "[10:24:55] 3) 계약: 조회할 공고 2건",
+    "[10:24:55]   2건 완료 · 실패 0 · 남음 0",
+    "[10:24:55] 2-2) 진행중 입찰 참여업체(매일 갱신): 조회할 공고 93건",
+    "[10:25:40]   93건 완료 · 실패 0 · 남음 0",
+    "[10:25:40] API 호출: 낙찰정보 190회 · 계약정보 2회 · 입찰공고 84회 · 발주계획 23회 · 사전규격 17회",
+    "[10:25:40]   응답 필드 [getBidPblancListInfoServcPPSSrch]: VAT, arsltApplDocRcptMthdNm, arsltCmptYn, arsltReqstdocRcptDt, asignBdgtAmt, befBidBbancNo, bfSpecRgstNo, bidBeginDt, bidClseDt, bidGrntymnyPaymntYn, bidMethdNm, bidNtceDt, bidNtceDtlUrl, bidNtceNm, bidNtceNo, bidNtceOrd, bidNtceUrl, bidPrceEvlRt, bidPrtcptFee, bidPrtcptFeePaymntYn, bidPrtcptLmtYn, bidQlfctRgstDt, brffcBidprcPermsnYn, chgDt, chgNtceRsn, cmmnSpldmdAgrmntClseDt, cmmnSpldmdAgrmntRcptdocMethd, cmmnSpldmdCorpRgnLmtYn, cmmnSpldmdMethdCd, cmmnSpldmdMethdNm, cntrctCnclsMthdNm, crdtrNm, dcmtgOprtnDt, dcmtgOprtnPlce, dminsttCd, dminsttNm, dminsttOfclEmailAdrs, drwtPrdprcNum, dsgntCmptYn, dtlsBidYn, exctvNm, indstrytyLmtYn, indutyVAT, infoBizYn, intrbidYn, jntcontrctDutyRgnNm1, jntcontrctDutyRgnNm2, jntcontrctDutyRgnNm3, mnfctYn, ntceDscrptYn, ntceInsttCd, ntceInsttNm, ntceInsttOfclEmailAdrs, ntceInsttOfclNm, ntceInsttOfclTelNo, ntceKindNm, ntceSpecDocUrl1, ntceSpecDocUrl10, ntceSpecDocUrl2, ntceSpecDocUrl3, ntceSpecDocUrl4, ntceSpecDocUrl5, ntceSpecDocUrl6, ntceSpecDocUrl7, ntceSpecDocUrl8, ntceSpecDocUrl9, ntceSpecFileNm1, ntceSpecFileNm10, ntceSpecFileNm2, ntceSpecFileNm3, ntceSpecFileNm4, ntceSpecFileNm5, ntceSpecFileNm6, ntceSpecFileNm7, ntceSpecFileNm8, ntceSpecFileNm9, opengDt, opengPlce, orderPlanUntyNo, ppswGnrlSrvceYn, pqApplDocRcptDt, pqApplDocRcptMthdNm, pqEvalYn, prdctClsfcLmtYn, prearngPrceDcsnMthdNm, presmptPrce, pubPrcrmntClsfcNm, pubPrcrmntClsfcNo, pubPrcrmntLrgClsfcNm, pubPrcrmntMidClsfcNm, purchsObjPrdctList, rbidOpengDt, rbidPermsnYn, reNtceYn, refNo, rgnDutyJntcontrctRt, rgnLmtBidLocplcJdgmBssCd, rgnLmtBidLocplcJdgmBssNm, rgstDt, rgstTyNm, rsrvtnPrceReMkngMthdNm, srvceDivNm, stdNtceDocUrl, sucsfbidLwltRate, sucsfbidMthdAppStd, sucsfbidMthdCd, sucsfbidMthdNm, techAbltEvlRt, totPrdprcNum, tpEvalApplClseDt, tpEvalApplMthdNm, tpEvalYn, untyNtceNo",
+    "[10:25:40]   응답 필드 [getBidPblancListInfoThngPPSSrch]: VAT, arsltApplDocRcptDt, arsltApplDocRcptMthdNm, asignBdgtAmt, befBidBbancNo, bfSpecRgstNo, bidBeginDt, bidClseDt, bidGrntymnyPaymntYn, bidMethdNm, bidNtceDt, bidNtceDtlUrl, bidNtceNm, bidNtceNo, bidNtceOrd, bidNtceUrl, bidPrceEvlRt, bidPrtcptFee, bidPrtcptFeePaymntYn, bidQlfctRgstDt, bidWgrnteeRcptClseDt, brffcBidprcPermsnYn, chgDt, chgNtceRsn, cmmnSpldmdAgrmntClseDt, cmmnSpldmdAgrmntRcptdocMethd, cmmnSpldmdCorpRgnLmtYn, cmmnSpldmdMethdCd, cmmnSpldmdMethdNm, cntrctCnclsMthdNm, crdtrNm, dlvrDaynum, dlvrTmlmtDt, dlvryCndtnNm, dminsttCd, dminsttNm, dminsttOfclEmailAdrs, drwtPrdprcNum, dsgntCmptYn, dtilPrdctClsfcNo, dtilPrdctClsfcNoNm, exctvNm, indstrytyLmtYn, indutyVAT, infoBizYn, intrbidYn, mnfctYn, ntceInsttCd, ntceInsttNm, ntceInsttOfclEmailAdrs, ntceInsttOfclNm, ntceInsttOfclTelNo, ntceKindNm, ntceSpecDocUrl1, ntceSpecDocUrl10, ntceSpecDocUrl2, ntceSpecDocUrl3, ntceSpecDocUrl4, ntceSpecDocUrl5, ntceSpecDocUrl6, ntceSpecDocUrl7, ntceSpecDocUrl8, ntceSpecDocUrl9, ntceSpecFileNm1, ntceSpecFileNm10, ntceSpecFileNm2, ntceSpecFileNm3, ntceSpecFileNm4, ntceSpecFileNm5, ntceSpecFileNm6, ntceSpecFileNm7, ntceSpecFileNm8, ntceSpecFileNm9, opengDt, opengPlce, orderPlanUntyNo, prdctClsfcLmtYn, prdctQty, prdctSpecNm, prdctUnit, prdctUprc, prearngPrceDcsnMthdNm, presmptPrce, purchsObjPrdctList, rbidOpengDt, rbidPermsnYn, reNtceYn, refNo, rgnLmtBidLocplcJdgmBssCd, rgnLmtBidLocplcJdgmBssNm, rgstDt, rgstTyNm, rsrvtnPrceReMkngMthdNm, stdNtceDocUrl, sucsfbidLwltRate, sucsfbidMthdAppStd, sucsfbidMthdCd, sucsfbidMthdNm, techAbltEvlRt, totPrdprcNum, untyNtceNo",
+    "[10:25:40]   응답 필드 [getScsbidListSttusServcPPSSrch]: bidClsfcNo, bidNtceNm, bidNtceNo, bidNtceOrd, bidwinnrAdrs, bidwinnrBizno, bidwinnrCeoNm, bidwinnrNm, bidwinnrTelNo, dminsttCd, dminsttNm, fnlSucsfCorpOfcl, fnlSucsfDate, ntceDivCd, prtcptCnum, rbidNo, rgstDt, rlOpengDt, sucsfbidAmt, sucsfbidRate",
+    "[10:25:40]   응답 필드 [getScsbidListSttusThngPPSSrch]: bidClsfcNo, bidNtceNm, bidNtceNo, bidNtceOrd, bidwinnrAdrs, bidwinnrBizno, bidwinnrCeoNm, bidwinnrNm, bidwinnrTelNo, dminsttCd, dminsttNm, fnlSucsfCorpOfcl, fnlSucsfDate, ntceDivCd, prtcptCnum, rbidNo, rgstDt, rlOpengDt, sucsfbidAmt, sucsfbidRate",
+    "[10:25:40]   응답 필드 [getOrderPlanSttusListServcPPSSrch]: agrmntYn, atchFileExistnceYn, bdgtDivCd, bidNtceNoList, bizNm, bsnsDivCd, bsnsDivNm, bsnsTyCd, bsnsTyNm, chgDt, cnsttyDivNm, cnstwkPrdCntnts, cnstwkRgnNm, cntrctMthdNm, deptNm, dsgnDocRdngPlceNm, dsgnDocRdngPrdCntnts, dtilPrdctClsfcNo, dtilPrdctClsfcNoNm, jrsdctnDivCd, jrsdctnDivNm, ntceNticeYn, nticeDt, ofclNm, orderContrctAmt, orderEtcAmt, orderGovsplyMtrcst, orderInsttCd, orderInsttNm, orderMnth, orderNtntrsAuxAmt, orderPlanDtlUrl, orderPlanSno, orderPlanUntyNo, orderThtmContrctAmt, orderYear, prcrmntMethd, prdctClsfcNo, prdctClsfcNoNm, qtyCntnts, rcritRgstNo, rmrkCntnts, specCntnts, specItemCntnts1, specItemCntnts2, specItemCntnts3, specItemCntnts4, specItemCntnts5, specItemNm1, specItemNm2, specItemNm3, specItemNm4, specItemNm5, sumOrderAmt, sumOrderDolAmt, telNo, totlmngInsttNm, unit, usgCntnts",
+    "[10:25:40]   응답 필드 [getOrderPlanSttusListThngPPSSrch]: agrmntYn, atchFileExistnceYn, bdgtDivCd, bidNtceNoList, bizNm, bsnsDivCd, bsnsDivNm, bsnsTyCd, bsnsTyNm, chgDt, cnsttyDivNm, cnstwkPrdCntnts, cnstwkRgnNm, cntrctMthdNm, deptNm, dsgnDocRdngPlceNm, dsgnDocRdngPrdCntnts, dtilPrdctClsfcNo, dtilPrdctClsfcNoNm, jrsdctnDivCd, jrsdctnDivNm, ntceNticeYn, nticeDt, ofclNm, orderContrctAmt, orderEtcAmt, orderGovsplyMtrcst, orderInsttCd, orderInsttNm, orderMnth, orderNtntrsAuxAmt, orderPlanDtlUrl, orderPlanSno, orderPlanUntyNo, orderThtmContrctAmt, orderYear, prcrmntMethd, prdctClsfcNo, prdctClsfcNoNm, qtyCntnts, rcritRgstNo, rmrkCntnts, specCntnts, specItemCntnts1, specItemCntnts2, specItemCntnts3, specItemCntnts4, specItemCntnts5, specItemNm1, specItemNm2, specItemNm3, specItemNm4, specItemNm5, sumOrderAmt, sumOrderDolAmt, telNo, totlmngInsttNm, unit, usgCntnts",
+    "[10:25:40]   응답 필드 [getPublicPrcureThngInfoServcPPSSrch]: asignBdgtAmt, bfSpecRgstNo, bidNtceNoList, bsnsDivNm, chgDt, dlvrDaynum, dlvrTmlmtDt, ofclNm, ofclTelNo, opninRgstClseDt, orderInsttNm, prdctClsfcNoNm, prdctDtlList, rcptDt, refNo, rgstDt, rlDminsttNm, specDocFileUrl1, specDocFileUrl2, specDocFileUrl3, specDocFileUrl4, specDocFileUrl5, swBizObjYn",
+    "[10:25:40]   응답 필드 [getPublicPrcureThngInfoThngPPSSrch]: asignBdgtAmt, bfSpecRgstNo, bidNtceNoList, bsnsDivNm, chgDt, dlvrDaynum, dlvrTmlmtDt, ofclNm, ofclTelNo, opninRgstClseDt, orderInsttNm, prdctClsfcNoNm, prdctDtlList, rcptDt, refNo, rgstDt, rlDminsttNm, specDocFileUrl1, specDocFileUrl2, specDocFileUrl3, specDocFileUrl4, specDocFileUrl5, swBizObjYn",
+    "[10:25:40]   응답 필드 [getOpengResultListInfoOpengCompt]: bidClsfcNo, bidNtceNo, bidNtceOrd, bidPrceEvlVal, bidprcAmt, bidprcDt, bidprcrt, cnsttyAccotBidAmtUrl, drwtNo1, drwtNo2, opengRank, opengRsltDivNm, prcbdrBizno, prcbdrCeoNm, prcbdrNm, rbidNo, rmrk, techEvlNaturVal, techEvlVal, totalEvlAmtVal",
+    "[10:25:40] 결과: 공고 1636건 · 업체 3150곳 · 참여기록 10308줄 · 수집 완료"
   ]
 }
