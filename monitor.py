@@ -431,18 +431,36 @@ def post_slack(webhook, text):
 # ---------------------------------------------------------------------------
 # 발송 시각 판단
 # ---------------------------------------------------------------------------
+CATCH_UP_HOURS = 24  # 예정 시각을 놓쳐도 이 시간 안에 실행되면 늦게라도 발송
+
+
+def latest_slot(cfg, now):
+    """지금 기준 가장 최근에 지난 발송 예정 시각 (요일·시각 설정 기준, 최근 24시간 이내) → (슬롯키, 시각) 또는 None"""
+    sch = cfg["schedule"]
+    days = {int(d) for d in sch.get("days", [])}
+    hours = sorted((int(h) for h in sch.get("hours", [])), reverse=True)
+    for back in range(0, 3):
+        day = (now - timedelta(days=back)).replace(minute=0, second=0, microsecond=0)
+        if day.weekday() not in days:
+            continue
+        for h in hours:
+            at = day.replace(hour=h)
+            if at <= now:
+                if now - at >= timedelta(hours=CATCH_UP_HOURS):
+                    return None
+                return f"{at:%Y-%m-%d} {h:02d}", at
+    return None
+
+
 def due_slot(cfg, state, now):
     """지금 발송해야 할 슬롯('YYYY-MM-DD HH') 또는 None.
-    GitHub 예약 실행이 늦거나 실패해도 3시간 안에는 다음 실행이 이어서 처리."""
-    sch = cfg["schedule"]
-    if now.weekday() not in [int(d) for d in sch.get("days", [])]:
+    GitHub 예약 실행은 몇 시간씩 늦거나 아예 건너뛰는 일이 잦아서,
+    가장 최근 예정 시각을 아직 안 보냈으면 24시간 안의 어느 실행에서든 이어서 발송합니다."""
+    found = latest_slot(cfg, now)
+    if not found:
         return None
-    done = set(state.get("done_slots", []))
-    for h in sorted((int(x) for x in sch.get("hours", [])), reverse=True):
-        slot = f"{now:%Y-%m-%d} {h:02d}"
-        if h <= now.hour < h + 3 and slot not in done:
-            return slot
-    return None
+    slot, _ = found
+    return None if slot in set(state.get("done_slots", [])) else slot
 
 
 # ---------------------------------------------------------------------------
@@ -536,6 +554,10 @@ def main():
     log(f"조회 소요 {time.monotonic() - t0:.0f}초")
 
     prefix = "[테스트] " if test else ""
+    if slot:
+        slot_at = datetime.strptime(slot, "%Y-%m-%d %H").replace(tzinfo=KST)
+        if now - slot_at >= timedelta(hours=2):
+            prefix = f"_(예정 {slot_at:%m/%d %H}시 발송분 · GitHub 예약 실행 지연으로 늦게 발송)_\n"
     messages = build_messages(cfg, results, errors, start, end, prefix)
     total = sum(len(v) for v in results.values())
 
