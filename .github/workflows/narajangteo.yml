@@ -3,9 +3,10 @@ run-name: "${{ github.event_name == 'workflow_dispatch' && format('{0} {1}', inp
 
 on:
   schedule:
-    # 매시간 17분(한국시간 06~23시)에 깨어나서, config.json 의 발송 요일·시각일 때만 실제로 보냅니다.
-    # 발송 시각은 설정 웹페이지(admin/index.html)에서 바꾸세요. 이 파일은 수정할 필요 없습니다.
-    - cron: "17 21-23,0-14 * * *"
+    # 매일 30분마다(17분·47분) 깨어나서, config.json 의 발송 요일·시각이 지났고 아직 안 보냈을 때만 보냅니다.
+    # GitHub 예약 실행은 몇 시간씩 늦거나 건너뛰는 일이 잦아 자주 깨웁니다. (발송 시각이 아니면 API 호출 없이 몇 초 만에 종료)
+    # 발송 시각은 설정 웹페이지에서 바꾸세요. 이 파일은 수정할 필요 없습니다.
+    - cron: "17,47 * * * *"
   workflow_dispatch:
     inputs:
       mode:
