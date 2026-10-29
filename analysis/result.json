@@ -1,6 +1,6 @@
 {
   "info": {
-    "created_at": "2026-10-28T08:45:51+09:00",
+    "created_at": "2026-10-29T08:59:37+09:00",
     "status": "수집 완료",
     "progress": {
       "낙찰 목록 남은 구간": 0,
@@ -8,8 +8,8 @@
       "낙찰 공고": 839,
       "참여업체 수집": 839,
       "계약 수집": 839,
-      "진행중(발주)": 81,
-      "진행중(입찰)": 117,
+      "진행중(발주)": 75,
+      "진행중(입찰)": 122,
       "종료(낙찰)": 839,
       "종료(유찰·취소)": 652,
       "운영중": 229
@@ -17,7 +17,7 @@
     "calls": {
       "낙찰정보": 181,
       "계약정보": 2,
-      "입찰공고": 84,
+      "입찰공고": 86,
       "발주계획": 23,
       "사전규격": 17
     },
@@ -1097,14 +1097,14 @@
     {
       "업체명": "주식회사 엠앤씨이노베이션",
       "사업자번호": "8498700385",
-      "참여건수": 5,
+      "참여건수": 6,
       "낙찰건수": 3,
-      "수주율(%)": 60,
+      "수주율(%)": 50,
       "낙찰금액합계": 1050853000,
       "운영중": 1,
-      "진행중입찰": 0,
+      "진행중입찰": 1,
       "최근낙찰일": "2026-08-10",
-      "주요발주기관": "한국농수산식품유통공사(5)",
+      "주요발주기관": "한국농수산식품유통공사(5), 재단법인전남테크노파크(1)",
       "관련키워드": "상담",
       "공동수급 파트너": ""
     },
@@ -74217,6 +74217,194 @@
       "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=20231100799&bidPbancOrd=000"
     },
     {
+      "공고번호": "R26BK01796854-001",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "입찰 접수중",
+      "공고명": "[입찰대행] 2027~2028년 공주시 콜센터 관리·운영 민간위탁사업",
+      "키워드": "콜센터",
+      "발주기관": "충청남도 공주시",
+      "공고일": "2026-10-28",
+      "입찰마감일": "2026-11-18",
+      "개찰일": "2026-11-18",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 946228000,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "공고문(2027~2028년 공주시 콜센터 관리운영 민간위탁 사업).pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01796854&bidPbancOrd=001&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "공고문(2027~2028년 공주시 콜센터 관리운영 민간위탁 사업).hwpx",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01796854&bidPbancOrd=001&fileType=&fileSeq=2&prcmBsneSeCd=03"
+        },
+        {
+          "name": "제안요청서(2027~2028년 공주시 콜센터 관리운영 민간위탁사업).hwpx",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01796854&bidPbancOrd=001&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01796854&bidPbancOrd=001"
+    },
+    {
+      "공고번호": "R26BK01795139-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "입찰 접수중",
+      "공고명": "2027년 콜센터 정보통신시스템 통합유지관리 용역",
+      "키워드": "콜센터",
+      "발주기관": "경기도 용인시",
+      "공고일": "2026-10-28",
+      "입찰마감일": "2026-11-18",
+      "개찰일": "2026-11-18",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 153126690,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "공고서(2027년 콜센터 정보통신시스템 통합유지관리 용역).hwpx",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01795139&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "공고서(2027년 콜센터 정보통신시스템 통합유지관리 용역).pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01795139&bidPbancOrd=000&fileType=&fileSeq=2&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01795139&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01796169-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "입찰 접수중",
+      "공고명": "2027년 근로･자녀장려금 상담센터 위탁운영 용역",
+      "키워드": "상담",
+      "발주기관": "국세청",
+      "공고일": "2026-10-28",
+      "입찰마감일": "2026-11-18",
+      "개찰일": "2026-11-18",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 2119000000,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "공고서(기관평가_업종_공동이행).hwpx",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01796169&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "공고서(기관평가_업종_공동이행).pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01796169&bidPbancOrd=000&fileType=&fileSeq=2&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01796169&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01790982-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "입찰 접수중",
+      "공고명": "2027년 가족전용상담전화 시스템 운영 및 유지보수",
+      "키워드": "상담",
+      "발주기관": "한국건강가정진흥원",
+      "공고일": "2026-10-28",
+      "입찰마감일": "2026-12-08",
+      "개찰일": "2026-12-08",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 321000000,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "[공고문] 2027년 가족전용상담전화 시스템 운영 및 유지보수.hwp",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01790982&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "[공고문] 2027년 가족전용상담전화 시스템 운영 및 유지보수.pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01790982&bidPbancOrd=000&fileType=&fileSeq=2&prcmBsneSeCd=03"
+        },
+        {
+          "name": "[제안요청서] 2027년 가족전용상담전화 시스템 운영 및 유지보수_최종.hwp",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01790982&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01790982&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01793156-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "입찰 접수중",
+      "공고명": "2027년 화성시 콜센터 시스템 유지관리 용역",
+      "키워드": "콜센터",
+      "발주기관": "경기도 화성시",
+      "공고일": "2026-10-28",
+      "입찰마감일": "2026-11-18",
+      "개찰일": "2026-11-18",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 125072100,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "공고서(2027년 화성시 콜센터 시스템 유지관리 용역).hwpx",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01793156&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "공고서(2027년 화성시 콜센터 시스템 유지관리 용역).pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01793156&bidPbancOrd=000&fileType=&fileSeq=2&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01793156&bidPbancOrd=000"
+    },
+    {
       "공고번호": "R26BK01792378-000",
       "구분": "용역",
       "상태": "진행중(입찰)",
@@ -74305,14 +74493,14 @@
       "구분": "용역",
       "상태": "진행중(입찰)",
       "운영중": "",
-      "진행단계": "입찰 접수중",
+      "진행단계": "개찰·평가·협상중 · 참여 1곳",
       "공고명": "The Bridge 전남광주 2026 해외바이어 발굴초청 및 비즈니스 상담회 운영 용역",
       "키워드": "상담",
       "발주기관": "재단법인전남테크노파크",
       "공고일": "2026-10-27",
       "입찰마감일": "2026-10-28",
       "개찰일": "2026-10-28",
-      "참가업체수": "",
+      "참가업체수": 1,
       "낙찰업체": "",
       "금액": 132000000,
       "금액기준": "배정예산",
@@ -103228,78 +103416,6 @@
       "링크": ""
     },
     {
-      "공고번호": "R26BD00285853",
-      "구분": "용역",
-      "상태": "진행중(발주)",
-      "운영중": "",
-      "진행단계": "사전규격 · 의견마감 2026-10-21",
-      "공고명": "2027년 콜센터 정보통신시스템 통합유지관리 용역",
-      "키워드": "콜센터",
-      "발주기관": "경기도 용인시",
-      "공고일": "2026-10-16",
-      "입찰마감일": "",
-      "개찰일": "",
-      "참가업체수": "",
-      "낙찰업체": "",
-      "금액": 153126690,
-      "금액기준": "배정예산",
-      "낙찰금액": "",
-      "낙찰률": "",
-      "계약업체(공동수급)": "",
-      "계약일": "",
-      "계약금액": "",
-      "계약시작일": "",
-      "계약완료일": "",
-      "참여업체 수집": "",
-      "첨부": [
-        {
-          "name": "사전규격 문서 1",
-          "url": "https://www.g2b.go.kr/pn/pnz/pnza/UntyAtchFile/downloadFile.do?bfSpecRegNo=R26BD00285853&fileType=BFDTL&fileSeq=2"
-        },
-        {
-          "name": "사전규격 문서 2",
-          "url": "https://www.g2b.go.kr/pn/pnz/pnza/UntyAtchFile/downloadFile.do?bfSpecRegNo=R26BD00285853&fileType=BFDTL&fileSeq=3"
-        },
-        {
-          "name": "사전규격 문서 3",
-          "url": "https://www.g2b.go.kr/pn/pnz/pnza/UntyAtchFile/downloadFile.do?bfSpecRegNo=R26BD00285853&fileType=BFDTL&fileSeq=4"
-        }
-      ],
-      "링크": ""
-    },
-    {
-      "공고번호": "R26BD00286292",
-      "구분": "용역",
-      "상태": "진행중(발주)",
-      "운영중": "",
-      "진행단계": "사전규격 · 의견마감 2026-10-21",
-      "공고명": "[입찰대행] 2027~2028년 공주시 콜센터 관리·운영 민간위탁사업",
-      "키워드": "콜센터",
-      "발주기관": "충청남도 공주시",
-      "공고일": "2026-10-16",
-      "입찰마감일": "",
-      "개찰일": "",
-      "참가업체수": "",
-      "낙찰업체": "",
-      "금액": 946228000,
-      "금액기준": "배정예산",
-      "낙찰금액": "",
-      "낙찰률": "",
-      "계약업체(공동수급)": "",
-      "계약일": "",
-      "계약금액": "",
-      "계약시작일": "",
-      "계약완료일": "",
-      "참여업체 수집": "",
-      "첨부": [
-        {
-          "name": "사전규격 문서 1",
-          "url": "https://www.g2b.go.kr/pn/pnz/pnza/UntyAtchFile/downloadFile.do?bfSpecRegNo=R26BD00286292&fileType=BFDTL&fileSeq=1"
-        }
-      ],
-      "링크": ""
-    },
-    {
       "공고번호": "R26BD00286294",
       "구분": "용역",
       "상태": "진행중(발주)",
@@ -103400,38 +103516,6 @@
       "링크": ""
     },
     {
-      "공고번호": "R26BD00287598",
-      "구분": "용역",
-      "상태": "진행중(발주)",
-      "운영중": "",
-      "진행단계": "사전규격 · 의견마감 2026-10-25",
-      "공고명": "2027년 국어 생활 자료 정비 및 온라인 상담",
-      "키워드": "상담",
-      "발주기관": "문화체육관광부 국립국어원",
-      "공고일": "2026-10-20",
-      "입찰마감일": "",
-      "개찰일": "",
-      "참가업체수": "",
-      "낙찰업체": "",
-      "금액": 282438000,
-      "금액기준": "배정예산",
-      "낙찰금액": "",
-      "낙찰률": "",
-      "계약업체(공동수급)": "",
-      "계약일": "",
-      "계약금액": "",
-      "계약시작일": "",
-      "계약완료일": "",
-      "참여업체 수집": "",
-      "첨부": [
-        {
-          "name": "사전규격 문서 1",
-          "url": "https://www.g2b.go.kr/pn/pnz/pnza/UntyAtchFile/downloadFile.do?bfSpecRegNo=R26BD00287598&fileType=BFDTL&fileSeq=1"
-        }
-      ],
-      "링크": ""
-    },
-    {
       "공고번호": "R26BD00287600",
       "구분": "용역",
       "상태": "진행중(발주)",
@@ -103495,70 +103579,6 @@
         {
           "name": "사전규격 문서 2",
           "url": "https://www.g2b.go.kr/pn/pnz/pnza/UntyAtchFile/downloadFile.do?bfSpecRegNo=R26BD00287678&fileType=BFDTL&fileSeq=2"
-        }
-      ],
-      "링크": ""
-    },
-    {
-      "공고번호": "R26BD00287789",
-      "구분": "용역",
-      "상태": "진행중(발주)",
-      "운영중": "",
-      "진행단계": "사전규격 · 의견마감 2026-10-25",
-      "공고명": "2027년 화성시 콜센터 시스템 유지관리 용역",
-      "키워드": "콜센터",
-      "발주기관": "경기도 화성시",
-      "공고일": "2026-10-20",
-      "입찰마감일": "",
-      "개찰일": "",
-      "참가업체수": "",
-      "낙찰업체": "",
-      "금액": 125072100,
-      "금액기준": "배정예산",
-      "낙찰금액": "",
-      "낙찰률": "",
-      "계약업체(공동수급)": "",
-      "계약일": "",
-      "계약금액": "",
-      "계약시작일": "",
-      "계약완료일": "",
-      "참여업체 수집": "",
-      "첨부": [
-        {
-          "name": "사전규격 문서 1",
-          "url": "https://www.g2b.go.kr/pn/pnz/pnza/UntyAtchFile/downloadFile.do?bfSpecRegNo=R26BD00287789&fileType=BFDTL&fileSeq=1"
-        }
-      ],
-      "링크": ""
-    },
-    {
-      "공고번호": "R26BD00288207",
-      "구분": "용역",
-      "상태": "진행중(발주)",
-      "운영중": "",
-      "진행단계": "사전규격 · 의견마감 2026-10-26",
-      "공고명": "2027년 근로장려금 상담센터 위탁운영 용역",
-      "키워드": "상담",
-      "발주기관": "국세청",
-      "공고일": "2026-10-21",
-      "입찰마감일": "",
-      "개찰일": "",
-      "참가업체수": "",
-      "낙찰업체": "",
-      "금액": 2132238876,
-      "금액기준": "배정예산",
-      "낙찰금액": "",
-      "낙찰률": "",
-      "계약업체(공동수급)": "",
-      "계약일": "",
-      "계약금액": "",
-      "계약시작일": "",
-      "계약완료일": "",
-      "참여업체 수집": "",
-      "첨부": [
-        {
-          "name": "사전규격 문서 1",
-          "url": "https://www.g2b.go.kr/pn/pnz/pnza/UntyAtchFile/downloadFile.do?bfSpecRegNo=R26BD00288207&fileType=BFDTL&fileSeq=1"
         }
       ],
       "링크": ""
@@ -103655,42 +103675,6 @@
         {
           "name": "사전규격 문서 1",
           "url": "https://www.g2b.go.kr/pn/pnz/pnza/UntyAtchFile/downloadFile.do?bfSpecRegNo=R26BD00288305&fileType=BFDTL&fileSeq=1"
-        }
-      ],
-      "링크": ""
-    },
-    {
-      "공고번호": "R26BD00287125",
-      "구분": "용역",
-      "상태": "진행중(발주)",
-      "운영중": "",
-      "진행단계": "사전규격 · 의견마감 2026-10-25",
-      "공고명": "[긴급] 2027년 가족전용상담전화 시스템 운영 및 유지보수",
-      "키워드": "상담",
-      "발주기관": "한국건강가정진흥원",
-      "공고일": "2026-10-22",
-      "입찰마감일": "",
-      "개찰일": "",
-      "참가업체수": "",
-      "낙찰업체": "",
-      "금액": 321000000,
-      "금액기준": "배정예산",
-      "낙찰금액": "",
-      "낙찰률": "",
-      "계약업체(공동수급)": "",
-      "계약일": "",
-      "계약금액": "",
-      "계약시작일": "",
-      "계약완료일": "",
-      "참여업체 수집": "",
-      "첨부": [
-        {
-          "name": "사전규격 문서 1",
-          "url": "https://www.g2b.go.kr/pn/pnz/pnza/UntyAtchFile/downloadFile.do?bfSpecRegNo=R26BD00287125&fileType=BFDTL&fileSeq=1"
-        },
-        {
-          "name": "사전규격 문서 2",
-          "url": "https://www.g2b.go.kr/pn/pnz/pnza/UntyAtchFile/downloadFile.do?bfSpecRegNo=R26BD00287125&fileType=BFDTL&fileSeq=2"
         }
       ],
       "링크": ""
@@ -104316,6 +104300,102 @@
       "링크": ""
     },
     {
+      "공고번호": "R26BD00291946",
+      "구분": "용역",
+      "상태": "진행중(발주)",
+      "운영중": "",
+      "진행단계": "사전규격 · 의견마감 2026-11-03",
+      "공고명": "2027년 가습기살균제 손해배상 및 피해지원 상담서비스 운영",
+      "키워드": "상담",
+      "발주기관": "한국환경산업기술원",
+      "공고일": "2026-10-29",
+      "입찰마감일": "",
+      "개찰일": "",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 504110000,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "",
+      "첨부": [
+        {
+          "name": "사전규격 문서 1",
+          "url": "https://www.g2b.go.kr/pn/pnz/pnza/UntyAtchFile/downloadFile.do?bfSpecRegNo=R26BD00291946&fileType=BFDTL&fileSeq=1"
+        }
+      ],
+      "링크": ""
+    },
+    {
+      "공고번호": "R26BD00291674",
+      "구분": "용역",
+      "상태": "진행중(발주)",
+      "운영중": "",
+      "진행단계": "사전규격 · 의견마감 2026-11-02",
+      "공고명": "여수시 콜센터 민간위탁 운영",
+      "키워드": "콜센터",
+      "발주기관": "전남광주통합특별시 여수시",
+      "공고일": "2026-10-28",
+      "입찰마감일": "",
+      "개찰일": "",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 1279171000,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "",
+      "첨부": [
+        {
+          "name": "사전규격 문서 1",
+          "url": "https://www.g2b.go.kr/pn/pnz/pnza/UntyAtchFile/downloadFile.do?bfSpecRegNo=R26BD00291674&fileType=BFDTL&fileSeq=1"
+        }
+      ],
+      "링크": ""
+    },
+    {
+      "공고번호": "R26BD00291749",
+      "구분": "용역",
+      "상태": "진행중(발주)",
+      "운영중": "",
+      "진행단계": "사전규격 · 의견마감 2026-11-02",
+      "공고명": "2027년 민원시스템 통합 유지관리용역",
+      "키워드": "민원",
+      "발주기관": "대구광역시",
+      "공고일": "2026-10-28",
+      "입찰마감일": "",
+      "개찰일": "",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 102975000,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "",
+      "첨부": [
+        {
+          "name": "사전규격 문서 1",
+          "url": "https://www.g2b.go.kr/pn/pnz/pnza/UntyAtchFile/downloadFile.do?bfSpecRegNo=R26BD00291749&fileType=BFDTL&fileSeq=1"
+        }
+      ],
+      "링크": ""
+    },
+    {
       "공고번호": "R26DD20552779",
       "구분": "용역",
       "상태": "진행중(발주)",
@@ -104422,33 +104502,6 @@
       "참여업체 수집": "",
       "첨부": "",
       "링크": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20552775"
-    },
-    {
-      "공고번호": "R26DD20552774",
-      "구분": "용역",
-      "상태": "진행중(발주)",
-      "운영중": "",
-      "진행단계": "발주계획 · 발주예정 2026.10",
-      "공고명": "2027년 가습기살균제 손해배상 및 피해지원 상담서비스 운영",
-      "키워드": "상담",
-      "발주기관": "한국환경산업기술원",
-      "공고일": "2026-01-19",
-      "입찰마감일": "",
-      "개찰일": "",
-      "참가업체수": "",
-      "낙찰업체": "",
-      "금액": 500000000,
-      "금액기준": "발주금액",
-      "낙찰금액": "",
-      "낙찰률": "",
-      "계약업체(공동수급)": "",
-      "계약일": "",
-      "계약금액": "",
-      "계약시작일": "",
-      "계약완료일": "",
-      "참여업체 수집": "",
-      "첨부": "",
-      "링크": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20552774"
     },
     {
       "공고번호": "R26DD20572605",
@@ -105018,33 +105071,6 @@
       "링크": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20897280"
     },
     {
-      "공고번호": "R26DD20900367",
-      "구분": "용역",
-      "상태": "진행중(발주)",
-      "운영중": "",
-      "진행단계": "발주계획 · 발주예정 2026.10",
-      "공고명": "2027년 가족전용상담전화 시스템 운영 및 유지보수",
-      "키워드": "상담",
-      "발주기관": "한국건강가정진흥원",
-      "공고일": "2026-10-19",
-      "입찰마감일": "",
-      "개찰일": "",
-      "참가업체수": "",
-      "낙찰업체": "",
-      "금액": 321000000,
-      "금액기준": "발주금액",
-      "낙찰금액": "",
-      "낙찰률": "",
-      "계약업체(공동수급)": "",
-      "계약일": "",
-      "계약금액": "",
-      "계약시작일": "",
-      "계약완료일": "",
-      "참여업체 수집": "",
-      "첨부": "",
-      "링크": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20900367"
-    },
-    {
       "공고번호": "R26DD20901410",
       "구분": "용역",
       "상태": "진행중(발주)",
@@ -105124,33 +105150,6 @@
       "참여업체 수집": "",
       "첨부": "",
       "링크": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20903483"
-    },
-    {
-      "공고번호": "R26DD20904455",
-      "구분": "용역",
-      "상태": "진행중(발주)",
-      "운영중": "",
-      "진행단계": "발주계획 · 발주예정 2026.10",
-      "공고명": "2027년 가습기살균제 손해배상 및 피해지원 상담서비스 운영",
-      "키워드": "상담",
-      "발주기관": "한국환경산업기술원",
-      "공고일": "2026-10-22",
-      "입찰마감일": "",
-      "개찰일": "",
-      "참가업체수": "",
-      "낙찰업체": "",
-      "금액": 500000000,
-      "금액기준": "발주금액",
-      "낙찰금액": "",
-      "낙찰률": "",
-      "계약업체(공동수급)": "",
-      "계약일": "",
-      "계약금액": "",
-      "계약시작일": "",
-      "계약완료일": "",
-      "참여업체 수집": "",
-      "첨부": "",
-      "링크": "https://www.g2b.go.kr/link/PRPA015_01/single/?oderPlanNo=R26DD20904455"
     },
     {
       "공고번호": "R26DD20905820",
@@ -269956,6 +269955,22 @@
       "낙찰": "●"
     },
     {
+      "공고번호": "R26BK01792835",
+      "공고명": "The Bridge 전남광주 2026 해외바이어 발굴초청 및 비즈니스 상담회 운영 용역",
+      "발주기관": "재단법인전남테크노파크",
+      "개찰일": "2026-10-28",
+      "업체명": "주식회사 엠앤씨이노베이션",
+      "사업자번호": "8498700385",
+      "순위": 1,
+      "투찰금액": 116000000,
+      "투찰률": 98.639,
+      "기술점수": "",
+      "가격점수": "",
+      "종합점수": "",
+      "비고": "정상",
+      "낙찰": ""
+    },
+    {
       "공고번호": "R26BK01776394",
       "공고명": "민원대응 챗봇 및 내부 업무지원 SH-AI포털 개발서버 도입",
       "발주기관": "서울주택도시개발공사",
@@ -271397,31 +271412,31 @@
     }
   ],
   "log": [
-    "[08:45:51] 조건: 키워드 ['상담', '채팅', '콜센터', '고객센터', '민원', 'AICC'] · 3년 · 낙찰 1.0억↑ · ['용역', '물품']",
-    "[08:45:51] 1-1) 입찰공고: 조회할 구간 84개 (종류 ['용역', '물품'] × 키워드 6개 × 월 단위)",
-    "[08:48:21]   완료 84 · 실패 0 · 남음 0 · 새 6건 (누적 3469건)",
-    "[08:48:21]   낙찰 전 진행중 공고가 있는 지난 구간 9개 재확인",
-    "[08:48:21] 1-2) 낙찰 목록: 조회할 구간 93개 (종류 ['용역', '물품'] × 키워드 6개 × 월 단위)",
-    "[08:52:20]   완료 93 · 실패 0 · 남음 0 · 새 1건 (누적 1845건)",
-    "[08:54:12] 0) 발주계획: 1340건 확인 · 실패 0",
-    "[08:54:56] 0) 사전규격: 739건 확인 · 실패 0",
-    "[08:54:56] 조건에 맞는 낙찰 공고 839건 · 낙찰 전 입찰공고 769건",
-    "[08:54:56] 2) 참여업체: 조회할 공고 0건",
-    "[08:54:56]   0건 완료 · 실패 0 · 남음 0",
-    "[08:54:56] 3) 계약: 조회할 공고 2건",
-    "[08:54:57]   2건 완료 · 실패 0 · 남음 0",
-    "[08:54:57] 2-2) 진행중 입찰 참여업체(매일 갱신): 조회할 공고 88건",
-    "[08:55:10]   88건 완료 · 실패 0 · 남음 0",
-    "[08:55:11] API 호출: 낙찰정보 181회 · 계약정보 2회 · 입찰공고 84회 · 발주계획 23회 · 사전규격 17회",
-    "[08:55:11]   응답 필드 [getBidPblancListInfoServcPPSSrch]: VAT, arsltApplDocRcptMthdNm, arsltCmptYn, arsltReqstdocRcptDt, asignBdgtAmt, befBidBbancNo, bfSpecRgstNo, bidBeginDt, bidClseDt, bidGrntymnyPaymntYn, bidMethdNm, bidNtceDt, bidNtceDtlUrl, bidNtceNm, bidNtceNo, bidNtceOrd, bidNtceUrl, bidPrceEvlRt, bidPrtcptFee, bidPrtcptFeePaymntYn, bidPrtcptLmtYn, bidQlfctRgstDt, brffcBidprcPermsnYn, chgDt, chgNtceRsn, cmmnSpldmdAgrmntClseDt, cmmnSpldmdAgrmntRcptdocMethd, cmmnSpldmdCorpRgnLmtYn, cmmnSpldmdMethdCd, cmmnSpldmdMethdNm, cntrctCnclsMthdNm, crdtrNm, dcmtgOprtnDt, dcmtgOprtnPlce, dminsttCd, dminsttNm, dminsttOfclEmailAdrs, drwtPrdprcNum, dsgntCmptYn, dtlsBidYn, exctvNm, indstrytyLmtYn, indutyVAT, infoBizYn, intrbidYn, jntcontrctDutyRgnNm1, jntcontrctDutyRgnNm2, jntcontrctDutyRgnNm3, mnfctYn, ntceDscrptYn, ntceInsttCd, ntceInsttNm, ntceInsttOfclEmailAdrs, ntceInsttOfclNm, ntceInsttOfclTelNo, ntceKindNm, ntceSpecDocUrl1, ntceSpecDocUrl10, ntceSpecDocUrl2, ntceSpecDocUrl3, ntceSpecDocUrl4, ntceSpecDocUrl5, ntceSpecDocUrl6, ntceSpecDocUrl7, ntceSpecDocUrl8, ntceSpecDocUrl9, ntceSpecFileNm1, ntceSpecFileNm10, ntceSpecFileNm2, ntceSpecFileNm3, ntceSpecFileNm4, ntceSpecFileNm5, ntceSpecFileNm6, ntceSpecFileNm7, ntceSpecFileNm8, ntceSpecFileNm9, opengDt, opengPlce, orderPlanUntyNo, ppswGnrlSrvceYn, pqApplDocRcptDt, pqApplDocRcptMthdNm, pqEvalYn, prdctClsfcLmtYn, prearngPrceDcsnMthdNm, presmptPrce, pubPrcrmntClsfcNm, pubPrcrmntClsfcNo, pubPrcrmntLrgClsfcNm, pubPrcrmntMidClsfcNm, purchsObjPrdctList, rbidOpengDt, rbidPermsnYn, reNtceYn, refNo, rgnDutyJntcontrctRt, rgnLmtBidLocplcJdgmBssCd, rgnLmtBidLocplcJdgmBssNm, rgstDt, rgstTyNm, rsrvtnPrceReMkngMthdNm, srvceDivNm, stdNtceDocUrl, sucsfbidLwltRate, sucsfbidMthdAppStd, sucsfbidMthdCd, sucsfbidMthdNm, techAbltEvlRt, totPrdprcNum, tpEvalApplClseDt, tpEvalApplMthdNm, tpEvalYn, untyNtceNo",
-    "[08:55:11]   응답 필드 [getBidPblancListInfoThngPPSSrch]: VAT, arsltApplDocRcptDt, arsltApplDocRcptMthdNm, asignBdgtAmt, befBidBbancNo, bfSpecRgstNo, bidBeginDt, bidClseDt, bidGrntymnyPaymntYn, bidMethdNm, bidNtceDt, bidNtceDtlUrl, bidNtceNm, bidNtceNo, bidNtceOrd, bidNtceUrl, bidPrceEvlRt, bidPrtcptFee, bidPrtcptFeePaymntYn, bidQlfctRgstDt, bidWgrnteeRcptClseDt, brffcBidprcPermsnYn, chgDt, chgNtceRsn, cmmnSpldmdAgrmntClseDt, cmmnSpldmdAgrmntRcptdocMethd, cmmnSpldmdCorpRgnLmtYn, cmmnSpldmdMethdCd, cmmnSpldmdMethdNm, cntrctCnclsMthdNm, crdtrNm, dlvrDaynum, dlvrTmlmtDt, dlvryCndtnNm, dminsttCd, dminsttNm, dminsttOfclEmailAdrs, drwtPrdprcNum, dsgntCmptYn, dtilPrdctClsfcNo, dtilPrdctClsfcNoNm, exctvNm, indstrytyLmtYn, indutyVAT, infoBizYn, intrbidYn, mnfctYn, ntceInsttCd, ntceInsttNm, ntceInsttOfclEmailAdrs, ntceInsttOfclNm, ntceInsttOfclTelNo, ntceKindNm, ntceSpecDocUrl1, ntceSpecDocUrl10, ntceSpecDocUrl2, ntceSpecDocUrl3, ntceSpecDocUrl4, ntceSpecDocUrl5, ntceSpecDocUrl6, ntceSpecDocUrl7, ntceSpecDocUrl8, ntceSpecDocUrl9, ntceSpecFileNm1, ntceSpecFileNm10, ntceSpecFileNm2, ntceSpecFileNm3, ntceSpecFileNm4, ntceSpecFileNm5, ntceSpecFileNm6, ntceSpecFileNm7, ntceSpecFileNm8, ntceSpecFileNm9, opengDt, opengPlce, orderPlanUntyNo, prdctClsfcLmtYn, prdctQty, prdctSpecNm, prdctUnit, prdctUprc, prearngPrceDcsnMthdNm, presmptPrce, purchsObjPrdctList, rbidOpengDt, rbidPermsnYn, reNtceYn, refNo, rgnLmtBidLocplcJdgmBssCd, rgnLmtBidLocplcJdgmBssNm, rgstDt, rgstTyNm, rsrvtnPrceReMkngMthdNm, stdNtceDocUrl, sucsfbidLwltRate, sucsfbidMthdAppStd, sucsfbidMthdCd, sucsfbidMthdNm, techAbltEvlRt, totPrdprcNum, untyNtceNo",
-    "[08:55:11]   응답 필드 [getScsbidListSttusServcPPSSrch]: bidClsfcNo, bidNtceNm, bidNtceNo, bidNtceOrd, bidwinnrAdrs, bidwinnrBizno, bidwinnrCeoNm, bidwinnrNm, bidwinnrTelNo, dminsttCd, dminsttNm, fnlSucsfCorpOfcl, fnlSucsfDate, ntceDivCd, prtcptCnum, rbidNo, rgstDt, rlOpengDt, sucsfbidAmt, sucsfbidRate",
-    "[08:55:11]   응답 필드 [getScsbidListSttusThngPPSSrch]: bidClsfcNo, bidNtceNm, bidNtceNo, bidNtceOrd, bidwinnrAdrs, bidwinnrBizno, bidwinnrCeoNm, bidwinnrNm, bidwinnrTelNo, dminsttCd, dminsttNm, fnlSucsfCorpOfcl, fnlSucsfDate, ntceDivCd, prtcptCnum, rbidNo, rgstDt, rlOpengDt, sucsfbidAmt, sucsfbidRate",
-    "[08:55:11]   응답 필드 [getOrderPlanSttusListServcPPSSrch]: agrmntYn, atchFileExistnceYn, bdgtDivCd, bidNtceNoList, bizNm, bsnsDivCd, bsnsDivNm, bsnsTyCd, bsnsTyNm, chgDt, cnsttyDivNm, cnstwkPrdCntnts, cnstwkRgnNm, cntrctMthdNm, deptNm, dsgnDocRdngPlceNm, dsgnDocRdngPrdCntnts, dtilPrdctClsfcNo, dtilPrdctClsfcNoNm, jrsdctnDivCd, jrsdctnDivNm, ntceNticeYn, nticeDt, ofclNm, orderContrctAmt, orderEtcAmt, orderGovsplyMtrcst, orderInsttCd, orderInsttNm, orderMnth, orderNtntrsAuxAmt, orderPlanDtlUrl, orderPlanSno, orderPlanUntyNo, orderThtmContrctAmt, orderYear, prcrmntMethd, prdctClsfcNo, prdctClsfcNoNm, qtyCntnts, rcritRgstNo, rmrkCntnts, specCntnts, specItemCntnts1, specItemCntnts2, specItemCntnts3, specItemCntnts4, specItemCntnts5, specItemNm1, specItemNm2, specItemNm3, specItemNm4, specItemNm5, sumOrderAmt, sumOrderDolAmt, telNo, totlmngInsttNm, unit, usgCntnts",
-    "[08:55:11]   응답 필드 [getOrderPlanSttusListThngPPSSrch]: agrmntYn, atchFileExistnceYn, bdgtDivCd, bidNtceNoList, bizNm, bsnsDivCd, bsnsDivNm, bsnsTyCd, bsnsTyNm, chgDt, cnsttyDivNm, cnstwkPrdCntnts, cnstwkRgnNm, cntrctMthdNm, deptNm, dsgnDocRdngPlceNm, dsgnDocRdngPrdCntnts, dtilPrdctClsfcNo, dtilPrdctClsfcNoNm, jrsdctnDivCd, jrsdctnDivNm, ntceNticeYn, nticeDt, ofclNm, orderContrctAmt, orderEtcAmt, orderGovsplyMtrcst, orderInsttCd, orderInsttNm, orderMnth, orderNtntrsAuxAmt, orderPlanDtlUrl, orderPlanSno, orderPlanUntyNo, orderThtmContrctAmt, orderYear, prcrmntMethd, prdctClsfcNo, prdctClsfcNoNm, qtyCntnts, rcritRgstNo, rmrkCntnts, specCntnts, specItemCntnts1, specItemCntnts2, specItemCntnts3, specItemCntnts4, specItemCntnts5, specItemNm1, specItemNm2, specItemNm3, specItemNm4, specItemNm5, sumOrderAmt, sumOrderDolAmt, telNo, totlmngInsttNm, unit, usgCntnts",
-    "[08:55:11]   응답 필드 [getPublicPrcureThngInfoServcPPSSrch]: asignBdgtAmt, bfSpecRgstNo, bidNtceNoList, bsnsDivNm, chgDt, dlvrDaynum, dlvrTmlmtDt, ofclNm, ofclTelNo, opninRgstClseDt, orderInsttNm, prdctClsfcNoNm, prdctDtlList, rcptDt, refNo, rgstDt, rlDminsttNm, specDocFileUrl1, specDocFileUrl2, specDocFileUrl3, specDocFileUrl4, specDocFileUrl5, swBizObjYn",
-    "[08:55:11]   응답 필드 [getPublicPrcureThngInfoThngPPSSrch]: asignBdgtAmt, bfSpecRgstNo, bidNtceNoList, bsnsDivNm, chgDt, dlvrDaynum, dlvrTmlmtDt, ofclNm, ofclTelNo, opninRgstClseDt, orderInsttNm, prdctClsfcNoNm, prdctDtlList, rcptDt, refNo, rgstDt, rlDminsttNm, specDocFileUrl1, specDocFileUrl2, specDocFileUrl3, specDocFileUrl4, specDocFileUrl5, swBizObjYn",
-    "[08:55:11]   응답 필드 [getOpengResultListInfoOpengCompt]: bidClsfcNo, bidNtceNo, bidNtceOrd, bidPrceEvlVal, bidprcAmt, bidprcDt, bidprcrt, cnsttyAccotBidAmtUrl, drwtNo1, drwtNo2, opengRank, opengRsltDivNm, prcbdrBizno, prcbdrCeoNm, prcbdrNm, rbidNo, rmrk, techEvlNaturVal, techEvlVal, totalEvlAmtVal",
-    "[08:55:11] 결과: 공고 1689건 · 업체 3184곳 · 참여기록 10385줄 · 수집 완료"
+    "[08:59:37] 조건: 키워드 ['상담', '채팅', '콜센터', '고객센터', '민원', 'AICC'] · 3년 · 낙찰 1.0억↑ · ['용역', '물품']",
+    "[08:59:37] 1-1) 입찰공고: 조회할 구간 84개 (종류 ['용역', '물품'] × 키워드 6개 × 월 단위)",
+    "[09:09:37]   완료 84 · 실패 0 · 남음 0 · 새 6건 (누적 3475건)",
+    "[09:09:37]   낙찰 전 진행중 공고가 있는 지난 구간 9개 재확인",
+    "[09:09:37] 1-2) 낙찰 목록: 조회할 구간 93개 (종류 ['용역', '물품'] × 키워드 6개 × 월 단위)",
+    "[09:14:57]   완료 93 · 실패 0 · 남음 0 · 새 1건 (누적 1846건)",
+    "[09:17:29] 0) 발주계획: 1339건 확인 · 실패 0",
+    "[09:18:13] 0) 사전규격: 740건 확인 · 실패 0",
+    "[09:18:13] 조건에 맞는 낙찰 공고 839건 · 낙찰 전 입찰공고 774건",
+    "[09:18:13] 2) 참여업체: 조회할 공고 0건",
+    "[09:18:13]   0건 완료 · 실패 0 · 남음 0",
+    "[09:18:13] 3) 계약: 조회할 공고 2건",
+    "[09:18:14]   2건 완료 · 실패 0 · 남음 0",
+    "[09:18:14] 2-2) 진행중 입찰 참여업체(매일 갱신): 조회할 공고 88건",
+    "[09:18:24]   88건 완료 · 실패 0 · 남음 0",
+    "[09:18:25] API 호출: 낙찰정보 181회 · 계약정보 2회 · 입찰공고 86회 · 발주계획 23회 · 사전규격 17회",
+    "[09:18:25]   응답 필드 [getBidPblancListInfoServcPPSSrch]: VAT, arsltApplDocRcptMthdNm, arsltCmptYn, arsltReqstdocRcptDt, asignBdgtAmt, befBidBbancNo, bfSpecRgstNo, bidBeginDt, bidClseDt, bidGrntymnyPaymntYn, bidMethdNm, bidNtceDt, bidNtceDtlUrl, bidNtceNm, bidNtceNo, bidNtceOrd, bidNtceUrl, bidPrceEvlRt, bidPrtcptFee, bidPrtcptFeePaymntYn, bidPrtcptLmtYn, bidQlfctRgstDt, brffcBidprcPermsnYn, chgDt, chgNtceRsn, cmmnSpldmdAgrmntClseDt, cmmnSpldmdAgrmntRcptdocMethd, cmmnSpldmdCorpRgnLmtYn, cmmnSpldmdMethdCd, cmmnSpldmdMethdNm, cntrctCnclsMthdNm, crdtrNm, dcmtgOprtnDt, dcmtgOprtnPlce, dminsttCd, dminsttNm, dminsttOfclEmailAdrs, drwtPrdprcNum, dsgntCmptYn, dtlsBidYn, exctvNm, indstrytyLmtYn, indutyVAT, infoBizYn, intrbidYn, jntcontrctDutyRgnNm1, jntcontrctDutyRgnNm2, jntcontrctDutyRgnNm3, mnfctYn, ntceDscrptYn, ntceInsttCd, ntceInsttNm, ntceInsttOfclEmailAdrs, ntceInsttOfclNm, ntceInsttOfclTelNo, ntceKindNm, ntceSpecDocUrl1, ntceSpecDocUrl10, ntceSpecDocUrl2, ntceSpecDocUrl3, ntceSpecDocUrl4, ntceSpecDocUrl5, ntceSpecDocUrl6, ntceSpecDocUrl7, ntceSpecDocUrl8, ntceSpecDocUrl9, ntceSpecFileNm1, ntceSpecFileNm10, ntceSpecFileNm2, ntceSpecFileNm3, ntceSpecFileNm4, ntceSpecFileNm5, ntceSpecFileNm6, ntceSpecFileNm7, ntceSpecFileNm8, ntceSpecFileNm9, opengDt, opengPlce, orderPlanUntyNo, ppswGnrlSrvceYn, pqApplDocRcptDt, pqApplDocRcptMthdNm, pqEvalYn, prdctClsfcLmtYn, prearngPrceDcsnMthdNm, presmptPrce, pubPrcrmntClsfcNm, pubPrcrmntClsfcNo, pubPrcrmntLrgClsfcNm, pubPrcrmntMidClsfcNm, purchsObjPrdctList, rbidOpengDt, rbidPermsnYn, reNtceYn, refNo, rgnDutyJntcontrctRt, rgnLmtBidLocplcJdgmBssCd, rgnLmtBidLocplcJdgmBssNm, rgstDt, rgstTyNm, rsrvtnPrceReMkngMthdNm, srvceDivNm, stdNtceDocUrl, sucsfbidLwltRate, sucsfbidMthdAppStd, sucsfbidMthdCd, sucsfbidMthdNm, techAbltEvlRt, totPrdprcNum, tpEvalApplClseDt, tpEvalApplMthdNm, tpEvalYn, untyNtceNo",
+    "[09:18:25]   응답 필드 [getBidPblancListInfoThngPPSSrch]: VAT, arsltApplDocRcptDt, arsltApplDocRcptMthdNm, asignBdgtAmt, befBidBbancNo, bfSpecRgstNo, bidBeginDt, bidClseDt, bidGrntymnyPaymntYn, bidMethdNm, bidNtceDt, bidNtceDtlUrl, bidNtceNm, bidNtceNo, bidNtceOrd, bidNtceUrl, bidPrceEvlRt, bidPrtcptFee, bidPrtcptFeePaymntYn, bidQlfctRgstDt, bidWgrnteeRcptClseDt, brffcBidprcPermsnYn, chgDt, chgNtceRsn, cmmnSpldmdAgrmntClseDt, cmmnSpldmdAgrmntRcptdocMethd, cmmnSpldmdCorpRgnLmtYn, cmmnSpldmdMethdCd, cmmnSpldmdMethdNm, cntrctCnclsMthdNm, crdtrNm, dlvrDaynum, dlvrTmlmtDt, dlvryCndtnNm, dminsttCd, dminsttNm, dminsttOfclEmailAdrs, drwtPrdprcNum, dsgntCmptYn, dtilPrdctClsfcNo, dtilPrdctClsfcNoNm, exctvNm, indstrytyLmtYn, indutyVAT, infoBizYn, intrbidYn, mnfctYn, ntceInsttCd, ntceInsttNm, ntceInsttOfclEmailAdrs, ntceInsttOfclNm, ntceInsttOfclTelNo, ntceKindNm, ntceSpecDocUrl1, ntceSpecDocUrl10, ntceSpecDocUrl2, ntceSpecDocUrl3, ntceSpecDocUrl4, ntceSpecDocUrl5, ntceSpecDocUrl6, ntceSpecDocUrl7, ntceSpecDocUrl8, ntceSpecDocUrl9, ntceSpecFileNm1, ntceSpecFileNm10, ntceSpecFileNm2, ntceSpecFileNm3, ntceSpecFileNm4, ntceSpecFileNm5, ntceSpecFileNm6, ntceSpecFileNm7, ntceSpecFileNm8, ntceSpecFileNm9, opengDt, opengPlce, orderPlanUntyNo, prdctClsfcLmtYn, prdctQty, prdctSpecNm, prdctUnit, prdctUprc, prearngPrceDcsnMthdNm, presmptPrce, purchsObjPrdctList, rbidOpengDt, rbidPermsnYn, reNtceYn, refNo, rgnLmtBidLocplcJdgmBssCd, rgnLmtBidLocplcJdgmBssNm, rgstDt, rgstTyNm, rsrvtnPrceReMkngMthdNm, stdNtceDocUrl, sucsfbidLwltRate, sucsfbidMthdAppStd, sucsfbidMthdCd, sucsfbidMthdNm, techAbltEvlRt, totPrdprcNum, untyNtceNo",
+    "[09:18:25]   응답 필드 [getScsbidListSttusServcPPSSrch]: bidClsfcNo, bidNtceNm, bidNtceNo, bidNtceOrd, bidwinnrAdrs, bidwinnrBizno, bidwinnrCeoNm, bidwinnrNm, bidwinnrTelNo, dminsttCd, dminsttNm, fnlSucsfCorpOfcl, fnlSucsfDate, ntceDivCd, prtcptCnum, rbidNo, rgstDt, rlOpengDt, sucsfbidAmt, sucsfbidRate",
+    "[09:18:25]   응답 필드 [getScsbidListSttusThngPPSSrch]: bidClsfcNo, bidNtceNm, bidNtceNo, bidNtceOrd, bidwinnrAdrs, bidwinnrBizno, bidwinnrCeoNm, bidwinnrNm, bidwinnrTelNo, dminsttCd, dminsttNm, fnlSucsfCorpOfcl, fnlSucsfDate, ntceDivCd, prtcptCnum, rbidNo, rgstDt, rlOpengDt, sucsfbidAmt, sucsfbidRate",
+    "[09:18:25]   응답 필드 [getOrderPlanSttusListServcPPSSrch]: agrmntYn, atchFileExistnceYn, bdgtDivCd, bidNtceNoList, bizNm, bsnsDivCd, bsnsDivNm, bsnsTyCd, bsnsTyNm, chgDt, cnsttyDivNm, cnstwkPrdCntnts, cnstwkRgnNm, cntrctMthdNm, deptNm, dsgnDocRdngPlceNm, dsgnDocRdngPrdCntnts, dtilPrdctClsfcNo, dtilPrdctClsfcNoNm, jrsdctnDivCd, jrsdctnDivNm, ntceNticeYn, nticeDt, ofclNm, orderContrctAmt, orderEtcAmt, orderGovsplyMtrcst, orderInsttCd, orderInsttNm, orderMnth, orderNtntrsAuxAmt, orderPlanDtlUrl, orderPlanSno, orderPlanUntyNo, orderThtmContrctAmt, orderYear, prcrmntMethd, prdctClsfcNo, prdctClsfcNoNm, qtyCntnts, rcritRgstNo, rmrkCntnts, specCntnts, specItemCntnts1, specItemCntnts2, specItemCntnts3, specItemCntnts4, specItemCntnts5, specItemNm1, specItemNm2, specItemNm3, specItemNm4, specItemNm5, sumOrderAmt, sumOrderDolAmt, telNo, totlmngInsttNm, unit, usgCntnts",
+    "[09:18:25]   응답 필드 [getOrderPlanSttusListThngPPSSrch]: agrmntYn, atchFileExistnceYn, bdgtDivCd, bidNtceNoList, bizNm, bsnsDivCd, bsnsDivNm, bsnsTyCd, bsnsTyNm, chgDt, cnsttyDivNm, cnstwkPrdCntnts, cnstwkRgnNm, cntrctMthdNm, deptNm, dsgnDocRdngPlceNm, dsgnDocRdngPrdCntnts, dtilPrdctClsfcNo, dtilPrdctClsfcNoNm, jrsdctnDivCd, jrsdctnDivNm, ntceNticeYn, nticeDt, ofclNm, orderContrctAmt, orderEtcAmt, orderGovsplyMtrcst, orderInsttCd, orderInsttNm, orderMnth, orderNtntrsAuxAmt, orderPlanDtlUrl, orderPlanSno, orderPlanUntyNo, orderThtmContrctAmt, orderYear, prcrmntMethd, prdctClsfcNo, prdctClsfcNoNm, qtyCntnts, rcritRgstNo, rmrkCntnts, specCntnts, specItemCntnts1, specItemCntnts2, specItemCntnts3, specItemCntnts4, specItemCntnts5, specItemNm1, specItemNm2, specItemNm3, specItemNm4, specItemNm5, sumOrderAmt, sumOrderDolAmt, telNo, totlmngInsttNm, unit, usgCntnts",
+    "[09:18:25]   응답 필드 [getPublicPrcureThngInfoServcPPSSrch]: asignBdgtAmt, bfSpecRgstNo, bidNtceNoList, bsnsDivNm, chgDt, dlvrDaynum, dlvrTmlmtDt, ofclNm, ofclTelNo, opninRgstClseDt, orderInsttNm, prdctClsfcNoNm, prdctDtlList, rcptDt, refNo, rgstDt, rlDminsttNm, specDocFileUrl1, specDocFileUrl2, specDocFileUrl3, specDocFileUrl4, specDocFileUrl5, swBizObjYn",
+    "[09:18:25]   응답 필드 [getPublicPrcureThngInfoThngPPSSrch]: asignBdgtAmt, bfSpecRgstNo, bidNtceNoList, bsnsDivNm, chgDt, dlvrDaynum, dlvrTmlmtDt, ofclNm, ofclTelNo, opninRgstClseDt, orderInsttNm, prdctClsfcNoNm, prdctDtlList, rcptDt, refNo, rgstDt, rlDminsttNm, specDocFileUrl1, specDocFileUrl2, specDocFileUrl3, specDocFileUrl4, specDocFileUrl5, swBizObjYn",
+    "[09:18:25]   응답 필드 [getOpengResultListInfoOpengCompt]: bidClsfcNo, bidNtceNo, bidNtceOrd, bidPrceEvlVal, bidprcAmt, bidprcDt, bidprcrt, cnsttyAccotBidAmtUrl, drwtNo1, drwtNo2, opengRank, opengRsltDivNm, prcbdrBizno, prcbdrCeoNm, prcbdrNm, rbidNo, rmrk, techEvlNaturVal, techEvlVal, totalEvlAmtVal",
+    "[09:18:25] 결과: 공고 1688건 · 업체 3184곳 · 참여기록 10386줄 · 수집 완료"
   ]
 }
