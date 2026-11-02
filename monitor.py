@@ -153,6 +153,11 @@ class ApiError(Exception):
     pass
 
 
+class TransientError(Exception):
+    """공공데이터포털 일시 장애(점검 페이지·게이트웨이 오류 등) - 재시도 대상"""
+    pass
+
+
 REQUEST_TIMEOUT = 30      # 요청 1건 대기 시간(초)
 TIME_BUDGET = 9 * 60      # 전체 조회 제한 시간(초). 넘으면 남은 조회는 실패 처리 후 결과 보고
 _deadline = [None]
@@ -176,7 +181,11 @@ def parse_response(text):
                     if code in msg:
                         msg += f" ({hint})"
                 raise ApiError(msg)
-        raise ApiError(f"예상치 못한 응답: {text[:200]}")
+        if re.search(r"<html|<!doctype", text[:500], re.I):
+            title = re.search(r"<title[^>]*>([^<]*)</title>", text, re.I)
+            title = re.sub(r"\s+", " ", title.group(1)).strip()[:60] if title else ""
+            raise TransientError("공공데이터포털이 오류 페이지를 보냄(점검·장애 추정)" + (f": {title}" if title else ""))
+        raise ApiError(f"예상치 못한 응답: {re.sub(chr(10), ' ', text[:120])}")
     data = json.loads(text)
     resp = data.get("response", data)
     header = resp.get("header", {})
@@ -206,6 +215,10 @@ def call_api(path, params, attempts=3):
             return parse_response(http_get(f"{scheme}://{API_ROOT}/{path}?{query}"))
         except ApiError:
             raise  # 인증키/파라미터 오류는 재시도해도 동일
+        except TransientError as e:  # 점검·장애 페이지
+            last_err = e
+            if i < attempts - 1:
+                time.sleep(10 * (i + 1))
         except Exception as e:  # 타임아웃, 연결 오류 등
             last_err = e
             if i < attempts - 1:
@@ -431,15 +444,16 @@ def post_slack(webhook, text):
 # ---------------------------------------------------------------------------
 # 발송 시각 판단
 # ---------------------------------------------------------------------------
-CATCH_UP_HOURS = 24  # 예정 시각을 놓쳐도 이 시간 안에 실행되면 늦게라도 발송
+CATCH_UP_HOURS = 72  # 예정 시각을 놓쳤거나 조회에 실패해도 이 시간 안(다음 발송 시각 전까지)에는 계속 이어서 시도
 
 
 def latest_slot(cfg, now):
-    """지금 기준 가장 최근에 지난 발송 예정 시각 (요일·시각 설정 기준, 최근 24시간 이내) → (슬롯키, 시각) 또는 None"""
+    """지금 기준 가장 최근에 지난 발송 예정 시각 (요일·시각 설정 기준, 최근 72시간 이내) → (슬롯키, 시각) 또는 None
+    가장 최근 시각만 봅니다. 그 전에 못 보낸 회차가 있어도, 조회 기간이 '마지막 성공 이후'라 공고는 빠지지 않습니다."""
     sch = cfg["schedule"]
     days = {int(d) for d in sch.get("days", [])}
     hours = sorted((int(h) for h in sch.get("hours", [])), reverse=True)
-    for back in range(0, 3):
+    for back in range(0, 4):
         day = (now - timedelta(days=back)).replace(minute=0, second=0, microsecond=0)
         if day.weekday() not in days:
             continue
@@ -455,7 +469,7 @@ def latest_slot(cfg, now):
 def due_slot(cfg, state, now):
     """지금 발송해야 할 슬롯('YYYY-MM-DD HH') 또는 None.
     GitHub 예약 실행은 몇 시간씩 늦거나 아예 건너뛰는 일이 잦아서,
-    가장 최근 예정 시각을 아직 안 보냈으면 24시간 안의 어느 실행에서든 이어서 발송합니다."""
+    가장 최근 예정 시각을 아직 안 보냈으면 다음 발송 시각 전까지(최대 72시간) 어느 실행에서든 이어서 발송합니다."""
     found = latest_slot(cfg, now)
     if not found:
         return None
@@ -503,7 +517,7 @@ def main():
             return now - timedelta(hours=int(lookback))
         if ends.get(key):
             s = datetime.fromisoformat(ends[key]) - timedelta(hours=1)  # 1시간 겹쳐서 누락 방지
-            return max(s, now - timedelta(days=7))
+            return max(s, now - timedelta(days=10))
         return now - timedelta(hours=24)
 
     enabled = [k for k in SOURCES if cfg["sources"].get(k)]
@@ -557,7 +571,8 @@ def main():
     if slot:
         slot_at = datetime.strptime(slot, "%Y-%m-%d %H").replace(tzinfo=KST)
         if now - slot_at >= timedelta(hours=2):
-            prefix = f"_(예정 {slot_at:%m/%d %H}시 발송분 · GitHub 예약 실행 지연으로 늦게 발송)_\n"
+            why = "공공데이터포털 장애 복구 후" if slot in state.get("fail_notified", []) else "GitHub 예약 실행 지연으로"
+            prefix = f"_(예정 {slot_at:%m/%d %H}시 발송분 · {why} 늦게 발송)_\n"
     messages = build_messages(cfg, results, errors, start, end, prefix)
     total = sum(len(v) for v in results.values())
 
@@ -571,6 +586,26 @@ def main():
         log("미리보기 저장 완료 (슬랙 전송 안 함)")
         return
 
+    all_failed = bool(enabled) and len(errors) == len(enabled)
+
+    if not test and all_failed:
+        # 전부 실패: '신규 0건'으로 오해할 보고는 보내지 않고, 장애 안내만 회차당 1번 보냄.
+        # 조회 기간은 '마지막 성공 이후'로 유지되므로 복구 후 첫 발송에 밀린 공고가 모두 포함됨.
+        notified = state.setdefault("fail_notified", [])
+        if slot not in notified:
+            reason = sorted(set(errors.values()))[0]
+            slot_at = datetime.strptime(slot, "%Y-%m-%d %H").replace(tzinfo=KST)
+            post_slack(webhook, (
+                f":warning: *나라장터 알림 지연* ({slot_at:%m/%d %H}시 발송분)\n"
+                f"공공데이터포털 조회가 모두 실패해 아직 보내지 못했습니다. 30분마다 다시 시도하고, "
+                f"복구되면 밀린 공고를 모아서 보내드립니다.\n> 원인: {esc(reason)}"))
+            state["fail_notified"] = (notified + [slot])[-20:]
+            log("전체 조회 실패 - 슬랙에 지연 안내 1회 전송")
+        else:
+            log("전체 조회 실패 - 지연 안내는 이미 보냄, 다음 실행에서 재시도")
+        save_json(STATE_PATH, state)
+        sys.exit("모든 조회가 실패했습니다. 다음 실행에서 다시 시도합니다.")
+
     if total or errors or cfg.get("send_empty_report", True):
         for text in messages:
             post_slack(webhook, text)
@@ -578,16 +613,11 @@ def main():
 
     if test:
         return
-    all_failed = enabled and len(errors) == len(enabled)
-    if not all_failed:
-        state["done_slots"] = sorted(set(state["done_slots"]) | {slot})[-60:]
+    state["done_slots"] = sorted(set(state["done_slots"]) | {slot})[-60:]
     cutoff = (now - timedelta(days=60)).strftime("%Y-%m-%d")
     state["seen"] = {k: v for k, v in seen.items() if v >= cutoff}
     state["last_end"] = ends
     save_json(STATE_PATH, state)
-    if all_failed:
-        sys.exit("모든 조회가 실패했습니다. 다음 시간에 다시 시도합니다.")
-
 
 if __name__ == "__main__":
     main()
