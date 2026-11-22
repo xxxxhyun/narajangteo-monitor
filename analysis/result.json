@@ -1,6 +1,6 @@
 {
   "info": {
-    "created_at": "2026-11-21T10:29:44+09:00",
+    "created_at": "2026-11-22T09:19:08+09:00",
     "status": "수집 중 (남은 건은 다음 실행에서 이어서)",
     "progress": {
       "낙찰 목록 남은 구간": 9,
@@ -11,15 +11,15 @@
       "진행중(발주)": 48,
       "진행중(입찰)": 205,
       "종료(낙찰)": 832,
-      "종료(유찰·취소)": 647,
+      "종료(유찰·취소)": 642,
       "운영중": 226
     },
     "calls": {
       "낙찰정보": 900,
-      "계약정보": 321,
-      "입찰공고": 872,
-      "발주계획": 61,
-      "사전규격": 17
+      "계약정보": 0,
+      "입찰공고": 877,
+      "발주계획": 9,
+      "사전규격": 0
     },
     "blocked": {}
   },
@@ -105695,186 +105695,6 @@
         }
       ],
       "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=20231135275&bidPbancOrd=000"
-    },
-    {
-      "공고번호": "20231134798-000",
-      "구분": "용역",
-      "상태": "종료(유찰·취소)",
-      "운영중": "",
-      "진행단계": "개찰 후 6개월 넘게 낙찰 정보 없음(유찰)",
-      "공고명": "2024년 민원안내 콜센터 정보통신시스템 통합 유지관리 용역",
-      "키워드": "콜센터, 민원",
-      "발주기관": "경기도 용인시",
-      "공고일": "2023-11-22",
-      "입찰마감일": "2023-12-05",
-      "개찰일": "2023-12-05",
-      "참가업체수": "",
-      "낙찰업체": "",
-      "금액": 146910150,
-      "금액기준": "배정예산",
-      "낙찰금액": "",
-      "낙찰률": "",
-      "계약업체(공동수급)": "",
-      "계약일": "",
-      "계약금액": "",
-      "계약시작일": "",
-      "계약완료일": "",
-      "참여업체 수집": "개찰 전·조회 전",
-      "첨부": [
-        {
-          "name": "20231134798-00_1700636728098_(재)공고서(SW_중기간_지방_온라인평가_발표 없음_공동불가)-유지관리.hwp",
-          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=20231134798&bidPbancOrd=000&fileType=&fileSeq=11&prcmBsneSeCd=03"
-        }
-      ],
-      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=20231134798&bidPbancOrd=000"
-    },
-    {
-      "공고번호": "20231128897-000",
-      "구분": "물품",
-      "상태": "종료(유찰·취소)",
-      "운영중": "",
-      "진행단계": "개찰 후 6개월 넘게 낙찰 정보 없음(유찰)",
-      "공고명": "(긴급)충북청소년진흥원 상담복지센터 찾아가는 청소년 마음건강지킴이 버스 구입제작",
-      "키워드": "상담",
-      "발주기관": "충청북도청소년종합상담실",
-      "공고일": "2023-11-22",
-      "입찰마감일": "2023-12-05",
-      "개찰일": "2023-12-11",
-      "참가업체수": "",
-      "낙찰업체": "",
-      "금액": 110340000,
-      "금액기준": "배정예산",
-      "낙찰금액": "",
-      "낙찰률": "",
-      "계약업체(공동수급)": "",
-      "계약일": "",
-      "계약금액": "",
-      "계약시작일": "",
-      "계약완료일": "",
-      "참여업체 수집": "개찰 전·조회 전",
-      "첨부": [
-        {
-          "name": "20231128897-00_1700557934666_(붙임2) 충청북도청소년종합진흥원 마음지킴이버스 구입 입찰공고.hwp",
-          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=20231128897&bidPbancOrd=000&fileType=&fileSeq=11&prcmBsneSeCd=01"
-        },
-        {
-          "name": "20231128897-00_1700557934672_(붙임3) 충청북도청소년종합진흥원 마음지킴이버스 구입 제안요청서.hwp",
-          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=20231128897&bidPbancOrd=000&fileType=&fileSeq=22&prcmBsneSeCd=01"
-        },
-        {
-          "name": "20231128897-00_1700557934674_(붙임4) 충청북도청소년종합진흥원 마음지킴이버스 구입 과업지시서.hwp",
-          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=20231128897&bidPbancOrd=000&fileType=&fileSeq=23&prcmBsneSeCd=01"
-        }
-      ],
-      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=20231128897&bidPbancOrd=000"
-    },
-    {
-      "공고번호": "20231134476-000",
-      "구분": "용역",
-      "상태": "종료(유찰·취소)",
-      "운영중": "",
-      "진행단계": "개찰 후 6개월 넘게 낙찰 정보 없음(유찰)",
-      "공고명": "2024년 민원시스템 통합 유지관리 용역",
-      "키워드": "민원",
-      "발주기관": "대구광역시",
-      "공고일": "2023-11-22",
-      "입찰마감일": "2023-12-05",
-      "개찰일": "2023-12-05",
-      "참가업체수": "",
-      "낙찰업체": "",
-      "금액": 144803000,
-      "금액기준": "배정예산",
-      "낙찰금액": "",
-      "낙찰률": "",
-      "계약업체(공동수급)": "",
-      "계약일": "",
-      "계약금액": "",
-      "계약시작일": "",
-      "계약완료일": "",
-      "참여업체 수집": "개찰 전·조회 전",
-      "첨부": [
-        {
-          "name": "20231134476-00_1700631999607_입찰공고문.hwp",
-          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=20231134476&bidPbancOrd=000&fileType=&fileSeq=11&prcmBsneSeCd=03"
-        },
-        {
-          "name": "20231134476-00_1700631999609_제안요청서(과업내용 포함).hwpx",
-          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=20231134476&bidPbancOrd=000&fileType=&fileSeq=22&prcmBsneSeCd=03"
-        }
-      ],
-      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=20231134476&bidPbancOrd=000"
-    },
-    {
-      "공고번호": "20231134344-000",
-      "구분": "용역",
-      "상태": "종료(유찰·취소)",
-      "운영중": "",
-      "진행단계": "개찰 후 6개월 넘게 낙찰 정보 없음(유찰)",
-      "공고명": "2024년 소방공무원 찾아가는 상담실 운영 위탁용역",
-      "키워드": "상담",
-      "발주기관": "인천광역시 소방본부",
-      "공고일": "2023-11-22",
-      "입찰마감일": "2023-12-04",
-      "개찰일": "2023-12-04",
-      "참가업체수": "",
-      "낙찰업체": "",
-      "금액": 249993850,
-      "금액기준": "배정예산",
-      "낙찰금액": "",
-      "낙찰률": "",
-      "계약업체(공동수급)": "",
-      "계약일": "",
-      "계약금액": "",
-      "계약시작일": "",
-      "계약완료일": "",
-      "참여업체 수집": "개찰 전·조회 전",
-      "첨부": [
-        {
-          "name": "20231134344-00_1700630173525_2024년 소방공무원 찾아가는 상담실 운영 위탁용역 입찰공고문.hwp",
-          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=20231134344&bidPbancOrd=000&fileType=&fileSeq=11&prcmBsneSeCd=03"
-        },
-        {
-          "name": "20231134344-00_1700630173542_2024년 찾아가는 상담실 운영 제안요청서.pdf",
-          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=20231134344&bidPbancOrd=000&fileType=&fileSeq=22&prcmBsneSeCd=03"
-        },
-        {
-          "name": "20231134344-00_1700630173547_2024년 찾아가는 상담실 운영 제안서 작성서식 및 제출방법.hwp",
-          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=20231134344&bidPbancOrd=000&fileType=&fileSeq=123&prcmBsneSeCd=03"
-        }
-      ],
-      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=20231134344&bidPbancOrd=000"
-    },
-    {
-      "공고번호": "20231133484-000",
-      "구분": "용역",
-      "상태": "종료(유찰·취소)",
-      "운영중": "",
-      "진행단계": "개찰 후 6개월 넘게 낙찰 정보 없음(유찰)",
-      "공고명": "2024년 보건복지상담센터 정보시스템 운영 및 유지관리",
-      "키워드": "상담",
-      "발주기관": "보건복지부",
-      "공고일": "2023-11-22",
-      "입찰마감일": "2023-12-14",
-      "개찰일": "2023-12-14",
-      "참가업체수": "",
-      "낙찰업체": "",
-      "금액": 628549280,
-      "금액기준": "배정예산",
-      "낙찰금액": "",
-      "낙찰률": "",
-      "계약업체(공동수급)": "",
-      "계약일": "",
-      "계약금액": "",
-      "계약시작일": "",
-      "계약완료일": "",
-      "참여업체 수집": "개찰 전·조회 전",
-      "첨부": [
-        {
-          "name": "20231133484-00_1700617953009_(공고서) 2024년 보건복지상담센터 정보시스템 운영 및 유지관리.hwp",
-          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=20231133484&bidPbancOrd=000&fileType=&fileSeq=11&prcmBsneSeCd=03"
-        }
-      ],
-      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=20231133484&bidPbancOrd=000"
     },
     {
       "공고번호": "R26BD00244834",
@@ -273962,42 +273782,29 @@
     }
   ],
   "log": [
-    "[10:29:44] 조건: 키워드 ['상담', '채팅', '콜센터', '고객센터', '민원', 'AICC'] · 3년 · 낙찰 1.0억↑ · ['용역', '물품']",
-    "[10:29:44] 1-1) 입찰공고: 조회할 구간 84개 (종류 ['용역', '물품'] × 키워드 6개 × 월 단위)",
-    "[10:50:24]   완료 84 · 실패 0 · 남음 0 · 새 8건 (누적 3636건)",
-    "[10:50:24]   낙찰 전 진행중 공고가 있는 지난 구간 9개 재확인",
-    "[10:50:24] 1-2) 낙찰 목록: 조회할 구간 93개 (종류 ['용역', '물품'] × 키워드 6개 × 월 단위)",
-    "[11:13:25]   [물품/민원] 2026-10-01~10-31 실패: 이번 실행 한도 도달",
-    "[11:13:25]   완료 84 · 실패 1 · 남음 8 · 새 0건 (누적 1870건)",
-    "[11:13:28]   [발주계획/용역/상담] 실패: 07 입력범위값 초과 에러",
-    "[11:13:30]   [발주계획/용역/채팅] 실패: 07 입력범위값 초과 에러",
-    "[11:13:32]   [발주계획/용역/콜센터] 실패: 07 입력범위값 초과 에러",
-    "[11:14:08]   [발주계획/용역/고객센터] 실패: 07 입력범위값 초과 에러",
-    "[11:14:11]   [발주계획/용역/민원] 실패: 07 입력범위값 초과 에러",
-    "[11:14:13]   [발주계획/용역/AICC] 실패: 07 입력범위값 초과 에러",
-    "[11:14:16]   [발주계획/물품/상담] 실패: 07 입력범위값 초과 에러",
-    "[11:14:19]   [발주계획/물품/채팅] 실패: 07 입력범위값 초과 에러",
-    "[11:14:21]   [발주계획/물품/콜센터] 실패: 07 입력범위값 초과 에러",
-    "[11:14:24]   [발주계획/물품/고객센터] 실패: 07 입력범위값 초과 에러",
-    "[11:14:26]   [발주계획/물품/민원] 실패: 07 입력범위값 초과 에러",
-    "[11:14:28]   [발주계획/물품/AICC] 실패: 07 입력범위값 초과 에러",
-    "[11:14:28] 0) 발주계획: 0건 확인 · 실패 12",
-    "[11:15:00] 0) 사전규격: 754건 확인 · 실패 0",
-    "[11:15:00] 조건에 맞는 낙찰 공고 832건 · 낙찰 전 입찰공고 852건",
-    "[11:15:00] 2) 참여업체: 조회할 공고 4건",
-    "[11:15:00]   0건 완료 · 실패 0 · 남음 4",
-    "[11:15:00] 3) 계약: 조회할 공고 313건",
-    "[11:16:43]   313건 완료 · 실패 0 · 남음 0",
-    "[11:16:43] 2-2) 진행중 입찰 참여업체(매일 갱신): 조회할 공고 110건",
-    "[11:16:43]   0건 완료 · 실패 0 · 남음 110",
-    "[11:16:44] API 호출: 낙찰정보 900회 · 계약정보 321회 · 입찰공고 872회 · 발주계획 61회 · 사전규격 17회",
-    "[11:16:44]   응답 필드 [getBidPblancListInfoServcPPSSrch]: VAT, arsltApplDocRcptMthdNm, arsltCmptYn, arsltReqstdocRcptDt, asignBdgtAmt, befBidBbancNo, bfSpecRgstNo, bidBeginDt, bidClseDt, bidGrntymnyPaymntYn, bidMethdNm, bidNtceDt, bidNtceDtlUrl, bidNtceNm, bidNtceNo, bidNtceOrd, bidNtceUrl, bidPrceEvlRt, bidPrtcptFee, bidPrtcptFeePaymntYn, bidPrtcptLmtYn, bidQlfctRgstDt, bidWgrnteeRcptClseDt, brffcBidprcPermsnYn, chgDt, chgNtceRsn, cmmnSpldmdAgrmntClseDt, cmmnSpldmdAgrmntRcptdocMethd, cmmnSpldmdCorpRgnLmtYn, cmmnSpldmdMethdCd, cmmnSpldmdMethdNm, cntrctCnclsMthdNm, crdtrNm, dcmtgOprtnDt, dcmtgOprtnPlce, dminsttCd, dminsttNm, dminsttOfclEmailAdrs, drwtPrdprcNum, dsgntCmptYn, dtlsBidYn, exctvNm, indstrytyLmtYn, indutyVAT, infoBizYn, intrbidYn, jntcontrctDutyRgnNm1, jntcontrctDutyRgnNm2, jntcontrctDutyRgnNm3, mnfctYn, ntceDscrptYn, ntceInsttCd, ntceInsttNm, ntceInsttOfclEmailAdrs, ntceInsttOfclNm, ntceInsttOfclTelNo, ntceKindNm, ntceSpecDocUrl1, ntceSpecDocUrl10, ntceSpecDocUrl2, ntceSpecDocUrl3, ntceSpecDocUrl4, ntceSpecDocUrl5, ntceSpecDocUrl6, ntceSpecDocUrl7, ntceSpecDocUrl8, ntceSpecDocUrl9, ntceSpecFileNm1, ntceSpecFileNm10, ntceSpecFileNm2, ntceSpecFileNm3, ntceSpecFileNm4, ntceSpecFileNm5, ntceSpecFileNm6, ntceSpecFileNm7, ntceSpecFileNm8, ntceSpecFileNm9, opengDt, opengPlce, orderPlanUntyNo, ppswGnrlSrvceYn, pqApplDocRcptDt, pqApplDocRcptMthdNm, pqEvalYn, prdctClsfcLmtYn, prearngPrceDcsnMthdNm, presmptPrce, pubPrcrmntClsfcNm, pubPrcrmntClsfcNo, pubPrcrmntLrgClsfcNm, pubPrcrmntMidClsfcNm, purchsObjPrdctList, rbidOpengDt, rbidPermsnYn, reNtceYn, refNo, rgnDutyJntcontrctRt, rgnLmtBidLocplcJdgmBssCd, rgnLmtBidLocplcJdgmBssNm, rgstDt, rgstTyNm, rsrvtnPrceReMkngMthdNm, srvceDivNm, stdNtceDocUrl, sucsfbidLwltRate, sucsfbidMthdAppStd, sucsfbidMthdCd, sucsfbidMthdNm, techAbltEvlRt, totPrdprcNum, tpEvalApplClseDt, tpEvalApplMthdNm, tpEvalYn, untyNtceNo",
-    "[11:16:44]   응답 필드 [getBidPblancListInfoThngPPSSrch]: VAT, arsltApplDocRcptDt, arsltApplDocRcptMthdNm, asignBdgtAmt, befBidBbancNo, bfSpecRgstNo, bidBeginDt, bidClseDt, bidGrntymnyPaymntYn, bidMethdNm, bidNtceDt, bidNtceDtlUrl, bidNtceNm, bidNtceNo, bidNtceOrd, bidNtceUrl, bidPrceEvlRt, bidPrtcptFee, bidPrtcptFeePaymntYn, bidQlfctRgstDt, bidWgrnteeRcptClseDt, brffcBidprcPermsnYn, chgDt, chgNtceRsn, cmmnSpldmdAgrmntClseDt, cmmnSpldmdAgrmntRcptdocMethd, cmmnSpldmdCorpRgnLmtYn, cmmnSpldmdMethdCd, cmmnSpldmdMethdNm, cntrctCnclsMthdNm, crdtrNm, dlvrDaynum, dlvrTmlmtDt, dlvryCndtnNm, dminsttCd, dminsttNm, dminsttOfclEmailAdrs, drwtPrdprcNum, dsgntCmptYn, dtilPrdctClsfcNo, dtilPrdctClsfcNoNm, exctvNm, indstrytyLmtYn, indutyVAT, infoBizYn, intrbidYn, mnfctYn, ntceInsttCd, ntceInsttNm, ntceInsttOfclEmailAdrs, ntceInsttOfclNm, ntceInsttOfclTelNo, ntceKindNm, ntceSpecDocUrl1, ntceSpecDocUrl10, ntceSpecDocUrl2, ntceSpecDocUrl3, ntceSpecDocUrl4, ntceSpecDocUrl5, ntceSpecDocUrl6, ntceSpecDocUrl7, ntceSpecDocUrl8, ntceSpecDocUrl9, ntceSpecFileNm1, ntceSpecFileNm10, ntceSpecFileNm2, ntceSpecFileNm3, ntceSpecFileNm4, ntceSpecFileNm5, ntceSpecFileNm6, ntceSpecFileNm7, ntceSpecFileNm8, ntceSpecFileNm9, opengDt, opengPlce, orderPlanUntyNo, prdctClsfcLmtYn, prdctQty, prdctSpecNm, prdctUnit, prdctUprc, prearngPrceDcsnMthdNm, presmptPrce, purchsObjPrdctList, rbidOpengDt, rbidPermsnYn, reNtceYn, refNo, rgnLmtBidLocplcJdgmBssCd, rgnLmtBidLocplcJdgmBssNm, rgstDt, rgstTyNm, rsrvtnPrceReMkngMthdNm, stdNtceDocUrl, sucsfbidLwltRate, sucsfbidMthdAppStd, sucsfbidMthdCd, sucsfbidMthdNm, techAbltEvlRt, totPrdprcNum, untyNtceNo",
-    "[11:16:44]   응답 필드 [getScsbidListSttusServcPPSSrch]: bidClsfcNo, bidNtceNm, bidNtceNo, bidNtceOrd, bidwinnrAdrs, bidwinnrBizno, bidwinnrCeoNm, bidwinnrNm, bidwinnrTelNo, dminsttCd, dminsttNm, fnlSucsfCorpOfcl, fnlSucsfDate, ntceDivCd, prtcptCnum, rbidNo, rgstDt, rlOpengDt, sucsfbidAmt, sucsfbidRate",
-    "[11:16:44]   응답 필드 [getScsbidListSttusThngPPSSrch]: bidClsfcNo, bidNtceNm, bidNtceNo, bidNtceOrd, bidwinnrAdrs, bidwinnrBizno, bidwinnrCeoNm, bidwinnrNm, bidwinnrTelNo, dminsttCd, dminsttNm, fnlSucsfCorpOfcl, fnlSucsfDate, ntceDivCd, prtcptCnum, rbidNo, rgstDt, rlOpengDt, sucsfbidAmt, sucsfbidRate",
-    "[11:16:44]   응답 필드 [getPublicPrcureThngInfoServcPPSSrch]: asignBdgtAmt, bfSpecRgstNo, bidNtceNoList, bsnsDivNm, chgDt, dlvrDaynum, dlvrTmlmtDt, ofclNm, ofclTelNo, opninRgstClseDt, orderInsttNm, prdctClsfcNoNm, prdctDtlList, rcptDt, refNo, rgstDt, rlDminsttNm, specDocFileUrl1, specDocFileUrl2, specDocFileUrl3, specDocFileUrl4, specDocFileUrl5, swBizObjYn",
-    "[11:16:44]   응답 필드 [getPublicPrcureThngInfoThngPPSSrch]: asignBdgtAmt, bfSpecRgstNo, bidNtceNoList, bsnsDivNm, chgDt, dlvrDaynum, dlvrTmlmtDt, ofclNm, ofclTelNo, opninRgstClseDt, orderInsttNm, prdctClsfcNoNm, prdctDtlList, rcptDt, refNo, rgstDt, rlDminsttNm, specDocFileUrl1, specDocFileUrl2, specDocFileUrl3, specDocFileUrl4, specDocFileUrl5, swBizObjYn",
-    "[11:16:44]   응답 필드 [getCntrctInfoListServcPPSSrch]: baseDtls, baseLawNm, bsnsDivNm, chgDt, cmmnCntrctYn, cntrctCnclsDate, cntrctCnclsMthdNm, cntrctDate, cntrctDtlInfoUrl, cntrctInfoUrl, cntrctInsttCd, cntrctInsttChrgDeptNm, cntrctInsttJrsdctnDivNm, cntrctInsttNm, cntrctInsttOfclFaxNo, cntrctInsttOfclNm, cntrctInsttOfclTelNo, cntrctNm, cntrctPrd, cntrctRefNo, corpList, crdtrNm, dcsnCntrctNo, dfrcmpnstRt, dminsttList, grntymnyRate, infoBizYn, lngtrmCtnuDivNm, ntceNo, payDivNm, pubPrcrmntClsfcNm, pubPrcrmntClsfcNo, pubPrcrmntLrgClsfcNm, pubPrcrmntMidClsfcNm, reqNo, rgstDt, thtmCntrctAmt, thtmScmpltDate, totCntrctAmt, ttalScmpltDate, untyCntrctNo, wbgnDate",
-    "[11:16:44] 결과: 공고 1732건 · 업체 3172곳 · 참여기록 10404줄 · 수집 중 (남은 건은 다음 실행에서 이어서)"
+    "[09:19:08] 조건: 키워드 ['상담', '채팅', '콜센터', '고객센터', '민원', 'AICC'] · 3년 · 낙찰 1.0억↑ · ['용역', '물품']",
+    "[09:19:08] 1-1) 입찰공고: 조회할 구간 84개 (종류 ['용역', '물품'] × 키워드 6개 × 월 단위)",
+    "[09:44:28]   완료 84 · 실패 0 · 남음 0 · 새 0건 (누적 3636건)",
+    "[09:44:28]   낙찰 전 진행중 공고가 있는 지난 구간 9개 재확인",
+    "[09:44:28] 1-2) 낙찰 목록: 조회할 구간 93개 (종류 ['용역', '물품'] × 키워드 6개 × 월 단위)",
+    "[10:08:50]   [물품/민원] 2026-10-01~10-31 실패: 이번 실행 한도 도달",
+    "[10:08:50]   완료 84 · 실패 1 · 남음 8 · 새 0건 (누적 1870건)",
+    "[10:08:54]   [발주계획/용역/상담] 실패: 07 입력범위값 초과 에러",
+    "[10:09:29]   [발주계획/용역/채팅] 실패: 이번 실행 한도 도달",
+    "[10:09:29] 0) 발주계획: 0건 확인 · 실패 2",
+    "[10:09:29] 0) 사전규격: 0건 확인 · 실패 0",
+    "[10:09:29] 조건에 맞는 낙찰 공고 832건 · 낙찰 전 입찰공고 847건",
+    "[10:09:29] 2) 참여업체: 조회할 공고 4건",
+    "[10:09:29]   0건 완료 · 실패 0 · 남음 4",
+    "[10:09:29] 3) 계약: 조회할 공고 2건",
+    "[10:09:29]   0건 완료 · 실패 0 · 남음 2",
+    "[10:09:29] 2-2) 진행중 입찰 참여업체(매일 갱신): 조회할 공고 110건",
+    "[10:09:29]   0건 완료 · 실패 0 · 남음 110",
+    "[10:09:30] API 호출: 낙찰정보 900회 · 계약정보 0회 · 입찰공고 877회 · 발주계획 9회 · 사전규격 0회",
+    "[10:09:30]   응답 필드 [getBidPblancListInfoServcPPSSrch]: VAT, arsltApplDocRcptMthdNm, arsltCmptYn, arsltReqstdocRcptDt, asignBdgtAmt, befBidBbancNo, bfSpecRgstNo, bidBeginDt, bidClseDt, bidGrntymnyPaymntYn, bidMethdNm, bidNtceDt, bidNtceDtlUrl, bidNtceNm, bidNtceNo, bidNtceOrd, bidNtceUrl, bidPrceEvlRt, bidPrtcptFee, bidPrtcptFeePaymntYn, bidPrtcptLmtYn, bidQlfctRgstDt, bidWgrnteeRcptClseDt, brffcBidprcPermsnYn, chgDt, chgNtceRsn, cmmnSpldmdAgrmntClseDt, cmmnSpldmdAgrmntRcptdocMethd, cmmnSpldmdCorpRgnLmtYn, cmmnSpldmdMethdCd, cmmnSpldmdMethdNm, cntrctCnclsMthdNm, crdtrNm, dcmtgOprtnDt, dcmtgOprtnPlce, dminsttCd, dminsttNm, dminsttOfclEmailAdrs, drwtPrdprcNum, dsgntCmptYn, dtlsBidYn, exctvNm, indstrytyLmtYn, indutyVAT, infoBizYn, intrbidYn, jntcontrctDutyRgnNm1, jntcontrctDutyRgnNm2, jntcontrctDutyRgnNm3, mnfctYn, ntceDscrptYn, ntceInsttCd, ntceInsttNm, ntceInsttOfclEmailAdrs, ntceInsttOfclNm, ntceInsttOfclTelNo, ntceKindNm, ntceSpecDocUrl1, ntceSpecDocUrl10, ntceSpecDocUrl2, ntceSpecDocUrl3, ntceSpecDocUrl4, ntceSpecDocUrl5, ntceSpecDocUrl6, ntceSpecDocUrl7, ntceSpecDocUrl8, ntceSpecDocUrl9, ntceSpecFileNm1, ntceSpecFileNm10, ntceSpecFileNm2, ntceSpecFileNm3, ntceSpecFileNm4, ntceSpecFileNm5, ntceSpecFileNm6, ntceSpecFileNm7, ntceSpecFileNm8, ntceSpecFileNm9, opengDt, opengPlce, orderPlanUntyNo, ppswGnrlSrvceYn, pqApplDocRcptDt, pqApplDocRcptMthdNm, pqEvalYn, prdctClsfcLmtYn, prearngPrceDcsnMthdNm, presmptPrce, pubPrcrmntClsfcNm, pubPrcrmntClsfcNo, pubPrcrmntLrgClsfcNm, pubPrcrmntMidClsfcNm, purchsObjPrdctList, rbidOpengDt, rbidPermsnYn, reNtceYn, refNo, rgnDutyJntcontrctRt, rgnLmtBidLocplcJdgmBssCd, rgnLmtBidLocplcJdgmBssNm, rgstDt, rgstTyNm, rsrvtnPrceReMkngMthdNm, srvceDivNm, stdNtceDocUrl, sucsfbidLwltRate, sucsfbidMthdAppStd, sucsfbidMthdCd, sucsfbidMthdNm, techAbltEvlRt, totPrdprcNum, tpEvalApplClseDt, tpEvalApplMthdNm, tpEvalYn, untyNtceNo",
+    "[10:09:30]   응답 필드 [getBidPblancListInfoThngPPSSrch]: VAT, arsltApplDocRcptDt, arsltApplDocRcptMthdNm, asignBdgtAmt, befBidBbancNo, bfSpecRgstNo, bidBeginDt, bidClseDt, bidGrntymnyPaymntYn, bidMethdNm, bidNtceDt, bidNtceDtlUrl, bidNtceNm, bidNtceNo, bidNtceOrd, bidNtceUrl, bidPrceEvlRt, bidPrtcptFee, bidPrtcptFeePaymntYn, bidQlfctRgstDt, bidWgrnteeRcptClseDt, brffcBidprcPermsnYn, chgDt, chgNtceRsn, cmmnSpldmdAgrmntClseDt, cmmnSpldmdAgrmntRcptdocMethd, cmmnSpldmdCorpRgnLmtYn, cmmnSpldmdMethdCd, cmmnSpldmdMethdNm, cntrctCnclsMthdNm, crdtrNm, dlvrDaynum, dlvrTmlmtDt, dlvryCndtnNm, dminsttCd, dminsttNm, dminsttOfclEmailAdrs, drwtPrdprcNum, dsgntCmptYn, dtilPrdctClsfcNo, dtilPrdctClsfcNoNm, exctvNm, indstrytyLmtYn, indutyVAT, infoBizYn, intrbidYn, mnfctYn, ntceInsttCd, ntceInsttNm, ntceInsttOfclEmailAdrs, ntceInsttOfclNm, ntceInsttOfclTelNo, ntceKindNm, ntceSpecDocUrl1, ntceSpecDocUrl10, ntceSpecDocUrl2, ntceSpecDocUrl3, ntceSpecDocUrl4, ntceSpecDocUrl5, ntceSpecDocUrl6, ntceSpecDocUrl7, ntceSpecDocUrl8, ntceSpecDocUrl9, ntceSpecFileNm1, ntceSpecFileNm10, ntceSpecFileNm2, ntceSpecFileNm3, ntceSpecFileNm4, ntceSpecFileNm5, ntceSpecFileNm6, ntceSpecFileNm7, ntceSpecFileNm8, ntceSpecFileNm9, opengDt, opengPlce, orderPlanUntyNo, prdctClsfcLmtYn, prdctQty, prdctSpecNm, prdctUnit, prdctUprc, prearngPrceDcsnMthdNm, presmptPrce, purchsObjPrdctList, rbidOpengDt, rbidPermsnYn, reNtceYn, refNo, rgnLmtBidLocplcJdgmBssCd, rgnLmtBidLocplcJdgmBssNm, rgstDt, rgstTyNm, rsrvtnPrceReMkngMthdNm, stdNtceDocUrl, sucsfbidLwltRate, sucsfbidMthdAppStd, sucsfbidMthdCd, sucsfbidMthdNm, techAbltEvlRt, totPrdprcNum, untyNtceNo",
+    "[10:09:30]   응답 필드 [getScsbidListSttusServcPPSSrch]: bidClsfcNo, bidNtceNm, bidNtceNo, bidNtceOrd, bidwinnrAdrs, bidwinnrBizno, bidwinnrCeoNm, bidwinnrNm, bidwinnrTelNo, dminsttCd, dminsttNm, fnlSucsfCorpOfcl, fnlSucsfDate, ntceDivCd, prtcptCnum, rbidNo, rgstDt, rlOpengDt, sucsfbidAmt, sucsfbidRate",
+    "[10:09:30]   응답 필드 [getScsbidListSttusThngPPSSrch]: bidClsfcNo, bidNtceNm, bidNtceNo, bidNtceOrd, bidwinnrAdrs, bidwinnrBizno, bidwinnrCeoNm, bidwinnrNm, bidwinnrTelNo, dminsttCd, dminsttNm, fnlSucsfCorpOfcl, fnlSucsfDate, ntceDivCd, prtcptCnum, rbidNo, rgstDt, rlOpengDt, sucsfbidAmt, sucsfbidRate",
+    "[10:09:30] 결과: 공고 1727건 · 업체 3172곳 · 참여기록 10404줄 · 수집 중 (남은 건은 다음 실행에서 이어서)"
   ]
 }
