@@ -1,23 +1,23 @@
 {
   "info": {
-    "created_at": "2026-11-26T11:50:16+09:00",
+    "created_at": "2026-11-27T11:50:35+09:00",
     "status": "수집 중 (남은 건은 다음 실행에서 이어서)",
     "progress": {
-      "낙찰 목록 남은 구간": 13,
+      "낙찰 목록 남은 구간": 44,
       "입찰공고 남은 구간": 0,
       "낙찰 공고": 835,
       "참여업체 수집": 827,
       "계약 수집": 835,
       "진행중(발주)": 41,
-      "진행중(입찰)": 219,
+      "진행중(입찰)": 240,
       "종료(낙찰)": 835,
-      "종료(유찰·취소)": 644,
+      "종료(유찰·취소)": 642,
       "운영중": 226
     },
     "calls": {
-      "낙찰정보": 805,
+      "낙찰정보": 511,
       "계약정보": 0,
-      "입찰공고": 853,
+      "입찰공고": 858,
       "발주계획": 0,
       "사전규격": 0
     },
@@ -74029,6 +74029,850 @@
       "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=20231137995&bidPbancOrd=000"
     },
     {
+      "공고번호": "R26BK01861129-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "입찰 접수중",
+      "공고명": "2027년도 1301공소청 콜센터 시스템 유지 관리 사업",
+      "키워드": "콜센터",
+      "발주기관": "공소청",
+      "공고일": "2026-11-27",
+      "입찰마감일": "2026-12-09",
+      "개찰일": "2026-12-09",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 187290940,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "재공고서(국가_협상_고시미만_1468_직생(유지관리)_공동_조평(온서,정량)_협약).hwpx",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01861129&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "재공고서(국가_협상_고시미만_1468_직생(유지관리)_공동_조평(온서,정량)_협약).pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01861129&bidPbancOrd=000&fileType=&fileSeq=2&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01861129&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01861221-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "입찰 접수중",
+      "공고명": "2027년 소방공무원 찾아가는 상담실 운영",
+      "키워드": "상담",
+      "발주기관": "부산광역시 소방재난본부",
+      "공고일": "2026-11-27",
+      "입찰마감일": "2026-12-08",
+      "개찰일": "2026-12-08",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 697254000,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "공고문 [2026년 소방공무원 찾아가는 상담실 운영].hwpx",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01861221&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "공고문 [2026년 소방공무원 찾아가는 상담실 운영].pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01861221&bidPbancOrd=000&fileType=&fileSeq=2&prcmBsneSeCd=03"
+        },
+        {
+          "name": "3. 과업지시서(2027년 소방공무원 찾아가는 상담실 운영 용역).hwpx",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01861221&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        },
+        {
+          "name": "4. 제안요청서(2027년 찾아가는 상담실 운영 용역).hwpx",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01861221&bidPbancOrd=000&fileType=&fileSeq=4&prcmBsneSeCd=03"
+        },
+        {
+          "name": "(공고문 첨부용)[상생결제제도 안내자료] 1차이하 협력기업(전체본).pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01861221&bidPbancOrd=000&fileType=&fileSeq=5&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01861221&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01860360-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "개찰·평가·협상중",
+      "공고명": "주거안심종합센터 서울시 종로지역주거복지상담 및 지원사업 위탁 운영(`27년)(재공고)",
+      "키워드": "상담",
+      "발주기관": "서울주택도시개발공사",
+      "공고일": "2026-11-26",
+      "입찰마감일": "",
+      "개찰일": "2026-12-15",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 713231530,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.hwp",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860360&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860360&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        },
+        {
+          "name": "입찰서류(재공고)(최종).Zip",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860360&bidPbancOrd=000&fileType=&fileSeq=4&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01860360&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01860353-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "개찰·평가·협상중",
+      "공고명": "주거안심종합센터 서울시 은평지역주거복지상담 및 지원사업 위탁 운영(`27년)(재공고)",
+      "키워드": "상담",
+      "발주기관": "서울주택도시개발공사",
+      "공고일": "2026-11-26",
+      "입찰마감일": "",
+      "개찰일": "2026-12-15",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 790290490,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.hwp",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860353&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860353&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        },
+        {
+          "name": "입찰서류(재공고)(최종).Zip",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860353&bidPbancOrd=000&fileType=&fileSeq=4&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01860353&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01860349-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "개찰·평가·협상중",
+      "공고명": "주거안심종합센터 서울시 영등포지역주거복지상담 및 지원사업 위탁 운영(`27년)(재공고)",
+      "키워드": "상담",
+      "발주기관": "서울주택도시개발공사",
+      "공고일": "2026-11-26",
+      "입찰마감일": "",
+      "개찰일": "2026-12-15",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 735267610,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.hwp",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860349&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860349&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        },
+        {
+          "name": "입찰서류(재공고)(최종).Zip",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860349&bidPbancOrd=000&fileType=&fileSeq=4&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01860349&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01860342-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "개찰·평가·협상중",
+      "공고명": "주거안심종합센터 서울시 송파지역주거복지상담 및 지원사업 위탁 운영(`27년)(재공고)",
+      "키워드": "상담",
+      "발주기관": "서울주택도시개발공사",
+      "공고일": "2026-11-26",
+      "입찰마감일": "",
+      "개찰일": "2026-12-15",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 757303690,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.hwp",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860342&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860342&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        },
+        {
+          "name": "입찰서류(재공고)(최종).Zip",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860342&bidPbancOrd=000&fileType=&fileSeq=4&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01860342&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01860337-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "개찰·평가·협상중",
+      "공고명": "주거안심종합센터 서울시 성북지역주거복지상담 및 지원사업 위탁 운영(`27년)(재공고)",
+      "키워드": "상담",
+      "발주기관": "서울주택도시개발공사",
+      "공고일": "2026-11-26",
+      "입찰마감일": "",
+      "개찰일": "2026-12-15",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 757303690,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.hwp",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860337&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860337&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        },
+        {
+          "name": "입찰서류(재공고)(최종).Zip",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860337&bidPbancOrd=000&fileType=&fileSeq=4&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01860337&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01860330-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "개찰·평가·협상중",
+      "공고명": "주거안심종합센터 서울시 서대문지역주거복지상담 및 지원사업 위탁 운영(`27년)(재공고)",
+      "키워드": "상담",
+      "발주기관": "서울주택도시개발공사",
+      "공고일": "2026-11-26",
+      "입찰마감일": "",
+      "개찰일": "2026-12-15",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 735267610,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.hwp",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860330&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860330&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        },
+        {
+          "name": "입찰서류(재공고)(최종).Zip",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860330&bidPbancOrd=000&fileType=&fileSeq=4&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01860330&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01860321-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "개찰·평가·협상중",
+      "공고명": "주거안심종합센터 서울시 마포지역주거복지상담 및 지원사업 위탁 운영(`27년)(재공고)",
+      "키워드": "상담",
+      "발주기관": "서울주택도시개발공사",
+      "공고일": "2026-11-26",
+      "입찰마감일": "",
+      "개찰일": "2026-12-15",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 735267610,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.hwp",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860321&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860321&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        },
+        {
+          "name": "입찰서류(재공고)(최종).Zip",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860321&bidPbancOrd=000&fileType=&fileSeq=4&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01860321&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01860313-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "개찰·평가·협상중",
+      "공고명": "주거안심종합센터 서울시 동작지역주거복지상담 및 지원사업 위탁 운영(`27년)(재공고)",
+      "키워드": "상담",
+      "발주기관": "서울주택도시개발공사",
+      "공고일": "2026-11-26",
+      "입찰마감일": "",
+      "개찰일": "2026-12-15",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 757303690,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.hwp",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860313&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860313&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        },
+        {
+          "name": "입찰서류(재공고)(최종).Zip",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860313&bidPbancOrd=000&fileType=&fileSeq=4&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01860313&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01860309-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "개찰·평가·협상중",
+      "공고명": "주거안심종합센터 서울시 노원지역주거복지상담 및 지원사업 위탁 운영(`27년)(재공고)",
+      "키워드": "상담",
+      "발주기관": "서울주택도시개발공사",
+      "공고일": "2026-11-26",
+      "입찰마감일": "",
+      "개찰일": "2026-12-15",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 735267610,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.hwp",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860309&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860309&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        },
+        {
+          "name": "입찰서류(재공고)(최종).Zip",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860309&bidPbancOrd=000&fileType=&fileSeq=4&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01860309&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01860306-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "개찰·평가·협상중",
+      "공고명": "주거안심종합센터 서울시 금천지역주거복지상담 및 지원사업 위탁 운영(`27년)(재공고)",
+      "키워드": "상담",
+      "발주기관": "서울주택도시개발공사",
+      "공고일": "2026-11-26",
+      "입찰마감일": "",
+      "개찰일": "2026-12-15",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 735267610,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.hwp",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860306&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860306&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        },
+        {
+          "name": "입찰서류(재공고)(최종).Zip",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860306&bidPbancOrd=000&fileType=&fileSeq=4&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01860306&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01860293-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "개찰·평가·협상중",
+      "공고명": "주거안심종합센터 서울시 구로지역주거복지상담 및 지원사업 위탁 운영(`27년)(재공고)",
+      "키워드": "상담",
+      "발주기관": "서울주택도시개발공사",
+      "공고일": "2026-11-26",
+      "입찰마감일": "",
+      "개찰일": "2026-12-15",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 757303690,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.hwp",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860293&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860293&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        },
+        {
+          "name": "입찰서류(재공고)(최종).Zip",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860293&bidPbancOrd=000&fileType=&fileSeq=4&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01860293&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01860288-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "개찰·평가·협상중",
+      "공고명": "주거안심종합센터 서울시 광진지역주거복지상담 및 지원사업 위탁 운영(`27년)(재공고)",
+      "키워드": "상담",
+      "발주기관": "서울주택도시개발공사",
+      "공고일": "2026-11-26",
+      "입찰마감일": "",
+      "개찰일": "2026-12-15",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 757303690,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.hwp",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860288&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860288&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        },
+        {
+          "name": "입찰서류(재공고)(최종).Zip",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860288&bidPbancOrd=000&fileType=&fileSeq=4&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01860288&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01860273-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "개찰·평가·협상중",
+      "공고명": "주거안심종합센터 서울시 관악지역주거복지상담 및 지원사업 위탁 운영(`27년)(재공고)",
+      "키워드": "상담",
+      "발주기관": "서울주택도시개발공사",
+      "공고일": "2026-11-26",
+      "입찰마감일": "",
+      "개찰일": "2026-12-15",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 790290490,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.hwp",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860273&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860273&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        },
+        {
+          "name": "입찰서류(재공고)(최종).Zip",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860273&bidPbancOrd=000&fileType=&fileSeq=4&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01860273&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01860262-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "개찰·평가·협상중",
+      "공고명": "주거안심종합센터 서울시 강서지역주거복지상담 및 지원사업 위탁 운영(`27년)(재공고)",
+      "키워드": "상담",
+      "발주기관": "서울주택도시개발공사",
+      "공고일": "2026-11-26",
+      "입찰마감일": "",
+      "개찰일": "2026-12-15",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 768254410,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.hwp",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860262&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860262&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        },
+        {
+          "name": "입찰서류(재공고)(최종).Zip",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860262&bidPbancOrd=000&fileType=&fileSeq=4&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01860262&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01860224-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "개찰·평가·협상중",
+      "공고명": "주거안심종합센터 서울시 강북지역주거복지상담 및 지원사업 위탁 운영(`27년)(재공고)",
+      "키워드": "상담",
+      "발주기관": "서울주택도시개발공사",
+      "공고일": "2026-11-26",
+      "입찰마감일": "",
+      "개찰일": "2026-12-15",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 790290490,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.hwp",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860224&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860224&bidPbancOrd=000&fileType=&fileSeq=2&prcmBsneSeCd=03"
+        },
+        {
+          "name": "입찰서류(재공고)(최종).Zip",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860224&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01860224&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01860133-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "개찰·평가·협상중",
+      "공고명": "주거안심종합센터 서울시 강남지역주거복지상담 및 지원사업 위탁 운영(`27년)(재공고)",
+      "키워드": "상담",
+      "발주기관": "서울주택도시개발공사",
+      "공고일": "2026-11-26",
+      "입찰마감일": "",
+      "개찰일": "2026-12-15",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 757303690,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.hwp",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860133&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "(긴급) 입찰공고문(주거안심종합센터 서울시 지역주거복지상담 및 지원사업 위탁 운영('27년)_재공고.pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860133&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        },
+        {
+          "name": "입찰서류(재공고)(최종).Zip",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860133&bidPbancOrd=000&fileType=&fileSeq=4&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01860133&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01860082-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "입찰 접수중",
+      "공고명": "2027년 상담정보시스템 통합 유지관리",
+      "키워드": "상담",
+      "발주기관": "재단법인 서울특별시 120다산콜재단",
+      "공고일": "2026-11-26",
+      "입찰마감일": "2026-12-08",
+      "개찰일": "2026-12-08",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 1449332000,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "1. 입찰공고문(2027년 상담정보시스템 통합 유지관리 용역).hwpx",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860082&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "2. 제안요청서(2027년 상담정보시스템 통합 유지관리 용역).hwpx",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860082&bidPbancOrd=000&fileType=&fileSeq=2&prcmBsneSeCd=03"
+        },
+        {
+          "name": "1. 입찰공고문(2027년 상담정보시스템 통합 유지관리 용역).pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860082&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01860082&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01860095-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "입찰 접수중",
+      "공고명": "2027년 찾아가는 상담실 운영 용역",
+      "키워드": "상담",
+      "발주기관": "충청북도",
+      "공고일": "2026-11-26",
+      "입찰마감일": "2026-12-07",
+      "개찰일": "2026-12-07",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 512517000,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "2027년 소방공무원 찾아가는 상담실 제안요청서.hwpx",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860095&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "입찰공고문(2027년 소방공무원 찾아가는 상담실).hwpx",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860095&bidPbancOrd=000&fileType=&fileSeq=2&prcmBsneSeCd=03"
+        },
+        {
+          "name": "입찰공고문(2027년 소방공무원 찾아가는 상담실).pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01860095&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01860095&bidPbancOrd=000"
+    },
+    {
+      "공고번호": "R26BK01859594-000",
+      "구분": "용역",
+      "상태": "진행중(입찰)",
+      "운영중": "",
+      "진행단계": "입찰 접수중",
+      "공고명": "2027년 스마트상담시스템 통합 유지관리 용역",
+      "키워드": "상담",
+      "발주기관": "재단법인 서울특별시 120다산콜재단",
+      "공고일": "2026-11-26",
+      "입찰마감일": "2026-12-08",
+      "개찰일": "2026-12-08",
+      "참가업체수": "",
+      "낙찰업체": "",
+      "금액": 342124000,
+      "금액기준": "배정예산",
+      "낙찰금액": "",
+      "낙찰률": "",
+      "계약업체(공동수급)": "",
+      "계약일": "",
+      "계약금액": "",
+      "계약시작일": "",
+      "계약완료일": "",
+      "참여업체 수집": "개찰 전·조회 전",
+      "첨부": [
+        {
+          "name": "1. 입찰공고문(2027년 스마트상담시스템 통합 유지관리 용역).hwpx",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01859594&bidPbancOrd=000&fileType=&fileSeq=1&prcmBsneSeCd=03"
+        },
+        {
+          "name": "2. 제안요청서(2027년 스마트 상담시스템 통합유지관리 용역).hwp",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01859594&bidPbancOrd=000&fileType=&fileSeq=2&prcmBsneSeCd=03"
+        },
+        {
+          "name": "1. 입찰공고문(2027년 스마트상담시스템 통합 유지관리 용역).pdf",
+          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=R26BK01859594&bidPbancOrd=000&fileType=&fileSeq=3&prcmBsneSeCd=03"
+        }
+      ],
+      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=R26BK01859594&bidPbancOrd=000"
+    },
+    {
       "공고번호": "R26BK01857177-001",
       "구분": "용역",
       "상태": "진행중(입찰)",
@@ -75417,7 +76261,7 @@
       "구분": "용역",
       "상태": "진행중(입찰)",
       "운영중": "",
-      "진행단계": "입찰 접수중",
+      "진행단계": "개찰·평가·협상중",
       "공고명": "2027년 무인민원발급기 유지보수 용역(긴급)",
       "키워드": "민원",
       "발주기관": "경기도 부천시",
@@ -77081,7 +77925,7 @@
       "구분": "용역",
       "상태": "진행중(입찰)",
       "운영중": "",
-      "진행단계": "입찰 접수중",
+      "진행단계": "개찰·평가·협상중",
       "공고명": "’27~’28 학점은행제-독학학위제 콜센터 운영 위탁사업(장기 2년)",
       "키워드": "콜센터",
       "발주기관": "국가평생교육진흥원",
@@ -78185,7 +79029,7 @@
       "구분": "용역",
       "상태": "진행중(입찰)",
       "운영중": "",
-      "진행단계": "입찰 접수중",
+      "진행단계": "개찰·평가·협상중",
       "공고명": "2027~2028년 수용가정보시스템 및 사이버민원센터 유지관리 용역(긴급)",
       "키워드": "민원",
       "발주기관": "인천광역시 상수도사업본부",
@@ -106447,78 +107291,6 @@
         }
       ],
       "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=20231144494&bidPbancOrd=000"
-    },
-    {
-      "공고번호": "20231142332-000",
-      "구분": "용역",
-      "상태": "종료(유찰·취소)",
-      "운영중": "",
-      "진행단계": "개찰 후 6개월 넘게 낙찰 정보 없음(유찰)",
-      "공고명": "2024년 찾아가는 상담실 운영",
-      "키워드": "상담",
-      "발주기관": "강원특별자치도",
-      "공고일": "2023-11-27",
-      "입찰마감일": "2023-12-18",
-      "개찰일": "2023-12-18",
-      "참가업체수": "",
-      "낙찰업체": "",
-      "금액": 303261000,
-      "금액기준": "배정예산",
-      "낙찰금액": "",
-      "낙찰률": "",
-      "계약업체(공동수급)": "",
-      "계약일": "",
-      "계약금액": "",
-      "계약시작일": "",
-      "계약완료일": "",
-      "참여업체 수집": "개찰 전·조회 전",
-      "첨부": [
-        {
-          "name": "20231142332-00_1701075386670_용역 제한경쟁 입찰 공고(2024년 찾아가는 상담실 운영).hwp",
-          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=20231142332&bidPbancOrd=000&fileType=&fileSeq=11&prcmBsneSeCd=03"
-        },
-        {
-          "name": "20231142332-00_1701075386676_2024년 찾아가는 상담실 과업이행요청서.hwp",
-          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=20231142332&bidPbancOrd=000&fileType=&fileSeq=22&prcmBsneSeCd=03"
-        }
-      ],
-      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=20231142332&bidPbancOrd=000"
-    },
-    {
-      "공고번호": "20231141593-000",
-      "구분": "용역",
-      "상태": "종료(유찰·취소)",
-      "운영중": "",
-      "진행단계": "개찰 후 6개월 넘게 낙찰 정보 없음(유찰)",
-      "공고명": "(재공고)2024년 기업공감원스톱지원센터 콜센터 위탁운영",
-      "키워드": "콜센터",
-      "발주기관": "한국산업기술진흥협회",
-      "공고일": "2023-11-27",
-      "입찰마감일": "",
-      "개찰일": "2023-12-01",
-      "참가업체수": "",
-      "낙찰업체": "",
-      "금액": 819325000,
-      "금액기준": "배정예산",
-      "낙찰금액": "",
-      "낙찰률": "",
-      "계약업체(공동수급)": "",
-      "계약일": "",
-      "계약금액": "",
-      "계약시작일": "",
-      "계약완료일": "",
-      "참여업체 수집": "개찰 전·조회 전",
-      "첨부": [
-        {
-          "name": "20231141593-00_1701065532081_1. 입찰공고.hwp",
-          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=20231141593&bidPbancOrd=000&fileType=&fileSeq=11&prcmBsneSeCd=03"
-        },
-        {
-          "name": "20231141593-00_1701065532083_2. 2024년 기업공감원스톱지원센터 콜센터 위탁운영 제안요청서.hwp",
-          "url": "https://www.g2b.go.kr/pn/pnp/pnpe/UntyAtchFile/downloadFile.do?bidPbancNo=20231141593&bidPbancOrd=000&fileType=&fileSeq=22&prcmBsneSeCd=03"
-        }
-      ],
-      "링크": "https://www.g2b.go.kr/link/PNPE027_01/single/?bidPbancNo=20231141593&bidPbancOrd=000"
     },
     {
       "공고번호": "R26BD00244834",
@@ -274214,26 +274986,26 @@
     }
   ],
   "log": [
-    "[11:50:16] 조건: 키워드 ['상담', '채팅', '콜센터', '고객센터', '민원', 'AICC'] · 3년 · 낙찰 1.0억↑ · ['용역', '물품']",
-    "[11:50:16] 1-1) 입찰공고: 조회할 구간 84개 (종류 ['용역', '물품'] × 키워드 6개 × 월 단위)",
-    "[12:18:46]   완료 84 · 실패 0 · 남음 0 · 새 11건 (누적 3677건)",
-    "[12:18:47]   낙찰 전 진행중 공고가 있는 지난 구간 8개 재확인",
-    "[12:18:47] 1-2) 낙찰 목록: 조회할 구간 92개 (종류 ['용역', '물품'] × 키워드 6개 × 월 단위)",
-    "[12:40:17]   완료 79 · 실패 0 · 남음 13 · 새 0건 (누적 1880건)",
-    "[12:40:18] 0) 발주계획: 0건 확인 · 실패 0",
-    "[12:40:18] 0) 사전규격: 0건 확인 · 실패 0",
-    "[12:40:18] 조건에 맞는 낙찰 공고 835건 · 낙찰 전 입찰공고 863건",
-    "[12:40:18] 2) 참여업체: 조회할 공고 8건",
-    "[12:40:18]   0건 완료 · 실패 0 · 남음 8",
-    "[12:40:18] 3) 계약: 조회할 공고 2건",
-    "[12:40:18]   0건 완료 · 실패 0 · 남음 2",
-    "[12:40:18] 2-2) 진행중 입찰 참여업체(매일 갱신): 조회할 공고 120건",
-    "[12:40:18]   0건 완료 · 실패 0 · 남음 120",
-    "[12:40:19] API 호출: 낙찰정보 805회 · 계약정보 0회 · 입찰공고 853회 · 발주계획 0회 · 사전규격 0회",
-    "[12:40:19]   응답 필드 [getBidPblancListInfoServcPPSSrch]: VAT, arsltApplDocRcptMthdNm, arsltCmptYn, arsltReqstdocRcptDt, asignBdgtAmt, befBidBbancNo, bfSpecRgstNo, bidBeginDt, bidClseDt, bidGrntymnyPaymntYn, bidMethdNm, bidNtceDt, bidNtceDtlUrl, bidNtceNm, bidNtceNo, bidNtceOrd, bidNtceUrl, bidPrceEvlRt, bidPrtcptFee, bidPrtcptFeePaymntYn, bidPrtcptLmtYn, bidQlfctRgstDt, bidWgrnteeRcptClseDt, brffcBidprcPermsnYn, chgDt, chgNtceRsn, cmmnSpldmdAgrmntClseDt, cmmnSpldmdAgrmntRcptdocMethd, cmmnSpldmdCorpRgnLmtYn, cmmnSpldmdMethdCd, cmmnSpldmdMethdNm, cntrctCnclsMthdNm, crdtrNm, dcmtgOprtnDt, dcmtgOprtnPlce, dminsttCd, dminsttNm, dminsttOfclEmailAdrs, drwtPrdprcNum, dsgntCmptYn, dtlsBidYn, exctvNm, indstrytyLmtYn, indutyVAT, infoBizYn, intrbidYn, jntcontrctDutyRgnNm1, jntcontrctDutyRgnNm2, jntcontrctDutyRgnNm3, mnfctYn, ntceDscrptYn, ntceInsttCd, ntceInsttNm, ntceInsttOfclEmailAdrs, ntceInsttOfclNm, ntceInsttOfclTelNo, ntceKindNm, ntceSpecDocUrl1, ntceSpecDocUrl10, ntceSpecDocUrl2, ntceSpecDocUrl3, ntceSpecDocUrl4, ntceSpecDocUrl5, ntceSpecDocUrl6, ntceSpecDocUrl7, ntceSpecDocUrl8, ntceSpecDocUrl9, ntceSpecFileNm1, ntceSpecFileNm10, ntceSpecFileNm2, ntceSpecFileNm3, ntceSpecFileNm4, ntceSpecFileNm5, ntceSpecFileNm6, ntceSpecFileNm7, ntceSpecFileNm8, ntceSpecFileNm9, opengDt, opengPlce, orderPlanUntyNo, ppswGnrlSrvceYn, pqApplDocRcptDt, pqApplDocRcptMthdNm, pqEvalYn, prdctClsfcLmtYn, prearngPrceDcsnMthdNm, presmptPrce, pubPrcrmntClsfcNm, pubPrcrmntClsfcNo, pubPrcrmntLrgClsfcNm, pubPrcrmntMidClsfcNm, purchsObjPrdctList, rbidOpengDt, rbidPermsnYn, reNtceYn, refNo, rgnDutyJntcontrctRt, rgnLmtBidLocplcJdgmBssCd, rgnLmtBidLocplcJdgmBssNm, rgstDt, rgstTyNm, rsrvtnPrceReMkngMthdNm, srvceDivNm, stdNtceDocUrl, sucsfbidLwltRate, sucsfbidMthdAppStd, sucsfbidMthdCd, sucsfbidMthdNm, techAbltEvlRt, totPrdprcNum, tpEvalApplClseDt, tpEvalApplMthdNm, tpEvalYn, untyNtceNo",
-    "[12:40:19]   응답 필드 [getBidPblancListInfoThngPPSSrch]: VAT, arsltApplDocRcptDt, arsltApplDocRcptMthdNm, asignBdgtAmt, befBidBbancNo, bfSpecRgstNo, bidBeginDt, bidClseDt, bidGrntymnyPaymntYn, bidMethdNm, bidNtceDt, bidNtceDtlUrl, bidNtceNm, bidNtceNo, bidNtceOrd, bidNtceUrl, bidPrceEvlRt, bidPrtcptFee, bidPrtcptFeePaymntYn, bidQlfctRgstDt, bidWgrnteeRcptClseDt, brffcBidprcPermsnYn, chgDt, chgNtceRsn, cmmnSpldmdAgrmntClseDt, cmmnSpldmdAgrmntRcptdocMethd, cmmnSpldmdCorpRgnLmtYn, cmmnSpldmdMethdCd, cmmnSpldmdMethdNm, cntrctCnclsMthdNm, crdtrNm, dlvrDaynum, dlvrTmlmtDt, dlvryCndtnNm, dminsttCd, dminsttNm, dminsttOfclEmailAdrs, drwtPrdprcNum, dsgntCmptYn, dtilPrdctClsfcNo, dtilPrdctClsfcNoNm, exctvNm, indstrytyLmtYn, indutyVAT, infoBizYn, intrbidYn, mnfctYn, ntceInsttCd, ntceInsttNm, ntceInsttOfclEmailAdrs, ntceInsttOfclNm, ntceInsttOfclTelNo, ntceKindNm, ntceSpecDocUrl1, ntceSpecDocUrl10, ntceSpecDocUrl2, ntceSpecDocUrl3, ntceSpecDocUrl4, ntceSpecDocUrl5, ntceSpecDocUrl6, ntceSpecDocUrl7, ntceSpecDocUrl8, ntceSpecDocUrl9, ntceSpecFileNm1, ntceSpecFileNm10, ntceSpecFileNm2, ntceSpecFileNm3, ntceSpecFileNm4, ntceSpecFileNm5, ntceSpecFileNm6, ntceSpecFileNm7, ntceSpecFileNm8, ntceSpecFileNm9, opengDt, opengPlce, orderPlanUntyNo, prdctClsfcLmtYn, prdctQty, prdctSpecNm, prdctUnit, prdctUprc, prearngPrceDcsnMthdNm, presmptPrce, purchsObjPrdctList, rbidOpengDt, rbidPermsnYn, reNtceYn, refNo, rgnLmtBidLocplcJdgmBssCd, rgnLmtBidLocplcJdgmBssNm, rgstDt, rgstTyNm, rsrvtnPrceReMkngMthdNm, stdNtceDocUrl, sucsfbidLwltRate, sucsfbidMthdAppStd, sucsfbidMthdCd, sucsfbidMthdNm, techAbltEvlRt, totPrdprcNum, untyNtceNo",
-    "[12:40:19]   응답 필드 [getScsbidListSttusServcPPSSrch]: bidClsfcNo, bidNtceNm, bidNtceNo, bidNtceOrd, bidwinnrAdrs, bidwinnrBizno, bidwinnrCeoNm, bidwinnrNm, bidwinnrTelNo, dminsttCd, dminsttNm, fnlSucsfCorpOfcl, fnlSucsfDate, ntceDivCd, prtcptCnum, rbidNo, rgstDt, rlOpengDt, sucsfbidAmt, sucsfbidRate",
-    "[12:40:19]   응답 필드 [getScsbidListSttusThngPPSSrch]: bidClsfcNo, bidNtceNm, bidNtceNo, bidNtceOrd, bidwinnrAdrs, bidwinnrBizno, bidwinnrCeoNm, bidwinnrNm, bidwinnrTelNo, dminsttCd, dminsttNm, fnlSucsfCorpOfcl, fnlSucsfDate, ntceDivCd, prtcptCnum, rbidNo, rgstDt, rlOpengDt, sucsfbidAmt, sucsfbidRate",
-    "[12:40:19] 결과: 공고 1739건 · 업체 3172곳 · 참여기록 10395줄 · 수집 중 (남은 건은 다음 실행에서 이어서)"
+    "[11:50:35] 조건: 키워드 ['상담', '채팅', '콜센터', '고객센터', '민원', 'AICC'] · 3년 · 낙찰 1.0억↑ · ['용역', '물품']",
+    "[11:50:35] 1-1) 입찰공고: 조회할 구간 84개 (종류 ['용역', '물품'] × 키워드 6개 × 월 단위)",
+    "[12:22:44]   완료 84 · 실패 0 · 남음 0 · 새 29건 (누적 3706건)",
+    "[12:22:44]   낙찰 전 진행중 공고가 있는 지난 구간 8개 재확인",
+    "[12:22:44] 1-2) 낙찰 목록: 조회할 구간 92개 (종류 ['용역', '물품'] × 키워드 6개 × 월 단위)",
+    "[12:40:36]   [용역/AICC] 2026-11-01~11-27 실패: 이번 실행 한도 도달",
+    "[12:40:36]   완료 48 · 실패 1 · 남음 43 · 새 3건 (누적 1883건)",
+    "[12:40:37] 0) 발주계획: 0건 확인 · 실패 0",
+    "[12:40:37] 0) 사전규격: 0건 확인 · 실패 0",
+    "[12:40:37] 조건에 맞는 낙찰 공고 835건 · 낙찰 전 입찰공고 882건",
+    "[12:40:37] 2) 참여업체: 조회할 공고 8건",
+    "[12:40:37]   0건 완료 · 실패 0 · 남음 8",
+    "[12:40:37] 3) 계약: 조회할 공고 2건",
+    "[12:40:37]   0건 완료 · 실패 0 · 남음 2",
+    "[12:40:37] 2-2) 진행중 입찰 참여업체(매일 갱신): 조회할 공고 144건",
+    "[12:40:37]   0건 완료 · 실패 0 · 남음 144",
+    "[12:40:38] API 호출: 낙찰정보 511회 · 계약정보 0회 · 입찰공고 858회 · 발주계획 0회 · 사전규격 0회",
+    "[12:40:38]   응답 필드 [getBidPblancListInfoServcPPSSrch]: VAT, arsltApplDocRcptMthdNm, arsltCmptYn, arsltReqstdocRcptDt, asignBdgtAmt, befBidBbancNo, bfSpecRgstNo, bidBeginDt, bidClseDt, bidGrntymnyPaymntYn, bidMethdNm, bidNtceDt, bidNtceDtlUrl, bidNtceNm, bidNtceNo, bidNtceOrd, bidNtceUrl, bidPrceEvlRt, bidPrtcptFee, bidPrtcptFeePaymntYn, bidPrtcptLmtYn, bidQlfctRgstDt, bidWgrnteeRcptClseDt, brffcBidprcPermsnYn, chgDt, chgNtceRsn, cmmnSpldmdAgrmntClseDt, cmmnSpldmdAgrmntRcptdocMethd, cmmnSpldmdCorpRgnLmtYn, cmmnSpldmdMethdCd, cmmnSpldmdMethdNm, cntrctCnclsMthdNm, crdtrNm, dcmtgOprtnDt, dcmtgOprtnPlce, dminsttCd, dminsttNm, dminsttOfclEmailAdrs, drwtPrdprcNum, dsgntCmptYn, dtlsBidYn, exctvNm, indstrytyLmtYn, indutyVAT, infoBizYn, intrbidYn, jntcontrctDutyRgnNm1, jntcontrctDutyRgnNm2, jntcontrctDutyRgnNm3, mnfctYn, ntceDscrptYn, ntceInsttCd, ntceInsttNm, ntceInsttOfclEmailAdrs, ntceInsttOfclNm, ntceInsttOfclTelNo, ntceKindNm, ntceSpecDocUrl1, ntceSpecDocUrl10, ntceSpecDocUrl2, ntceSpecDocUrl3, ntceSpecDocUrl4, ntceSpecDocUrl5, ntceSpecDocUrl6, ntceSpecDocUrl7, ntceSpecDocUrl8, ntceSpecDocUrl9, ntceSpecFileNm1, ntceSpecFileNm10, ntceSpecFileNm2, ntceSpecFileNm3, ntceSpecFileNm4, ntceSpecFileNm5, ntceSpecFileNm6, ntceSpecFileNm7, ntceSpecFileNm8, ntceSpecFileNm9, opengDt, opengPlce, orderPlanUntyNo, ppswGnrlSrvceYn, pqApplDocRcptDt, pqApplDocRcptMthdNm, pqEvalYn, prdctClsfcLmtYn, prearngPrceDcsnMthdNm, presmptPrce, pubPrcrmntClsfcNm, pubPrcrmntClsfcNo, pubPrcrmntLrgClsfcNm, pubPrcrmntMidClsfcNm, purchsObjPrdctList, rbidOpengDt, rbidPermsnYn, reNtceYn, refNo, rgnDutyJntcontrctRt, rgnLmtBidLocplcJdgmBssCd, rgnLmtBidLocplcJdgmBssNm, rgstDt, rgstTyNm, rsrvtnPrceReMkngMthdNm, srvceDivNm, stdNtceDocUrl, sucsfbidLwltRate, sucsfbidMthdAppStd, sucsfbidMthdCd, sucsfbidMthdNm, techAbltEvlRt, totPrdprcNum, tpEvalApplClseDt, tpEvalApplMthdNm, tpEvalYn, untyNtceNo",
+    "[12:40:38]   응답 필드 [getBidPblancListInfoThngPPSSrch]: VAT, arsltApplDocRcptDt, arsltApplDocRcptMthdNm, asignBdgtAmt, befBidBbancNo, bfSpecRgstNo, bidBeginDt, bidClseDt, bidGrntymnyPaymntYn, bidMethdNm, bidNtceDt, bidNtceDtlUrl, bidNtceNm, bidNtceNo, bidNtceOrd, bidNtceUrl, bidPrceEvlRt, bidPrtcptFee, bidPrtcptFeePaymntYn, bidQlfctRgstDt, bidWgrnteeRcptClseDt, brffcBidprcPermsnYn, chgDt, chgNtceRsn, cmmnSpldmdAgrmntClseDt, cmmnSpldmdAgrmntRcptdocMethd, cmmnSpldmdCorpRgnLmtYn, cmmnSpldmdMethdCd, cmmnSpldmdMethdNm, cntrctCnclsMthdNm, crdtrNm, dlvrDaynum, dlvrTmlmtDt, dlvryCndtnNm, dminsttCd, dminsttNm, dminsttOfclEmailAdrs, drwtPrdprcNum, dsgntCmptYn, dtilPrdctClsfcNo, dtilPrdctClsfcNoNm, exctvNm, indstrytyLmtYn, indutyVAT, infoBizYn, intrbidYn, mnfctYn, ntceInsttCd, ntceInsttNm, ntceInsttOfclEmailAdrs, ntceInsttOfclNm, ntceInsttOfclTelNo, ntceKindNm, ntceSpecDocUrl1, ntceSpecDocUrl10, ntceSpecDocUrl2, ntceSpecDocUrl3, ntceSpecDocUrl4, ntceSpecDocUrl5, ntceSpecDocUrl6, ntceSpecDocUrl7, ntceSpecDocUrl8, ntceSpecDocUrl9, ntceSpecFileNm1, ntceSpecFileNm10, ntceSpecFileNm2, ntceSpecFileNm3, ntceSpecFileNm4, ntceSpecFileNm5, ntceSpecFileNm6, ntceSpecFileNm7, ntceSpecFileNm8, ntceSpecFileNm9, opengDt, opengPlce, orderPlanUntyNo, prdctClsfcLmtYn, prdctQty, prdctSpecNm, prdctUnit, prdctUprc, prearngPrceDcsnMthdNm, presmptPrce, purchsObjPrdctList, rbidOpengDt, rbidPermsnYn, reNtceYn, refNo, rgnLmtBidLocplcJdgmBssCd, rgnLmtBidLocplcJdgmBssNm, rgstDt, rgstTyNm, rsrvtnPrceReMkngMthdNm, stdNtceDocUrl, sucsfbidLwltRate, sucsfbidMthdAppStd, sucsfbidMthdCd, sucsfbidMthdNm, techAbltEvlRt, totPrdprcNum, untyNtceNo",
+    "[12:40:38]   응답 필드 [getScsbidListSttusServcPPSSrch]: bidClsfcNo, bidNtceNm, bidNtceNo, bidNtceOrd, bidwinnrAdrs, bidwinnrBizno, bidwinnrCeoNm, bidwinnrNm, bidwinnrTelNo, dminsttCd, dminsttNm, fnlSucsfCorpOfcl, fnlSucsfDate, ntceDivCd, prtcptCnum, rbidNo, rgstDt, rlOpengDt, sucsfbidAmt, sucsfbidRate",
+    "[12:40:38] 결과: 공고 1758건 · 업체 3172곳 · 참여기록 10395줄 · 수집 중 (남은 건은 다음 실행에서 이어서)"
   ]
 }
